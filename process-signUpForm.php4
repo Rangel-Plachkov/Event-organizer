@@ -1,4 +1,7 @@
 <?php
+if(!strtotime($_POST["date-of-birth"])) {
+    die("Invalid date of birth");
+}
 if(!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
     die("Invalid email address");
 }
