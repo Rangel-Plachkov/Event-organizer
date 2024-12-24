@@ -9,8 +9,9 @@
 <body>
 <div class="signup-container">
     <h1>Create Your Account</h1>
-    <form action="/register" method="post" onsubmit="return validatePasswords()">
+    <form action="process-signUpForm.php4" method="post">
         <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
         <button type="submit">Sign Up</button>
@@ -18,15 +19,6 @@
     <a href="file:///Users/lazaravramov/Event-organizer/loginForm.html">Already have an account? </a>
 </div>
 <script>
-    function validatePasswords() {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        if (password !== confirmPassword) {
-            alert('Passwords do not match!');
-            return false;
-        }
-        return true;
-    }
 </script>
 </body>
 </html>
