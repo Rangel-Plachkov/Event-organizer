@@ -45,11 +45,11 @@ $stmt->bind_param("sssss", $_POST["username"],
                             $_POST["birthdate"],
                             $password_hash);
 if ($stmt->execute()) {
-    echo "Data successfully inserted!";
-} else {
+    header("Location: /templates/signUpSuccess.html");
+    exit;
+}
+else {
     die("Error executing query: " . $stmt->error);
 }
 $stmt->close();
 $mysqli->close();
-print_r($_POST);
-var_dump($password_hash);
