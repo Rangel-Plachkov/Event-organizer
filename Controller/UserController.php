@@ -3,9 +3,10 @@
 namespace Controller;
 
 use Entity\User;
+use Router\Url;
 use Service\UserService;
 
-class UserController
+class UserController extends AbstractController
 {
     private $userService;
 
@@ -16,14 +17,14 @@ class UserController
     {
         $this->userService=new UserService();
     }
-    public function createUser(){
-        $firstName = $_POST['first_name'];
-        $lastName = $_POST['last_name'];
+    public function createAcc(){
+        $firstName = $_POST['firstname'];
+        $lastName = $_POST['lastname'];
         $birthdate = $_POST['birthdate'];
         $email = $_POST['email'];
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $confirmPassword = $_POST['confirm_password'];
+        $confirmPassword = $_POST['confirm-password'];
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo "Невалиден имейл адрес!";
@@ -36,10 +37,11 @@ class UserController
         }
 
         if ($password !== $confirmPassword) {
-            echo "Паролите не съвпадат";
+            die();
         }
-        $user=new User($firstName,$lastName,$birthdate,$email,$username,$password);
+        $user=new User(null , $firstName, $lastName, $birthdate, $email, $username, $password);
         $this->userService->createUser($user);
-
+        header("Location:". Url::generateUrl('indexPage'));
     }
+    public function login(){}
 }

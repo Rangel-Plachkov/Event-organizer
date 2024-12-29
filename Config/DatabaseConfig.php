@@ -1,5 +1,9 @@
 <?php
 
+namespace Config;
+
+use util\Constants;
+
 class DatabaseConfig
 {
     protected static $conn = NULL;
@@ -8,8 +12,8 @@ class DatabaseConfig
 
     public static function init_conn(){
         try{
-            self::$conn = new \PDO("mysql:host=" . DB_HOST . ":" . DB_PORT . ";dbname=" .
-                DB_NAME, DB_USER, DB_PASS);
+            self::$conn = new \PDO("mysql:host=" . Constants::DB_HOST . ":" . Constants::DB_PORT . ";dbname=" .
+                Constants::DB_NAME, Constants::DB_USER, Constants::DB_PASS);
             self::$conn->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
         }catch (\PDOException $exception){
             echo "We can't init a connection..." . $exception->getMessage();

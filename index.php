@@ -1,23 +1,20 @@
-<<?php
-require_once __DIR__ . '/Controller/UserController.php';
+<?php
+use \Router;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-use Controller\UserController;
+include "autoLoader.php";
+include "routes.php";
+include "debuggerTool.php";
 
-$requestUri = $_SERVER['REQUEST_URI'];
-$requestMethod = $_SERVER['REQUEST_METHOD'];
+$request = Router\Request::getInstance();
+$router  = new Router\Router($request, $routesRegistrator);
 
-if ($requestUri === '/signup' && $requestMethod === 'POST') {
-$userController = new UserController();
-$userController->createUser();
-exit();
+try {
+    $router->start();
+} catch (\Exception $e) {
+    echo $e->getMessage();
 }
 
-if ($requestUri === '/signup' && $requestMethod === 'GET') {
-include __DIR__ . '../View/templates/signUpForm.html';
-exit();
-}
-
-// Ако пътят не съвпада
-http_response_code(404);
-echo "Page not found.";

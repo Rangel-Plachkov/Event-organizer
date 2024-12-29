@@ -3,6 +3,7 @@
 namespace Repository;
 
 use DatabaseConfig;
+use Entity\User;
 
 class UserRepository extends BaseRepository
 {

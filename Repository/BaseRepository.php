@@ -2,6 +2,7 @@
 
 namespace Repository;
 
+use Config\DatabaseConfig;
 use mysql_xdevapi\Statement;
 
 abstract class BaseRepository
@@ -11,9 +12,9 @@ abstract class BaseRepository
     /**
      * @param $connection
      */
-    public function __construct($connection)
+    public function __construct()
     {
-        $this->connection=\DatabaseConfig::getConnection();
+        $this->connection = DatabaseConfig::getConnection();
     }
     protected function executeQuery($sql, $params = []){
         $statement = $this->connection->prepare($sql);

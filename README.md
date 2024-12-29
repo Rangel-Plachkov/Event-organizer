@@ -1,4 +1,7 @@
 # Event-organizer
+Technical requirements:
+```User interace```
+```Event -createEvent(),```
 
 DB commands:
 

@@ -18,10 +18,10 @@ class UserService
     }
 
     public function createUser(\Entity\User $user){
-        if ($this->isEmailTaken($user->getEmail())) {
-            echo "Имейлът вече е използван!";
-            return;
-        }
+//        if ($this->isEmailTaken($user->getEmail())) {
+//            echo "Имейлът вече е използван!";
+//            return;
+//        }
         $password=$user->getPassword();
         password_hash($password, PASSWORD_DEFAULT);
         $user->setPassword($password);
