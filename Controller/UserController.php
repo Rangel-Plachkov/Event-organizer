@@ -43,5 +43,13 @@ class UserController extends AbstractController
         $this->userService->createUser($user);
         header("Location:". Url::generateUrl('indexPage'));
     }
-    public function login(){}
+    public function login(){
+        $username=$_POST['username'];
+        $password=$_POST['password'];
+        if (!preg_match('/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $password)) {
+            echo "Паролата трябва да съдържа поне една буква и една цифра!";
+        }
+        $this->userService->login($username,$password);
+        return $result['password'] ?? null;
+    }
 }

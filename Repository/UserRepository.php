@@ -34,6 +34,17 @@ class UserRepository extends BaseRepository
         $params = [':email' => $email];
         return $this->fetchOne($sql, $params);
     }
+    public function findUserByUsername($username) {
+        $sql = "SELECT * FROM Users WHERE username = :username";
+        $params = [':username' => $username];
+        return $this->fetchOne($sql, $params);
+    }
+    public function findUserPasswordByUsername($username) {
+        $sql = "SELECT password FROM Users WHERE username = :username";
+        $params = [':username' => $username];
+        $result=$this->fetchOne($sql, $params);
+        return $result['password'] ?? null;
+    }
 
 
     public function query(){
