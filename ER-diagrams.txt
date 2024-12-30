@@ -1,0 +1,85 @@
+// Info: Go to the site and paste the code there.
+// site: https://dbdiagram.io/d
+
+Table users {
+  id integer [primary key]
+  name varchar [note: 'Име на потребителя']
+  email varchar [unique, note: 'Имейл на потребителя']
+  password varchar [note: 'Хеширана парола']
+  birth_date date [note: 'Рождена дата']
+}
+
+
+Table events {
+  id integer [primary key]
+  title varchar [note: 'Заглавие на събитието']
+  event_date date [note: 'Дата на събитието']
+  type varchar [note: 'Тип на събитието, напр. рожден ден']
+  visibility varchar [default: 'public', note: 'Видимост на събитието: public, friends, private']
+  has_organization boolean [default: false, note: 'Флаг дали събитието има активна организация']
+  organizer_id integer [default: null, note: 'ID на организатора, ако има организация']
+  is_anonymous boolean [default: false, note: 'Флаг дали събитието е анонимно']
+  excluded_user_id integer [default: null, note: 'ID на потребителя, за когото е събитието, ако събитието е анонимно']
+}
+
+Table event_invitations {
+  id integer [primary key]
+  event_id integer [note: 'ID на свързаното събитие']
+  user_id integer [note: 'ID на поканения потребител']
+  status varchar [default: 'pending', note: 'Статус на поканата: pending, accepted, declined']
+}
+
+
+Table gift_ideas {
+  id integer [primary key]
+  event_id integer [note: 'ID на свързаното събитие']
+  user_id integer [note: 'ID на потребителя, който е предложил идеята']
+  idea varchar [note: 'Описание на идеята за подарък']
+  votes integer [default: 0, note: 'Брой гласове за идеята']
+}
+
+Table comments {
+  id integer [primary key]
+  target_id integer [note: 'ID на свързания обект']
+  user_id integer [note: 'ID на автора на коментара']
+  content text [note: 'Текст на коментара']
+}
+
+Table fundraising {
+  id integer [primary key]
+  target_id integer [note: 'ID на свързания обект за който се събират пари']
+  organizer_id integer [note: 'ID на организатора на събирането']
+  target_amount decimal [note: 'Целева сума за събиране']
+  current_amount decimal [default: 0, note: 'Текущо събрана сума']
+  deadline date [note: 'Краен срок за събиране']
+  payment_details varchar [note: 'Информация за плащане']
+}
+
+Table follows {
+  user_id integer [note: 'ID на потребителя']
+  follower_id integer [note: 'ID на последователя']
+}
+
+Table favorites {
+  user_id integer [note: 'ID на потребителя']
+  follower_id integer [note: 'ID на последователя, любим на потребителя']
+}
+
+Ref: events.organizer_id > users.id
+Ref: events.excluded_user_id > users.id
+Ref: gift_ideas.event_id > events.id
+Ref: gift_ideas.user_id - users.id
+Ref: comments.target_id > events.id
+Ref: comments.target_id > gift_ideas.id
+Ref: comments.target_id > fundraising.id
+Ref: comments.target_id > comments.id
+Ref: comments.user_id > users.id
+Ref: fundraising.target_id > events.id
+Ref: fundraising.target_id > gift_ideas.id
+Ref: follows.user_id > users.id
+Ref: follows.follower_id > users.id
+Ref: users.id - favorites.user_id
+Ref: users.id < favorites.follower_id
+Ref: users.id - fundraising.organizer_id
+Ref: event_invitations.event_id > events.id
+Ref: event_invitations.user_id > users.id
