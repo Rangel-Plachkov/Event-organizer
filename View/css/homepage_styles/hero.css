@@ -1,6 +1,6 @@
 /* Hero секция с пейзажен фон */
 .hero {
-    background-image: url('homepage-background.jpg'); /* тук сложете линк към пейзажната снимка */
+    background-image: url('/View/css/homepage_styles/homepage-background.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
