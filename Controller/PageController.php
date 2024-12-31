@@ -10,4 +10,5 @@ class PageController extends AbstractController
     public function signIn(){
         require_once 'View/templates/signInForm.html';
     }
+
 }

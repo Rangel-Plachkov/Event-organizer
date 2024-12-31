@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Entity\User;
+use http\SessionHandler;
 use Router\Url;
 use Service\UserService;
 
@@ -17,6 +18,7 @@ class UserController extends AbstractController
     {
         $this->userService=new UserService();
     }
+
     public function createAcc(){
         $firstName = $_POST['firstname'];
         $lastName = $_POST['lastname'];
@@ -43,6 +45,7 @@ class UserController extends AbstractController
         $this->userService->createUser($user);
         header("Location:". Url::generateUrl('indexPage'));
     }
+
     public function login(){
         $username=$_POST['username'];
         $password=$_POST['password'];
@@ -50,6 +53,11 @@ class UserController extends AbstractController
             echo "Паролата трябва да съдържа поне една буква и една цифра!";
         }
         $this->userService->login($username,$password);
-        return $result['password'] ?? null;
+        header("Location:". Url::generateUrl('indexPage'));
+    }
+
+    public function logout(){
+        $this->userService->logout();
+        header("Location:". Url::generateUrl('indexPage'));
     }
 }

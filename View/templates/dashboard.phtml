@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Organizer Dashboard</title>
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+</head>
+<body>
+<nav class="dashboard-nav">
+    <h1>Event Organizer</h1>
+    <ul>
+        <li><a href="#events">Manage Events</a></li>
+        <li><a href="#profile">My Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<main class="dashboard-main">
+    <section id="events">
+        <h2>Manage Events</h2>
+        <button onclick="addEvent()">Add Event</button>
+        <div class="events-list">
+            <!-- Dynamic Event List will be loaded here -->
+            <p>No events yet. Start by adding a new event!</p>
+        </div>
+    </section>
+    <section id="profile">
+        <h2>My Profile</h2>
+        <p><strong>Username:</strong> <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+        <p><strong>Name:</strong> <?php echo htmlspecialchars($_SESSION['fullName']); ?></p>
+        <button onclick="editProfile()">Edit Profile</button>
+    </section>
+</main>
+</body>
+</html>

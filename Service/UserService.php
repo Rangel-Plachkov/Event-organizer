@@ -3,6 +3,7 @@
 namespace Service;
 
 use http\Client\Curl\User;
+use http\SessionHandler;
 use Repository\UserRepository;
 
 class UserService
@@ -31,24 +32,37 @@ class UserService
         $user->setPassword($hashedPassword);
         $this->userRepository->create($user);
     }
+
     public function isUsernameTaken($username): bool{
         return !($this->userRepository->findUserByUsername($username) == null);
     }
+
     public function isEmailTaken($email): bool
     {
         return !($this->userRepository->findUserByEmail($email) == null);
     }
+
     public function login($username, $password){
+        $session = SessionHandler::getInstance();
         if($this->isUsernameTaken($username)){
-            $hashedPassword=$this->userRepository->findUserPasswordByUsername($username);
-            if(password_verify($password,$hashedPassword)){
-                echo "Login successful!";
+            $user = $this->userRepository->findUserByUsername($username);
+            if(password_verify($password, $user['password'])){
+                $session->setSessionValue('logged', 1);
+                $session->setSessionValue('error', 0);
+                $session->setSessionValue('username' , $username);
+                $session->setSessionValue('fullName' , $user['firstname'] . ' ' . $user['lastname']);
+                return true;
             }
-        }
-        else{
-            echo "User doesnt exist!";
-            die();
+        } else {
+            $session->setSessionValue('logged', 0);
+            $session->setSessionValue('error', 1);
+            $session->setSessionValue('errorMsg', 'Username and password do not match');
+            return false;
         }
     }
 
+    public function logout(){
+        $session = SessionHandler::getInstance();
+        $session->sessionDestroy();
+    }
 }

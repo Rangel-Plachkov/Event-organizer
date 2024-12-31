@@ -2,7 +2,7 @@
 
 Technical requirements:
 
-```User interace```
+  ```User interace```
 ```Event -createEvent(),```
 
 DB commands:

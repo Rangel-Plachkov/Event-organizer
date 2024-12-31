@@ -1,6 +1,7 @@
 <?php
 namespace http;
 
+
 use Exception\SessionException;
 
 class SessionHandler

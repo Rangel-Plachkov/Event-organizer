@@ -1,5 +1,4 @@
 <?php
-use \Router;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -14,7 +13,13 @@ $router  = new Router\Router($request, $routesRegistrator);
 
 try {
     $router->start();
-} catch (\Exception $e) {
-    echo $e->getMessage();
+}  catch (\Exception\SessionException $exception) {
+    \http\Response::getInstance()->redirect(Router\Url::generateUrl('serverError'));
+} catch (\Exception\RoutingException $exception) {
+    \http\Response::getInstance()->redirect(Router\Url::generateUrl('pageNotFoundError'));
+} catch (\Exception\DataBaseConnectionException $exception) {
+    \http\Response::getInstance()->redirect(Router\Url::generateUrl('serverError'));
+} catch (Throwable $exception) {
+    \http\Response::getInstance()->redirect(Router\Url::generateUrl('unhandledError'));
 }
 
