@@ -20,6 +20,7 @@ try {
 } catch (\Exception\DataBaseConnectionException $exception) {
     \http\Response::getInstance()->redirect(Router\Url::generateUrl('serverError'));
 } catch (Throwable $exception) {
+    dd($exception);
     \http\Response::getInstance()->redirect(Router\Url::generateUrl('unhandledError'));
 }
 

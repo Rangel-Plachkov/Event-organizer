@@ -16,7 +16,7 @@ class UserController extends AbstractController
      */
     public function __construct()
     {
-        $this->userService=new UserService();
+        $this->userService = new UserService();
     }
 
     public function createAcc(){
@@ -59,5 +59,35 @@ class UserController extends AbstractController
     public function logout(){
         $this->userService->logout();
         header("Location:". Url::generateUrl('indexPage'));
+    }
+    public function editAcc(){
+        $username=$_POST['username'];
+        $firstname=$_POST['firstname'];
+        $lastname=$_POST['lastname'];
+        $birthdate=$_POST['birthdate'];
+        $email=$_POST['email'];
+        $currentPassword=$_POST['password'];
+        $newPassword=$_POST['newpassword'];
+        $confirmPassword=$_POST['confirmpassword'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Not valid email address";
+            return;
+        }
+        if($newPassword == null){
+            $user=new User(null , $firstname, $lastname, $birthdate, $email, $username, null);
+            $this->userService->editAcc($user ,null);
+        }  else {
+            if (!preg_match('/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $newPassword)) {
+                echo "New password must contain at least one letter and one number!";
+                return;
+            }
+            if ($newPassword !== $confirmPassword) {
+                echo "Passwords do not match!";
+                return;
+            }
+            $user=new User(null , $firstname, $lastname, $birthdate, $email, $username, $newPassword);
+            $this->userService->editAcc($user ,$currentPassword);
+        }
+        header("Location:". Url::generateUrl('editPage'));
     }
 }

@@ -54,9 +54,27 @@ body {
     background-color: #3949ab;
 }
 
+.active {
+    background-color: #3949ab;
+    color:green !important;
+}
+
+
 .dashboard-main {
     flex-grow: 1;
     padding: 20px;
+    padding-left: 50px;
+}
+
+.logo-href {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-href:hover {
+    color: green;
 }
 
 .dashboard-main h2 {

@@ -39,11 +39,60 @@ class UserRepository extends BaseRepository
         $params = [':username' => $username];
         return $this->fetchOne($sql, $params);
     }
+    public function findUserById($id) {
+        $sql = "SELECT * FROM Users WHERE id = :id";
+        $params = [':id' => $id];
+        return $this->fetchOne($sql, $params);
+    }
     public function findUserPasswordByUsername($username) {
         $sql = "SELECT password FROM Users WHERE username = :username";
         $params = [':username' => $username];
         $result=$this->fetchOne($sql, $params);
         return $result['password'] ?? null;
+    }
+    public function updateUser($user,$userId){
+        $sql = "UPDATE Users SET 
+            firstname = :firstname,
+            lastname = :lastname,
+            birthdate = :birthdate,
+            email = :email,
+            username = :username
+        WHERE 
+            id = :id
+        ";
+
+        $params = [
+            'email' => $user->getEmail(),
+            'firstname' => $user->getFirstName(),
+            'lastname' => $user->getLastName(),
+            'username' => $user->getUsername(),
+            'birthdate' => $user->getBirthdate(),
+            'id' => $userId
+        ];
+        $this->executeQuery($sql, $params);
+    }
+    public function updateUserFully($user,$userId){
+        $sql = "UPDATE Users SET 
+            firstname = :firstname,
+            lastname = :lastname,
+            birthdate = :birthdate,
+            email = :email,
+            username = :username,
+            password = :password
+        WHERE 
+            id = :id
+        ";
+
+        $params = [
+            'email' => $user->getEmail(),
+            'firstname' => $user->getFirstName(),
+            'lastname' => $user->getLastName(),
+            'username' => $user->getUsername(),
+            'birthdate' => $user->getBirthdate(),
+            'password' => $user->getPassword(),
+            'id' => $userId
+        ];
+        $this->executeQuery($sql, $params);
     }
 
 
