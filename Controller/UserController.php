@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Entity\User;
+use http\SessionHandler;
 use Router\Url;
 use Service\UserService;
 
@@ -15,8 +16,9 @@ class UserController extends AbstractController
      */
     public function __construct()
     {
-        $this->userService=new UserService();
+        $this->userService = new UserService();
     }
+
     public function createAcc(){
         $firstName = $_POST['firstname'];
         $lastName = $_POST['lastname'];
@@ -43,6 +45,7 @@ class UserController extends AbstractController
         $this->userService->createUser($user);
         header("Location:". Url::generateUrl('indexPage'));
     }
+
     public function login(){
         $username=$_POST['username'];
         $password=$_POST['password'];
@@ -50,6 +53,41 @@ class UserController extends AbstractController
             echo "Паролата трябва да съдържа поне една буква и една цифра!";
         }
         $this->userService->login($username,$password);
-        return $result['password'] ?? null;
+        header("Location:". Url::generateUrl('indexPage'));
+    }
+
+    public function logout(){
+        $this->userService->logout();
+        header("Location:". Url::generateUrl('indexPage'));
+    }
+    public function editAcc(){
+        $username=$_POST['username'];
+        $firstname=$_POST['firstname'];
+        $lastname=$_POST['lastname'];
+        $birthdate=$_POST['birthdate'];
+        $email=$_POST['email'];
+        $currentPassword=$_POST['password'];
+        $newPassword=$_POST['newpassword'];
+        $confirmPassword=$_POST['confirmpassword'];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "Not valid email address";
+            return;
+        }
+        if($newPassword == null){
+            $user=new User(null , $firstname, $lastname, $birthdate, $email, $username, null);
+            $this->userService->editAcc($user ,null);
+        }  else {
+            if (!preg_match('/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/', $newPassword)) {
+                echo "New password must contain at least one letter and one number!";
+                return;
+            }
+            if ($newPassword !== $confirmPassword) {
+                echo "Passwords do not match!";
+                return;
+            }
+            $user=new User(null , $firstname, $lastname, $birthdate, $email, $username, $newPassword);
+            $this->userService->editAcc($user ,$currentPassword);
+        }
+        header("Location:". Url::generateUrl('editPage'));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Router;
 
-use Exception;
+use Exception\RoutingException;
 use Support\ControllerFactory;
 
 class Router
@@ -25,7 +25,7 @@ class Router
         $routeMethod = $this->routesRegistrator->getRoutes()[$this->request->getUri()]["method"];
         $arr = explode('@', $routeMethod);
         if (!in_array($this->request->getRequestMethod(), $arr)) {
-            throw new Exception("The request method is not valid...");
+            throw new RoutingException("The request method is not valid...");
         }
 
         return true;
@@ -34,7 +34,7 @@ class Router
     public function match()
     {
         if (!array_key_exists($this->request->getUri(),$this->routesRegistrator->getRoutes())){
-            throw new Exception("The route doesn't exists...");
+            throw new RoutingException("The route doesn't exists...");
         }
         $this->setTarget($this->routesRegistrator->getRoutes()[$this->request->getUri()]["target"]);
     }
@@ -57,7 +57,7 @@ class Router
             $method = $this->getMethod();
             $this->controllerClass = new $controller();
             if (!method_exists($this->controllerClass,$method)){
-                throw new Exception("The controller method doesn't exists...");
+                throw new RoutingException("The controller method doesn't exists...");
             }
             $this->controllerClass->$method();
         }

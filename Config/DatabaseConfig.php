@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use Exception\DataBaseConnectionException;
 use util\Constants;
 
 class DatabaseConfig
@@ -16,7 +17,7 @@ class DatabaseConfig
                 Constants::DB_NAME, Constants::DB_USER, Constants::DB_PASS);
             self::$conn->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
         }catch (\PDOException $exception){
-            echo "We can't init a connection..." . $exception->getMessage();
+            throw new DataBaseConnectionException( "We can't init a connection..." . $exception->getMessage());
         }
     }
 
