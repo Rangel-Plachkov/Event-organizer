@@ -1,20 +1,26 @@
 <?php
+
 $routesRegistrator = \Router\Registrator::getInstance();
 
 //INDEX ROUTES
-$routesRegistrator->map("GET","[index@index]","/","indexPage");
+$routesRegistrator->map("GET", "[index@index]", "/", "indexPage");
 
 //PAGE ROUTES
-$routesRegistrator->map("GET","[page@signUp]","sign-up","signUpPage");
-$routesRegistrator->map("GET","[page@signIn]","sign-in","signInPage");
-$routesRegistrator->map("GET","[page@edit]","edit","editPage");
+$routesRegistrator->map("GET", "[page@signUp]", "sign-up", "signUpPage");
+$routesRegistrator->map("GET", "[page@signIn]", "sign-in", "signInPage");
+$routesRegistrator->map("GET", "[page@edit]", "edit", "editPage");
+$routesRegistrator->map("GET", "[page@createEvent]", "create-event", "create_event-page");
+
 
 //USER ROUTES
-$routesRegistrator->map("POST","[user@createAcc]","create-acc","createAcc");
-$routesRegistrator->map("POST","[user@login]","login","login");
-$routesRegistrator->map("GET","[user@logout]","logout","logout");
+$routesRegistrator->map("POST", "[user@createAcc]", "create-acc", "createAcc");
+$routesRegistrator->map("POST", "[user@login]", "login", "login");
+$routesRegistrator->map("GET", "[user@logout]", "logout", "logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
 $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
+
+//EVENT ROUTES
+$routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
 
 
 //ERROR PAGES ROUTES

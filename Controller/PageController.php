@@ -13,16 +13,24 @@ class PageController extends AbstractController
     {
         $this->userService = new UserService();
     }
-    public function signUp(){
+    public function signUp()
+    {
         require_once 'View/templates/signUpForm.html';
     }
-    public function signIn(){
+    public function signIn()
+    {
         require_once 'View/templates/signInForm.html';
     }
-    public function edit(){
+    public function edit()
+    {
         $session = SessionHandler::getInstance();
         $this->userService->populateUser($session->getSessionValue('userId'));
         require_once 'View/templates/editProfile.phtml';
     }
+    public function createEvent()
+    {
+        require_once 'View/templates/create_event.html';
+    }
 
 }
+
