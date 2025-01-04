@@ -14,6 +14,7 @@ $routesRegistrator->map("POST","[user@createAcc]","create-acc","createAcc");
 $routesRegistrator->map("POST","[user@login]","login","login");
 $routesRegistrator->map("GET","[user@logout]","logout","logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
+$routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 
 
 //ERROR PAGES ROUTES

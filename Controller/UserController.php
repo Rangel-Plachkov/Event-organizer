@@ -90,4 +90,9 @@ class UserController extends AbstractController
         }
         header("Location:". Url::generateUrl('editPage'));
     }
+
+    public function deleteAcc(){
+        $this->userService->deleteUser();
+        header("Location:". Url::generateUrl('indexPage'));
+    }
 }

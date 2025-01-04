@@ -73,6 +73,13 @@ class UserService
 
     }
 
+    public function deleteUser(){
+        $session=$session = SessionHandler::getInstance();
+        $id=$session->getSessionValue('userId');
+        $this->userRepository->delete($id);
+        $session->sessionDestroy();
+    }
+
     public function logout(){
         $session = SessionHandler::getInstance();
         $session->sessionDestroy();

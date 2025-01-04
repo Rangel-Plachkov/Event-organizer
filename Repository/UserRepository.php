@@ -21,12 +21,10 @@ class UserRepository extends BaseRepository
         $this->executeQuery($sql, $params);
     }
 
-    public function update(){
-
-    }
-
-    public function delete(){
-
+    public function delete($id){
+        $sql = "DELETE FROM Users WHERE id = :id";
+        $params = [':id' => $id];
+        $this->executeQuery($sql, $params);
     }
 
     public function findUserByEmail($email) {
