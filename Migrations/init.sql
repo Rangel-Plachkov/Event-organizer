@@ -55,3 +55,97 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-12-27 17:09:11
+
+-- Table structure for table `events`
+
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE `events` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL COMMENT 'Заглавие на събитието',
+  `event_date` DATE NOT NULL COMMENT 'Дата на събитието',
+  `type` VARCHAR(255) DEFAULT 'Other' COMMENT 'Тип на събитието, напр. рожден ден',
+  `visibility` VARCHAR(50) DEFAULT 'public' COMMENT 'Видимост на събитието: public, friends, private',
+  `has_organization` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието има активна организация',
+  `organizer_id` INT DEFAULT NULL COMMENT 'ID на организатора, ако има организация',
+  `is_anonymous` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието е анонимно',
+  `excluded_user_id` INT DEFAULT NULL COMMENT 'ID на потребителя, за когото е събитието, ако събитието е анонимно',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`excluded_user_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `event_invitations`
+
+DROP TABLE IF EXISTS `event_invitations`;
+CREATE TABLE `event_invitations` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
+  `user_id` INT NOT NULL COMMENT 'ID на поканения потребител',
+  `status` VARCHAR(50) DEFAULT 'pending' COMMENT 'Статус на поканата: pending, accepted, declined',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `gift_ideas`
+
+DROP TABLE IF EXISTS `gift_ideas`;
+CREATE TABLE `gift_ideas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
+  `user_id` INT NOT NULL COMMENT 'ID на потребителя, който е предложил идеята',
+  `idea` VARCHAR(255) NOT NULL COMMENT 'Описание на идеята за подарък',
+  `votes` INT DEFAULT 0 COMMENT 'Брой гласове за идеята',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `comments`
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `target_id` INT NOT NULL COMMENT 'ID на свързания обект',
+  `user_id` INT NOT NULL COMMENT 'ID на автора на коментара',
+  `content` TEXT NOT NULL COMMENT 'Текст на коментара',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `fundraising`
+
+DROP TABLE IF EXISTS `fundraising`;
+CREATE TABLE `fundraising` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `target_id` INT NOT NULL COMMENT 'ID на свързания обект за който се събират пари',
+  `organizer_id` INT NOT NULL COMMENT 'ID на организатора на събирането',
+  `target_amount` DECIMAL(10,2) NOT NULL COMMENT 'Целева сума за събиране',
+  `current_amount` DECIMAL(10,2) DEFAULT 0 COMMENT 'Текущо събрана сума',
+  `deadline` DATE NOT NULL COMMENT 'Краен срок за събиране',
+  `payment_details` VARCHAR(255) COMMENT 'Информация за плащане',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `follows`
+
+DROP TABLE IF EXISTS `follows`;
+CREATE TABLE `follows` (
+  `user_id` INT NOT NULL COMMENT 'ID на потребителя',
+  `follower_id` INT NOT NULL COMMENT 'ID на последователя',
+  PRIMARY KEY (`user_id`, `follower_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`follower_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Table structure for table `favorites`
+
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE `favorites` (
+  `user_id` INT NOT NULL COMMENT 'ID на потребителя',
+  `follower_id` INT NOT NULL COMMENT 'ID на последователя, любим на потребителя',
+  PRIMARY KEY (`user_id`, `follower_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`follower_id`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
