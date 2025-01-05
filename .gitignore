@@ -1,2 +1,3 @@
 phpMyAdmin/
 util/Constants.php
+.php-cs-fixer.cache
