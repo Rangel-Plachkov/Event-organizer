@@ -107,6 +107,7 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `target_id` INT NOT NULL COMMENT 'ID на свързания обект',
+  `target_type` ENUM('event', 'gift_idea', 'fundraising', 'comment') NOT NULL COMMENT 'Тип на свързания обект',
   `user_id` INT NOT NULL COMMENT 'ID на автора на коментара',
   `content` TEXT NOT NULL COMMENT 'Текст на коментара',
   PRIMARY KEY (`id`),

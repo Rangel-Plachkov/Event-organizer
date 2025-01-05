@@ -22,6 +22,9 @@ $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
 
+//COMMENT ROUTES
+$routesRegistrator->map("POST", "[comment@createComment]", "create-comment-op", "createComment");
+
 
 //ERROR PAGES ROUTES
 $routesRegistrator->map("GET", "[error@error404]", "error/404", "pageNotFoundError");
