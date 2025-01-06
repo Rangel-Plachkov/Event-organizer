@@ -102,7 +102,6 @@ CREATE TABLE `gift_ideas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Table structure for table `comments`
-
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -110,9 +109,11 @@ CREATE TABLE `comments` (
   `target_type` ENUM('event', 'gift_idea', 'fundraising', 'comment') NOT NULL COMMENT 'Тип на свързания обект',
   `user_id` INT NOT NULL COMMENT 'ID на автора на коментара',
   `content` TEXT NOT NULL COMMENT 'Текст на коментара',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Време на създаване',
   PRIMARY KEY (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- Table structure for table `fundraising`
 

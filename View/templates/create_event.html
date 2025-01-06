@@ -90,16 +90,24 @@
       const hasOgranisationInput = document.getElementById('has_organization');
       const ogranizerContainder = document.getElementById('organizer-container');
 
+      const explanationInput = document.getElementById('explanation-to-event');
+
       if (ogranizerContainder.style.display === 'block') {
           ogranizerContainder.style.display = 'none';
           hasOgranisationInput.value = "false";
           //TODO: add user Id of the organizer user 
           document.getElementById('organizer_id').value = ""; 
+
+          // Remove required attribute
+          explanationInput.removeAttribute('required');
       } else {
           ogranizerContainder.style.display = 'block';
           hasOgranisationInput.value = "true";
           //TODO: add user Id of the organizer user 
          document.getElementById('organizer_id').value = "123"; 
+
+        // Add required attribute
+        explanationInput.setAttribute('required', 'true');
       }
 
     });
@@ -109,12 +117,17 @@
         const isAnonymousInput = document.getElementById('is_anonymous');
         const anonymousUsersContainer = document.getElementById('anonymous-users-container');
 
+        const excludedUsersInput = document.getElementById('excluded_users');
+
         if (anonymousUsersContainer.style.display === 'block') {
             anonymousUsersContainer.style.display = 'none';
             isAnonymousInput.value = "false";
+
+            excludedUsersInput.removeAttribute('required');
         } else {
             anonymousUsersContainer.style.display = 'block';
             isAnonymousInput.value = "true";
+            excludedUsersInput.setAttribute('required', 'true');
         }
     });
 

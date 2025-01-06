@@ -16,10 +16,11 @@ class Comment
      * @param $userId
      * @param $content
      */
-    public function __construct($id, $targetId, $userId, $content)
+    public function __construct($id, $targetId, $targetType, $userId, $content)
     {
         $this->_id = $id;
         $this->_targetId = $targetId;
+        $this->_targetType = $targetType;
         $this->_userId = $userId;
         $this->_content = $content;
     }
