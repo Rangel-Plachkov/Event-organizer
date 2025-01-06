@@ -93,6 +93,36 @@ class UserRepository extends BaseRepository
         $this->executeQuery($sql, $params);
     }
 
+    public function followUser($userId,$followedId){
+        $sql = "INSERT INTO Follows (userId , followedId)
+                    VALUES (:userId , :followedId)";
+        $params = [
+            'userId' => $userId,
+            'followedId' => $followedId
+        ];
+        $this->executeQuery($sql, $params);
+    }
+
+    public function unfollowUser($userId,$followedId){
+        $sql = "DELETE FROM Follows WHERE userId = :userId AND followedId = :followedId";
+        $params = [
+            'userId' => $userId,
+            'followedId' => $followedId
+        ];
+        $this->executeQuery($sql, $params);
+    }
+
+    public function getFollowedUsers($userId){
+        $sql = "SELECT * FROM Follows WHERE userId = :userId";
+        $params = [':userId' => $userId];
+        return $this->fetchAll($sql, $params);
+    }
+
+    public function getFollowers($userId){
+        $sql = "SELECT * FROM Follows WHERE followedId = :userId";
+        $params = [':userId' => $userId];
+        return $this->fetchAll($sql, $params);
+    }
 
     public function query(){
 

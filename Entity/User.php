@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Exception;
+
 class User
 {
     private $id;
@@ -11,6 +13,7 @@ class User
     private $email;
     private $username;
     private $password;
+    private $following;
 
     /**
      * @param $id
@@ -30,6 +33,7 @@ class User
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
+        $this->following = [];
     }
 
     /**
@@ -142,6 +146,59 @@ class User
     public function setPassword($password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * Check if the user is following another user
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isFollowing(User $user): bool
+    {
+        return in_array($user, $this->following, true);
+    }
+
+
+    /**
+     * Follow a user
+     *
+     * @param User $user
+     * @throws Exception if the user tries to follow himself
+     */
+    public function follow(User $user): void
+    {
+        if ($user->getId() === $this->id) {
+            throw new Exception("You cannot follow yourself");
+        }
+        if(!$user->isFollowing($this)){
+            $this->following[] = $user;
+        }
+
+    }
+
+
+    /**
+     * Unfollow a user
+     *
+     * @param User $user
+     */
+    public function unfollow(User $user): void
+    {
+        $key = array_search($user, $this->following, true);
+        if ($key !== false) {
+            unset($this->following[$key]);
+        }
+    }
+
+    /**
+     * Get the users that the current user is following
+     *
+     * @return array
+     */
+    public function getFollowing(): array
+    {
+        return $this->following;
     }
 
 
