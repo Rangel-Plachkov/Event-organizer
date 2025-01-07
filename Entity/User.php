@@ -201,5 +201,4 @@ class User
         return $this->following;
     }
 
-
 }

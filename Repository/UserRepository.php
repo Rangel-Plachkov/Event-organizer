@@ -94,7 +94,7 @@ class UserRepository extends BaseRepository
     }
 
     public function followUser($userId,$followedId){
-        $sql = "INSERT INTO Follows (userId , followedId)
+        $sql = "INSERT INTO follows (userId , followedId)
                     VALUES (:userId , :followedId)";
         $params = [
             'userId' => $userId,
@@ -104,7 +104,7 @@ class UserRepository extends BaseRepository
     }
 
     public function unfollowUser($userId,$followedId){
-        $sql = "DELETE FROM Follows WHERE userId = :userId AND followedId = :followedId";
+        $sql = "DELETE FROM follows WHERE userId = :userId AND followedId = :followedId";
         $params = [
             'userId' => $userId,
             'followedId' => $followedId
@@ -113,18 +113,33 @@ class UserRepository extends BaseRepository
     }
 
     public function getFollowedUsers($userId){
-        $sql = "SELECT * FROM Follows WHERE userId = :userId";
-        $params = [':userId' => $userId];
+        $sql = "SELECT * FROM follows WHERE userId = :userId";
+        $params = ['userId' => $userId];
         return $this->fetchAll($sql, $params);
     }
 
     public function getFollowers($userId){
-        $sql = "SELECT * FROM Follows WHERE followedId = :userId";
-        $params = [':userId' => $userId];
+        $sql = "SELECT * FROM follows WHERE followedId = :userId";
+        $params = ['userId' => $userId];
         return $this->fetchAll($sql, $params);
+    }
+
+
+    public function isFollowing($userId, $followedId): bool
+    {
+        $sql = "SELECT 1 FROM follows WHERE userId = :userId AND followedId = :followedId LIMIT 1";
+        $params = [
+            ':userId' => $userId,
+            ':followedId' => $followedId,
+        ];
+        $result = $this->fetchOne($sql, $params);
+        return $result !== null;
     }
 
     public function query(){
 
     }
+
+
+
 }

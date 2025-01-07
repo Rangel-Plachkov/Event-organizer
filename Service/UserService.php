@@ -49,6 +49,8 @@ class UserService
         $_SESSION['birthdate'] = $user['birthdate'];
     }
 
+
+
     public function login($username, $password){
         $session = SessionHandler::getInstance();
         if($this->isUsernameTaken($username)){
@@ -84,6 +86,9 @@ class UserService
         $session = SessionHandler::getInstance();
         $session->sessionDestroy();
     }
+
+
+
     public function editAcc(\Entity\User $user, $old_password){
         $session = SessionHandler::getInstance();
         $id = $session->getSessionValue('userId');
@@ -114,4 +119,48 @@ class UserService
             }
         }
     }
+
+    public function followUser($followerId, $followingId): void
+    {
+        if ($followerId === $followingId) {
+            echo "You cannot follow yourself.";
+            return;
+        }
+
+        if ($this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are already following this user.";
+            return;
+        }
+
+        $this->userRepository->followUser($followerId, $followingId);
+        echo "User followed successfully!";
+    }
+
+    public function unfollowUser($followerId, $followingId): void
+    {
+        if (!$this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are not following this user.";
+            return;
+        }
+
+        $this->userRepository->unfollowUser($followerId, $followingId);
+        echo "User unfollowed successfully!";
+    }
+
+
+    public function getFollowing($userId): array
+    {
+        return $this->userRepository->getFollowedUsers($userId);
+    }
+
+
+    public function getFollowers($userId): array
+    {
+        return $this->userRepository->getFollowers($userId);
+    }
+
+
+
+
+
 }
