@@ -61,6 +61,7 @@ class UserService
                 $session->setSessionValue('username' , $username);
                 $session->setSessionValue('fullName' , $user['firstname'] . ' ' . $user['lastname']);
                 $session->setSessionValue('userId' , $user['id']);
+
                 return true;
             }
         } else {
@@ -120,7 +121,37 @@ class UserService
         }
     }
 
-    public function followUser($followerId, $followingId): void
+    public function follow($followingId): void
+    {
+        if ($_SESSION['userId'] === $followingId) {
+            echo "You cannot follow yourself.";
+            return;
+        }
+
+        if ($this->userRepository->isFollowing($_SESSION['userId'], $followingId)) {
+            echo "You are already following this user.";
+            return;
+        }
+
+        $this->userRepository->followUser($_SESSION['userId'], $followingId);
+
+    }
+
+    public function unfollow($followingId): void
+    {
+        if (!$this->userRepository->isFollowing($_SESSION['userId'], $followingId)) {
+            echo "You are not following this user.";
+            return;
+        }
+
+        $this->userRepository->unfollowUser($_SESSION['userId'], $followingId);
+    }
+
+
+
+
+
+    public function followFromTo($followerId, $followingId): void
     {
         if ($followerId === $followingId) {
             echo "You cannot follow yourself.";
@@ -136,7 +167,7 @@ class UserService
         echo "User followed successfully!";
     }
 
-    public function unfollowUser($followerId, $followingId): void
+    public function unfollowFromTo($followerId, $followingId): void
     {
         if (!$this->userRepository->isFollowing($followerId, $followingId)) {
             echo "You are not following this user.";
