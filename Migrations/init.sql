@@ -58,6 +58,7 @@ UNLOCK TABLES;
 
 -- Table structure for table `events`
 
+-- (трябва да се добави участници ако има организация)
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -75,6 +76,10 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Table structure for table `event_invitations`
+
+-- (Tрябва да се промени да бъде таблица която показва дали даден юзър е джойннал евента)
+-- event id
+-- joined user
 
 DROP TABLE IF EXISTS `event_invitations`;
 CREATE TABLE `event_invitations` (

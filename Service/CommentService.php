@@ -33,4 +33,15 @@ class CommentService
 
         return $this->commentRepository->createComment($comment);
     }
+
+    public function getCommentsByTarget($targetId, $targetType)
+    {
+        // Validate target ID and type
+        if (empty($targetId) || empty($targetType)) {
+            throw new \InvalidArgumentException('Target ID and type must be specified.');
+        }
+
+        // Retrieve comments using the repository
+        return $this->commentRepository->getCommentsByTarget($targetId, $targetType);
+    }
 }

@@ -4,6 +4,7 @@ namespace Service;
 
 use Repository\EventRepository;
 use Entity\Event;
+use http\SessionHandler;
 
 class EventService
 {
@@ -22,5 +23,17 @@ class EventService
         }
 
         return $this->eventRepository->createEvent($event);
+    }
+
+    public function getPublicOrInvitedEvents(): array
+    {
+        $session = SessionHandler::getInstance();
+        $$userId = $session->getSessionValue('userId');
+
+        if (empty($userId)) {
+            throw new \InvalidArgumentException('User ID is required.');
+        }
+
+        return $this->eventRepository->getPublicOrInvitedEvents($userId);
     }
 }

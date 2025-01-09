@@ -25,4 +25,24 @@ class EventRepository extends BaseRepository
         // Връщаме ID на създадения запис
         return $this->connection->lastInsertId();
     }
+
+    public function getPublicOrInvitedEvents(int $userId): array
+    {
+        $sql = "
+            SELECT e.*, ei.status
+            FROM events e
+            LEFT JOIN event_invitations ei ON e.id = ei.event_id AND ei.user_id = :user_id
+            WHERE e.visibility = 'public'
+               OR (ei.user_id = :user_id AND ei.status = 'accepted')
+        ";
+
+        $params = [
+            ':user_id' => $userId,
+        ];
+
+        return $this->fetchAll($sql, $params);
+    }
 }
+
+//трябва да езема още евентите на приятелите на моя потребител
+//за това ми трябва да знам как да взема userid на потребителя в текущата сесия.
