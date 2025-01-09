@@ -4,181 +4,57 @@ namespace Entity;
 
 class Event
 {
-    private $id;
-    private $title;
-    private $eventDate;
-    private $type;
-    private $visibility;
-    private $hasOrganization;
-    private $organizerId;
-    private $isAnonymous;
-    private $excludedUserId;
+    private int $id;
+    private string $title;
+    private string $eventDate;
+    private string $type;
+    private string $visibility;
+    private bool $hasOrganization;
 
-    /**
-     * @param $id
-     * @param $title
-     * @param $eventDate
-     * @param $type
-     * @param $visibility
-     * @param $hasOrganization
-     * @param $organizerId
-     * @param $isAnonymous
-     * @param $excludedUserId
-     */
-    public function __construct($id, $title, $eventDate, $type, $visibility, $hasOrganization, $organizerId, $isAnonymous, $excludedUserId)
-    {
+    public function __construct(
+        string $title,
+        string $eventDate,
+        string $type = 'Other',
+        string $visibility = 'public',
+        bool $hasOrganization = false,
+        int $id = 0
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->eventDate = $eventDate;
         $this->type = $type;
         $this->visibility = $visibility;
         $this->hasOrganization = $hasOrganization;
-        $this->organizerId = $organizerId;
-        $this->isAnonymous = $isAnonymous;
-        $this->excludedUserId = $excludedUserId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    // Getters
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEventDate()
+    public function getEventDate(): string
     {
         return $this->eventDate;
     }
 
-    /**
-     * @param mixed $eventDate
-     */
-    public function setEventDate($eventDate): void
-    {
-        $this->eventDate = $eventDate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param mixed $type
-     */
-    public function setType($type): void
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVisibility()
+    public function getVisibility(): string
     {
         return $this->visibility;
     }
 
-    /**
-     * @param mixed $visibility
-     */
-    public function setVisibility($visibility): void
-    {
-        $this->visibility = $visibility;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHasOrganization()
+    public function getHasOrganization(): bool
     {
         return $this->hasOrganization;
-    }
-
-    /**
-     * @param mixed $hasOrganization
-     */
-    public function setHasOrganization($hasOrganization): void
-    {
-        $this->hasOrganization = $hasOrganization;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrganizerId()
-    {
-        return $this->organizerId;
-    }
-
-    /**
-     * @param mixed $organizerId
-     */
-    public function setOrganizerId($organizerId): void
-    {
-        $this->organizerId = $organizerId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsAnonymous()
-    {
-        return $this->isAnonymous;
-    }
-
-    /**
-     * @param mixed $isAnonymous
-     */
-    public function setIsAnonymous($isAnonymous): void
-    {
-        $this->isAnonymous = $isAnonymous;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExcludedUserId()
-    {
-        return $this->excludedUserId;
-    }
-
-    /**
-     * @param mixed $excludedUserId
-     */
-    public function setExcludedUserId($excludedUserId): void
-    {
-        $this->excludedUserId = $excludedUserId;
     }
 }
