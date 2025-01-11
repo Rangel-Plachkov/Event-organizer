@@ -1,6 +1,122 @@
 <?php
- $fullName= isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
- ?>
+// $fullName= isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
+// ?>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Event Organizer Dashboard</title>-->
+<!--    <link rel="stylesheet" href="/View/css/dashboard-styles.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <nav class="dashboard-nav">-->
+<!--        <a class="logo-href" href="/">-->
+<!--            <h1>Event Organizer</h1>-->
+<!--        </a>-->
+<!--        <ul>-->
+<!--            <li><a href="#events">Manage Events</a></li>-->
+<!--            <li><a href="/edit">Edit Profile</a></li>-->
+<!--            <li><a href="/logout">Logout</a></li>-->
+<!--            <li><a href="/delete-acc">Delete Profile</a></li>-->
+<!---->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--    <main class="dashboard-main">-->
+<!--        <section id="events">-->
+<!--            <h3>Welcome --><?php //echo htmlspecialchars($fullName); ?><!--</h3>-->
+<!--            <h2>Manage Events</h2>-->
+<!--            <button onclick="addEvent()">Add Event</button>-->
+<!--            <div class="events-list">-->
+<!--                <p>No events yet. Start by adding a new event!</p>-->
+<!--            </div>-->
+<!--        </section>-->
+<!--    </main>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<?php
+//$fullName= isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
+//?>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Event Organizer Dashboard</title>-->
+<!--    <link rel="stylesheet" href="/View/css/dashboard-styles.css">-->
+<!--    <style>-->
+<!--        .search-container {-->
+<!--            display: none;-->
+<!--            position: relative;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+<!--        .search-container input {-->
+<!--            width: 100%;-->
+<!--            padding: 8px;-->
+<!--            font-size: 1rem;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav class="dashboard-nav">-->
+<!--    <a class="logo-href" href="/">-->
+<!--        <h1>Event Organizer</h1>-->
+<!--    </a>-->
+<!--    <ul>-->
+<!--        <li><a href="#events">Manage Events</a></li>-->
+<!--        <li><a href="/edit">Edit Profile</a></li>-->
+<!--        <li><a href="/logout">Logout</a></li>-->
+<!--        <li><a href="/delete-acc">Delete Profile</a></li>-->
+<!--        <li>-->
+<!--            <button id="searchToggle"><a>Search</a></button>-->
+<!--            <div id="searchContainer" class="search-container">-->
+<!--                <form id="searchForm" action="/search" method="GET">-->
+<!--                    <label>-->
+<!--                        <input type="text" name="query" placeholder="Search users..." required>-->
+<!--                    </label>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</nav>-->
+<!--<main class="dashboard-main">-->
+<!--    <section id="events">-->
+<!--        <h3>Welcome --><?php //echo htmlspecialchars($fullName); ?><!--</h3>-->
+<!--        <h2>Manage Events</h2>-->
+<!--        <button onclick="addEvent()">Add Event</button>-->
+<!--        <div class="events-list">-->
+<!--            <p>No events yet. Start by adding a new event!</p>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</main>-->
+<!--<script>-->
+<!--    // Toggle the search menu-->
+<!--    const searchToggle = document.getElementById('searchToggle');-->
+<!--    const searchContainer = document.getElementById('searchContainer');-->
+<!--    searchToggle.addEventListener('click', () => {-->
+<!--        searchContainer.style.display = searchContainer.style.display === 'block' ? 'none' : 'block';-->
+<!--    });-->
+<!---->
+<!--    // Handle search form submission-->
+<!--    const searchForm = document.getElementById('searchForm');-->
+<!--    searchForm.addEventListener('submit', (event) => {-->
+<!--        event.preventDefault(); // Prevent default form submission-->
+<!--        const query = searchForm.query.value.trim();-->
+<!--        if (query) {-->
+<!--            window.location.href = `/search?query=${encodeURIComponent(query)}`;-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<?php
+$fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,29 +124,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Organizer Dashboard</title>
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+    <style>
+        .search-container {
+            display: none;
+            position: relative;
+            margin-top: 10px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        #searchToggle {
+            background-color: transparent;
+            border: none;
+            color: #007BFF;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        #searchToggle:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <nav class="dashboard-nav">
-        <a class="logo-href" href="/">
-            <h1>Event Organizer</h1>
-        </a>
-        <ul>
-            <li><a href="#events">Manage Events</a></li>
-            <li><a href="/edit">Edit Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
-            <li><a href="/delete-acc">Delete Profile</a></li>
-
-        </ul>
-    </nav>
-    <main class="dashboard-main">
-        <section id="events">
-            <h3>Welcome <?php echo htmlspecialchars($fullName); ?></h3>
-            <h2>Manage Events</h2>
-            <button onclick="addEvent()">Add Event</button>
-            <div class="events-list">
-                <p>No events yet. Start by adding a new event!</p>
+<nav class="dashboard-nav">
+    <a class="logo-href" href="/">
+        <h1>Event Organizer</h1>
+    </a>
+    <ul>
+        <li><a href="#events">Manage Events</a></li>
+        <li><a href="/edit">Edit Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/delete-acc">Delete Profile</a></li>
+        <li><a href="/viewProfile">View Profile</a></li>
+        <li>
+            <button id="searchToggle">Search</button>
+            <div id="searchContainer" class="search-container">
+                <form id="searchForm" action="/viewProfile" method="GET">
+                    <label>
+                        <input type="text" name="username" placeholder="Search profiles..." required>
+                    </label>
+                </form>
             </div>
-        </section>
-    </main>
+        </li>
+    </ul>
+</nav>
+<main class="dashboard-main">
+    <section id="events">
+        <h3>Welcome <?php echo htmlspecialchars($fullName); ?></h3>
+        <h2>Manage Events</h2>
+        <button onclick="addEvent()">Add Event</button>
+        <div class="events-list">
+            <p>No events yet. Start by adding a new event!</p>
+        </div>
+    </section>
+</main>
+<script>
+
+    const searchToggle = document.getElementById('searchToggle');
+    const searchContainer = document.getElementById('searchContainer');
+    searchToggle.addEventListener('click', () => {
+        searchContainer.style.display = searchContainer.style.display === 'block' ? 'none' : 'block';
+    });
+
+    const searchForm = document.getElementById('searchForm');
+    searchForm.addEventListener('submit', (event) => {
+        const query = searchForm.query.value.trim();
+        if (!query) {
+            event.preventDefault();
+            alert('Please enter a search query!');
+        }
+    });
+</script>
 </body>
 </html>

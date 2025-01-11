@@ -31,8 +31,15 @@ class PageController extends AbstractController
     {
         require_once 'View/templates/create_event.html';
     }
-    public function view(){
-        require_once 'View/templates/500.html';
+    public function viewProfile(){
+        //$username = $_GET['username'] ?? null;
+        $users = [
+            1 => ['firstName' => 'John', 'lastName' => 'Doe', 'birthdate' => '1990-01-01'],
+            2 => ['firstName' => 'Jane', 'lastName' => 'Smith', 'birthdate' => '1995-05-15']
+        ];
+
+        $userData = $users[1];
+        require_once 'View/templates/viewProfile.phtml';
     }
 
 }

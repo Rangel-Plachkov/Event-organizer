@@ -1,18 +1,43 @@
+<?php
+$username = isset($userData['username']) ? $userData['username'] : '';
+$email = isset($userData['email']) ? $userData['email'] : '';
+$firstName = isset($userData['firstName']) ? $userData['firstName'] : '';
+$lastName = isset($userData['lastName']) ? $userData['lastName'] : '';
+$birthdate = isset($userData['birthdate']) ? $userData['birthdate'] : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Preview</title>
+    <title>View Profile</title>
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
     <link rel="stylesheet" href="/View/css/viewProfile-styles.css">
 </head>
 <body>
-<div class="profile-preview-container">
-    <div class="profile-info">
-        <h2 class="profile-name">Name</h2>
-        <p class="profile-birthdate">Born on:  ?></p>
-    </div>
-    <button class="follow-button">Follow</button>
-</div>
+<nav class="dashboard-nav">
+    <a class="logo-href" href="/">
+        <h1>Event Organizer</h1>
+    </a>
+    <ul>
+        <li><a href="#events">Manage Events</a></li>
+        <li><a href="/edit">Edit Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<main class="dashboard-main">
+    <section id="events">
+        <div class="view-profile-container">
+            <h1>View Profile</h1>
+            <div class="profile-info">
+                <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+                <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+                <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+                <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+            </div>
+        </div>
+    </section>
+</main>
 </body>
 </html>

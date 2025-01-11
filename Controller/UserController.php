@@ -96,15 +96,4 @@ class UserController extends AbstractController
         header("Location:". Url::generateUrl('indexPage'));
     }
 
-    public function view(){
-        require_once 'View/templates/500.html';
-    }
-
-
-
-
-
-
-
-
 }
