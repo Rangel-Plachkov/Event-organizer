@@ -96,4 +96,10 @@ class UserController extends AbstractController
         header("Location:". Url::generateUrl('indexPage'));
     }
 
+    public function searchUser(){
+        $searchedUser=$_POST['searchedUser'];
+        $FOUND_USERS=$this->userService->getUserByUsername($searchedUser);
+        require_once 'View/templates/viewProfile.phtml';
+    }
+
 }

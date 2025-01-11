@@ -5,8 +5,7 @@ namespace Controller;
 
 class ErrorController extends AbstractController
 {
-    public function error404()
-    {
+    public function error404(){
         require_once 'View/templates/404.html';
     }
 

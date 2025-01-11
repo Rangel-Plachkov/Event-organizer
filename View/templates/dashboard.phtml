@@ -124,33 +124,6 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Organizer Dashboard</title>
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
-    <style>
-        .search-container {
-            display: none;
-            position: relative;
-            margin-top: 10px;
-        }
-        .search-container input {
-            width: 100%;
-            padding: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        #searchToggle {
-            background-color: transparent;
-            border: none;
-            color: #007BFF;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        #searchToggle:hover {
-            color: #0056b3;
-        }
-    </style>
 </head>
 <body>
 <nav class="dashboard-nav">
@@ -162,17 +135,7 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
         <li><a href="/edit">Edit Profile</a></li>
         <li><a href="/logout">Logout</a></li>
         <li><a href="/delete-acc">Delete Profile</a></li>
-        <li><a href="/viewProfile">View Profile</a></li>
-        <li>
-            <button id="searchToggle">Search</button>
-            <div id="searchContainer" class="search-container">
-                <form id="searchForm" action="/viewProfile" method="GET">
-                    <label>
-                        <input type="text" name="username" placeholder="Search profiles..." required>
-                    </label>
-                </form>
-            </div>
-        </li>
+        <li><a href="/search">Search</a></li>
     </ul>
 </nav>
 <main class="dashboard-main">
@@ -185,22 +148,5 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
         </div>
     </section>
 </main>
-<script>
-
-    const searchToggle = document.getElementById('searchToggle');
-    const searchContainer = document.getElementById('searchContainer');
-    searchToggle.addEventListener('click', () => {
-        searchContainer.style.display = searchContainer.style.display === 'block' ? 'none' : 'block';
-    });
-
-    const searchForm = document.getElementById('searchForm');
-    searchForm.addEventListener('submit', (event) => {
-        const query = searchForm.query.value.trim();
-        if (!query) {
-            event.preventDefault();
-            alert('Please enter a search query!');
-        }
-    });
-</script>
 </body>
 </html>

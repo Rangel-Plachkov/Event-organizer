@@ -1,9 +1,9 @@
 <?php
-$username = isset($userData['username']) ? $userData['username'] : '';
-$email = isset($userData['email']) ? $userData['email'] : '';
-$firstName = isset($userData['firstName']) ? $userData['firstName'] : '';
-$lastName = isset($userData['lastName']) ? $userData['lastName'] : '';
-$birthdate = isset($userData['birthdate']) ? $userData['birthdate'] : '';
+$username = $FOUND_USERS['username'] ?? '';
+$email = $FOUND_USERS['email'] ?? '';
+$firstName = $FOUND_USERS['firstname'] ?? '';
+$lastName = $FOUND_USERS['lastname'] ?? '';
+$birthdate = $FOUND_USERS['birthdate'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,6 @@ $birthdate = isset($userData['birthdate']) ? $userData['birthdate'] : '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Profile</title>
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
-    <link rel="stylesheet" href="/View/css/viewProfile-styles.css">
 </head>
 <body>
 <nav class="dashboard-nav">
@@ -26,18 +25,14 @@ $birthdate = isset($userData['birthdate']) ? $userData['birthdate'] : '';
     </ul>
 </nav>
 <main class="dashboard-main">
-    <section id="events">
-        <div class="view-profile-container">
-            <h1>View Profile</h1>
-            <div class="profile-info">
-                <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
-                <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
-                <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-                <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
-            </div>
-        </div>
-    </section>
+    <h1>View Profile</h1>
+    <div class="profile-info"><p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+        <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+        <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+    </div>
+
 </main>
 </body>
 </html>
