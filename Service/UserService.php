@@ -198,7 +198,7 @@ class UserService
             echo "User does not exist.";
             return [];
         }
-
+        
         return $this->userRepository->getFollowedUsers($user['id']);
     }
 
