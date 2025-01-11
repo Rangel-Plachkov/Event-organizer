@@ -96,36 +96,24 @@ class UserController extends AbstractController
         header("Location:". Url::generateUrl('indexPage'));
     }
 
-    public function view()
+
+
+
+    public function showProfile($username): array
     {
-        // Get the username from query parameters
-        $username = $_GET['username'] ?? null;
-
-        // Validate if the username is provided
-        if (!$username) {
-            echo "Username is required to view the profile.";
-            return;
-        }
-
-        // Retrieve the user data from the service
         $user = $this->userService->getUserByUsername($username);
 
-        // Check if the user exists
-        if (!$user) {
-            echo "User not found.";
-            return;
+        if ($user) {
+            return [
+                'status' => 'success',
+                'data' => $user
+            ];
+        } else {
+            return [
+                'status' => 'error',
+                'message' => 'User not found.'
+            ];
         }
-
-        // Render the user profile view
-        $this->render('user/view', ['user' => $user]);
-
     }
-
-
-
-
-
-
-
 
 }
