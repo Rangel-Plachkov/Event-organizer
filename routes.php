@@ -18,9 +18,8 @@ $routesRegistrator->map("POST", "[user@login]", "login", "login");
 $routesRegistrator->map("GET", "[user@logout]", "logout", "logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
 $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
+$routesRegistrator->map("GET", "[page@view]", "view", "viewProfile");
 
-$routesRegistrator->map("GET", "[user@view]", "view", "view");
-$routesRegistrator->map("GET", "[user@view/{username}]", "user-view", "view");
 
 
 

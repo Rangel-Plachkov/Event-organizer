@@ -31,6 +31,9 @@ class PageController extends AbstractController
     {
         require_once 'View/templates/create_event.html';
     }
+    public function view(){
+        require_once 'View/templates/500.html';
+    }
 
 }
 
