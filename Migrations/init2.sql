@@ -30,7 +30,7 @@ CREATE TABLE `events` (
   `type` VARCHAR(255) DEFAULT 'Other' COMMENT 'Тип на събитието, напр. рожден ден',
   `visibility` VARCHAR(50) DEFAULT 'public' COMMENT 'Видимост на събитието: public, friends, private',
   `has_organization` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието има активна организация',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `event_organization`;
@@ -42,18 +42,17 @@ CREATE TABLE `event_organization` (
   `is_anonymous` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието е анонимно',
   `excluded_user_id` INT DEFAULT NULL COMMENT 'ID на потребителя, за когото е събитието, ако събитието е анонимно',
 
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE COMMENT "Ще бъде изтрито когато се изтрие евента",
+  PRIMARY KEY (`event_id`),
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`),
   FOREIGN KEY (`excluded_user_id`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `participants`;
-
 CREATE TABLE `participants` (
   `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
   `user_id` INT NOT NULL COMMENT 'ID на потребителя участник',
   PRIMARY KEY (`event_id`),
-  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE COMMENT "Ще бъде изтрито когато се изтрие евента",
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

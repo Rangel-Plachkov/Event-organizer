@@ -4,20 +4,20 @@ namespace Entity;
 
 class Event
 {
-    private int $id;
-    private string $title;
-    private string $eventDate;
-    private string $type;
-    private string $visibility;
-    private bool $hasOrganization;
+    private $id;
+    private $title;
+    private $eventDate;
+    private $type;
+    private $visibility;
+    private $hasOrganization;
 
     public function __construct(
-        string $title,
-        string $eventDate,
-        string $type = 'Other',
-        string $visibility = 'public',
-        bool $hasOrganization = false,
-        int $id = 0
+        $id,
+        $title,
+        $eventDate,
+        $type = 'Other',
+        $visibility = 'public',
+        $hasOrganization = false,
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -28,32 +28,32 @@ class Event
     }
 
     // Getters
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
 
-    public function getEventDate(): string
+    public function getEventDate()
     {
         return $this->eventDate;
     }
 
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }
 
-    public function getVisibility(): string
+    public function getVisibility()
     {
         return $this->visibility;
     }
 
-    public function getHasOrganization(): bool
+    public function getHasOrganization()
     {
         return $this->hasOrganization;
     }

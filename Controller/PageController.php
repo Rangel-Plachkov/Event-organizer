@@ -29,8 +29,7 @@ class PageController extends AbstractController
     }
     public function createEvent()
     {
-        require_once 'View/templates/create_event.html';
+        require_once 'View/templates/create_event_v2.html';
     }
 
 }
-

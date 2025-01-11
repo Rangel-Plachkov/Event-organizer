@@ -6,6 +6,7 @@ use Entity\Comment;
 use Service\CommentService;
 use Service\EventService;
 use Entity\Event;
+use http\SessionHandler;
 
 class EventController
 {
@@ -18,74 +19,137 @@ class EventController
         $this->commentService = new CommentService();
     }
 
+    // public function createEvent()
+    // {
+    //     $title = trim($_POST['title'] ?? '');
+    //     $eventDate = trim($_POST['event_date'] ?? '');
+    //
+    //     // $type = trim($_POST['type'] ?? 'Other');
+    //     $type = $_POST['type'];
+    //
+    //     // If other is selected add the custom type
+    //     if ($type === 'other') {
+    //         $customtype = trim($_POST['customtype'] ?? '');
+    //         if (empty($customtype)) {
+    //             throw new \InvalidArgumentException('моля, въведете тип за събитие.');
+    //         }
+    //         $type = $customtype;
+    //     }
+    //
+    //     $visibility = trim($_POST['visibility'] ?? 'public');
+    //     $hasOrganization = $_POST['has_organization'] === 'true';
+    //     $organizerId = $_POST['organizer_id'] ?? null;
+    //
+    //     $isAnonymous = $_POST['is_anonymous'] === 'true';
+    //     $excludedUserId = $_POST['excluded_users_id'] ?? '';
+    //
+    //     $organizationExplanation = null; // Default to null if no organization
+    //
+    //     // Handle organization explanation only if hasOrganization is true
+    //     if ($hasOrganization) {
+    //         $organizationExplanation = trim($_POST['explination-organisation'] ?? '');
+    //         if (empty($organizationExplanation)) {
+    //             throw new \InvalidArgumentException('Моля, добавете обяснение за организацията.');
+    //         }
+    //     }
+    //
+    //     if (empty($title) || empty($eventDate)) {
+    //         throw new \InvalidArgumentException('Title and event date are required.');
+    //     }
+    //
+    //     $event = new Event(
+    //         null,
+    //         $title,
+    //         $eventDate,
+    //         $type,
+    //         $visibility,
+    //         $hasOrganization,
+    //         $organizerId,
+    //         $isAnonymous,
+    //         $excludedUserId
+    //     );
+    //
+    //     try {
+    //         $eventId = $this->eventService->createEvent($event);
+    //
+    //         // Save organization explanation as a comment if applicable
+    //         if ($hasOrganization && !empty($organizationExplanation)) {
+    //             $this->saveOrganizationExplanationAsComment($eventId, $organizationExplanation, $organizerId);
+    //         }
+    //
+    //     } catch (\Exception $e) {
+    //         throw $e;
+    //     }
+    //
+    //     // // Пренасочване или съобщение за успех
+    //     // header('Location: /events?id=' . $eventId);
+    //     exit;
+    // }
+
     public function createEvent()
     {
         $title = trim($_POST['title'] ?? '');
         $eventDate = trim($_POST['event_date'] ?? '');
+        $type = trim($_POST['type'] ?? 'Other');
 
-        // $type = trim($_POST['type'] ?? 'Other');
-        $type = $_POST['type'];
-
-        // If other is selected add the custom type
-        if ($type === 'other') {
-            $customtype = trim($_POST['customtype'] ?? '');
-            if (empty($customtype)) {
-                throw new \InvalidArgumentException('моля, въведете тип за събитие.');
+        if ($type === 'Other') {
+            $customType = trim($_POST['customType'] ?? '');
+            if (empty($customType)) {
+                throw new \InvalidArgumentException('Please enter a custom type for the event.');
             }
-            $type = $customtype;
+            $type = $customType;
         }
 
         $visibility = trim($_POST['visibility'] ?? 'public');
         $hasOrganization = $_POST['has_organization'] === 'true';
-        //TODO: get organizer id
-        $organizerId = $_POST['organizer_id'] ?? null;
 
-        //TODO: anonumous always false
+        $session = SessionHandler::getInstance();
+        $currUserId = $session->getSessionValue('userId');
+
+        //TODO: test with active session
+        $organizerId = '1'; // $$currUserId;
+
+        $organizerPaymentDetails = trim($_POST['organizer_payment_details'] ?? '');
+        $placeAddress = trim($_POST['place_address'] ?? '');
+
         $isAnonymous = $_POST['is_anonymous'] === 'true';
-        //TODO: get excluded users id (this is an array)
-        $excludedUserId = $_POST['excluded_users_id'] ?? '';
+        $excludedUserName = $_POST['excluded_user_name'];
 
-        $organizationExplanation = null; // Default to null if no organization
-
-        // Handle organization explanation only if hasOrganization is true
-        if ($hasOrganization) {
-            $organizationExplanation = trim($_POST['explination-organisation'] ?? '');
-            if (empty($organizationExplanation)) {
-                throw new \InvalidArgumentException('Моля, добавете обяснение за организацията.');
-            }
-        }
+        //TODO: get the user id by the name
+        $excludedUserId = '1';
 
         if (empty($title) || empty($eventDate)) {
             throw new \InvalidArgumentException('Title and event date are required.');
         }
 
+        // Create the Event entity
         $event = new Event(
             null,
             $title,
             $eventDate,
             $type,
             $visibility,
-            $hasOrganization,
-            $organizerId,
-            $isAnonymous,
-            $excludedUserId
+            $hasOrganization
         );
 
         try {
             $eventId = $this->eventService->createEvent($event);
 
-            // Save organization explanation as a comment if applicable
-            if ($hasOrganization && !empty($organizationExplanation)) {
-                $this->saveOrganizationExplanationAsComment($eventId, $organizationExplanation, $organizerId);
+            if ($hasOrganization) {
+                $this->eventService->createEventOrganization(
+                    $eventId,
+                    $organizerId,
+                    $organizerPaymentDetails,
+                    $placeAddress,
+                    $isAnonymous,
+                    $excludedUserId
+                );
             }
 
         } catch (\Exception $e) {
-            throw $e;
+            // Handle errors (log, display error messages, etc.)
+            throw new \RuntimeException('Failed to create event: ' . $e->getMessage());
         }
-
-        // // Пренасочване или съобщение за успех
-        // header('Location: /events?id=' . $eventId);
-        exit;
     }
 
     private function saveOrganizationExplanationAsComment($eventId, $organizationExplanation, $userId)

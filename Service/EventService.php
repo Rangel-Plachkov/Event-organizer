@@ -40,9 +40,9 @@ class EventService
     }
 
     public function createEventOrganization(
-        int $eventId,
-        int $organizerId = null,
-        string $organizerPaymentDetails = null,
+        $eventId,
+        $organizerId = null,
+        $organizerPaymentDetails = null,
         ?string $placeAddress = null,
         ?bool $isAnonymous = false,
         ?int $excludedUserId = null
@@ -62,10 +62,10 @@ class EventService
         );
 
         //add the organizer as the first particiapnt
-        $this -> includeParticipants($eventId, [$$organizerId]);
+        // $this -> includeParticipants($eventId, [$$organizerId]);
     }
 
-    public function includeParticipants(int $eventId, array $userIds): void
+    public function includeParticipants($eventId, array $userIds): void
     {
         // Validate event ID and participants
         if ($eventId <= 0) {
@@ -85,7 +85,7 @@ class EventService
         }
     }
 
-    public function makeEventAnonymous(int $eventId, bool $isAnonymous, int $excludedUserId): void
+    public function makeEventAnonymous($eventId, $isAnonymous, $excludedUserId): void
     {
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');

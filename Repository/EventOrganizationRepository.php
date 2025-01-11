@@ -9,9 +9,9 @@ class EventOrganizationRepository extends BaseRepository
 
 
     public function createEventOrganization(
-        int $eventId,
-        int $organizerId,
-        string $organizerPaymentDetails = null,
+        $eventId,
+        $organizerId,
+        $organizerPaymentDetails = null,
         ?string $placeAddress = null,
         ?bool $isAnonymous = false,
         ?int $excludedUserId = null
