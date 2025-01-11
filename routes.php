@@ -19,6 +19,13 @@ $routesRegistrator->map("GET", "[user@logout]", "logout", "logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
 $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 
+$routesRegistrator->map("GET", "[user@view]", "view", "view");
+$routesRegistrator->map("GET", "[user@view/{username}]", "user-view", "view");
+
+
+
+
+
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
 

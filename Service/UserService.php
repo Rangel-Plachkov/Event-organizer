@@ -121,31 +121,84 @@ class UserService
         }
     }
 
-    public function follow($followingId): void
+    public function getUserByUsername($username){
+        return $this->userRepository->findUserByUsername($username);
+    }
+
+
+
+
+    public function follow($usernameToFollow): void
     {
-        if ($_SESSION['userId'] === $followingId) {
+        $followerId = $_SESSION['userId'];
+        $followingUser = $this->userRepository->findUserByUsername($usernameToFollow);
+
+        if (!$followingUser) {
+            echo "User to follow does not exist.";
+            return;
+        }
+
+        $followingId = $followingUser['id'];
+
+        if ($followerId === $followingId) {
             echo "You cannot follow yourself.";
             return;
         }
 
-        if ($this->userRepository->isFollowing($_SESSION['userId'], $followingId)) {
+        if ($this->userRepository->isFollowing($followerId, $followingId)) {
             echo "You are already following this user.";
             return;
         }
 
-        $this->userRepository->followUser($_SESSION['userId'], $followingId);
-
+        $this->userRepository->followUser($followerId, $followingId);
+        echo "User followed successfully!";
     }
 
-    public function unfollow($followingId): void
+    public function unfollow($usernameToUnfollow): void
     {
-        if (!$this->userRepository->isFollowing($_SESSION['userId'], $followingId)) {
+        $followerId = $_SESSION['userId'];
+        $followingUser = $this->userRepository->findUserByUsername($usernameToUnfollow);
+
+        if (!$followingUser) {
+            echo "User to unfollow does not exist.";
+            return;
+        }
+
+        $followingId = $followingUser['id'];
+
+        if (!$this->userRepository->isFollowing($followerId, $followingId)) {
             echo "You are not following this user.";
             return;
         }
 
-        $this->userRepository->unfollowUser($_SESSION['userId'], $followingId);
+        $this->userRepository->unfollowUser($followerId, $followingId);
+        echo "User unfollowed successfully!";
     }
+
+    public function getFollowing($username): array
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return [];
+        }
+
+        return $this->userRepository->getFollowedUsers($user['id']);
+    }
+
+    public function getFollowers($username): array
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return [];
+        }
+
+        return $this->userRepository->getFollowers($user['id']);
+    }
+
 
 
 
@@ -177,21 +230,5 @@ class UserService
         $this->userRepository->unfollowUser($followerId, $followingId);
         echo "User unfollowed successfully!";
     }
-
-
-    public function getFollowing($userId): array
-    {
-        return $this->userRepository->getFollowedUsers($userId);
-    }
-
-
-    public function getFollowers($userId): array
-    {
-        return $this->userRepository->getFollowers($userId);
-    }
-
-
-
-
 
 }
