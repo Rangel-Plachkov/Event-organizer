@@ -94,7 +94,7 @@ class UserRepository extends BaseRepository
     }
 
     public function followUser($userId,$followedId){
-        $sql = "INSERT INTO follows (userId , followedId)
+        $sql = "INSERT INTO follows (user_id , followed_id)
                     VALUES (:userId , :followedId)";
         $params = [
             'userId' => $userId,
@@ -104,7 +104,7 @@ class UserRepository extends BaseRepository
     }
 
     public function unfollowUser($userId,$followedId){
-        $sql = "DELETE FROM follows WHERE userId = :userId AND followedId = :followedId";
+        $sql = "DELETE FROM follows WHERE user_id = :userId AND followed_id = :followedId";
         $params = [
             'userId' => $userId,
             'followedId' => $followedId
@@ -113,13 +113,13 @@ class UserRepository extends BaseRepository
     }
 
     public function getFollowedUsers($userId){
-        $sql = "SELECT * FROM follows WHERE userId = :userId";
+        $sql = "SELECT * FROM follows WHERE user_id = :userId";
         $params = ['userId' => $userId];
         return $this->fetchAll($sql, $params);
     }
 
     public function getFollowers($userId){
-        $sql = "SELECT * FROM follows WHERE followedId = :userId";
+        $sql = "SELECT * FROM follows WHERE followed_id = :userId";
         $params = ['userId' => $userId];
         return $this->fetchAll($sql, $params);
     }
@@ -127,13 +127,14 @@ class UserRepository extends BaseRepository
 
     public function isFollowing($userId, $followedId): bool
     {
-        $sql = "SELECT 1 FROM follows WHERE userId = :userId AND followedId = :followedId LIMIT 1";
+
+        $sql = "SELECT * FROM follows WHERE user_id = :userId AND followed_id = :followedId";
         $params = [
-            ':userId' => $userId,
-            ':followedId' => $followedId,
+            'userId' => $userId,
+            'followedId' => $followedId,
         ];
         $result = $this->fetchOne($sql, $params);
-        return $result !== null;
+        return !!$result;
     }
 
     public function query(){

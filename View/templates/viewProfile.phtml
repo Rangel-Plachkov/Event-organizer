@@ -4,13 +4,18 @@ $email = $FOUND_USERS['email'] ?? '';
 $firstName = $FOUND_USERS['firstname'] ?? '';
 $lastName = $FOUND_USERS['lastname'] ?? '';
 $birthdate = $FOUND_USERS['birthdate'] ?? '';
+$FOLLOW_STATE = $FOUND_USERS['isFollowed'] ?? false;
+
+//// Example logic to determine follow state
+//// Assume $isFollowing is true if the current user is following this profile, otherwise false
+//$isFollowing = isset($FOLLOW_STATE) && $FOLLOW_STATE === true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Profile</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
 </head>
 <body>
@@ -26,13 +31,26 @@ $birthdate = $FOUND_USERS['birthdate'] ?? '';
 </nav>
 <main class="dashboard-main">
     <h1>View Profile</h1>
-    <div class="profile-info"><p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+    <div class="profile-info">
+        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+        <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
         <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
         <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
         <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
     </div>
-
+    <div class="profile-actions">
+        <?php if ($FOLLOW_STATE): ?>
+            <form action="/unfollow" method="POST">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                <button type="submit" class="btn-unfollow">Unfollow</button>
+            </form>
+        <?php else: ?>
+            <form action="/follow" method="POST">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                <button type="submit" class="btn-follow">Follow</button>
+            </form>
+        <?php endif; ?>
+    </div>
 </main>
 </body>
 </html>

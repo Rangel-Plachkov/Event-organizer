@@ -20,11 +20,8 @@ $routesRegistrator->map("GET", "[user@logout]", "logout", "logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
 $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 $routesRegistrator->map("POST", "[user@searchUser]", "user-search", "user-search");
-
-
-
-
-
+$routesRegistrator->map("POST", "[user@follow]", "follow", "follow");
+$routesRegistrator->map("POST", "[user@unfollow]", "unfollow", "unfollow");
 
 
 
@@ -39,3 +36,4 @@ $routesRegistrator->map("POST", "[comment@createComment]", "create-comment-op", 
 $routesRegistrator->map("GET", "[error@error404]", "error/404", "pageNotFoundError");
 $routesRegistrator->map("GET", "[error@error500]", "error/500", "serverError");
 $routesRegistrator->map("GET", "[error@unhandledError]", "error/503", "unhandledError");
+$routesRegistrator->map("GET", "[error@error404user]", "error/404user", "userNotFoundError");

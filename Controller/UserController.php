@@ -97,9 +97,45 @@ class UserController extends AbstractController
     }
 
     public function searchUser(){
-        $searchedUser=$_POST['searchedUser'];
+        $this -> redirectToSearchResults($_POST['searchedUser']);
+    }
+
+    public function follow(){
+        $toFollow = $_POST['username'];
+
+        $session = SessionHandler::getInstance();
+        $this->userService -> populateUser($session->getSessionValue('userId'));
+
+        $this->userService->follow($toFollow);
+
+        $this->redirectToSearchResults($toFollow);
+    }
+    public function unfollow(){
+        $toUnfollow = $_POST['username'];
+
+        $session = SessionHandler::getInstance();
+        $this->userService -> populateUser($session->getSessionValue('userId'));
+
+        $this->userService->unfollow($toUnfollow);
+
+        $this->redirectToSearchResults($toUnfollow);
+
+    }
+
+    private function redirectToSearchResults($searchedUser){
         $FOUND_USERS=$this->userService->getUserByUsername($searchedUser);
-        require_once 'View/templates/viewProfile.phtml';
+        $session = SessionHandler::getInstance();
+        $this->userService -> populateUser($session->getSessionValue('userId'));
+
+        if($FOUND_USERS==null){
+            require_once 'View/templates/404user.html';
+        }elseif ($FOUND_USERS['id']==$session->getSessionValue('userId')){
+            require_once 'View/templates/myProfile.phtml';
+        }else {
+            $FOUND_USERS['isFollowed'] = $this->userService->isFollowing($FOUND_USERS['username']);
+
+            require_once 'View/templates/viewProfile.phtml';
+        }
     }
 
 }
