@@ -19,10 +19,8 @@ class EventDashboardController
 
     public function showEventDashboard()
     {
-        // $eventId = 46;
-        // $eventId = $id;
-        $eventId = $_GET['id'] ?? null;
-        dd($eventId);
+        $eventId = $_POST['eventId'] ?? null;
+        
         $userId = 1;
         // Fetch event information
         $event = $this->eventService->getEventById($eventId);
@@ -32,15 +30,11 @@ class EventDashboardController
 
         // Fetch participants
         $participantsIds = $this->eventService->getParticipants($eventId);
-        // $participantsIds = [];
-        // dd($participants);
-        // $participants = ["toni"];
         
         // Fetch comments
         $comments = $this->commentService->getCommentsByTarget($eventId, 'event');
 
         // Check if the user is a participant
-        // $isParticipant = in_array($userId, array_column($participants, 'user_id'));
         $isParticipant = in_array($userId, $participantsIds);
 
         // Fetch organization details if the event has an organization
