@@ -24,6 +24,8 @@ $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
 $routesRegistrator->map("POST", "[eventDashboard@showEventDashboard]", "event-dashboard", "event-dashboard-page");
+$routesRegistrator->map("POST", "[eventDashboard@addOrganization]", "add-organization-op", "add-ogranization-operation");
+
 
 //COMMENT ROUTES
 $routesRegistrator->map("POST", "[eventDashboard@createComment]", "create-comment-op", "createComment");

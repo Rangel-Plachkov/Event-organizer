@@ -93,4 +93,50 @@ class EventDashboardController
         exit;
     }
 
+    public function addOrganization()
+    {
+        try {
+            // Вземане на данните от POST заявката
+            $data = json_decode(file_get_contents('php://input'), true);
+    
+            $eventId = $data['eventId'] ?? null;
+            //TODO: със сессион
+            $organizerId = 1; // Тук трябва да се използва ID на потребителя от сесията (примерно)
+            $organizerPaymentDetails = $data['organizer_payment_details'] ?? null;
+            $placeAddress = $data['place_address'] ?? null;
+            $isAnonymous = $data['is_anonymous'] ?? false;
+            $excludedUserId = $data['excluded_user_id'] ?? null;
+    
+            // Валидация на входните данни
+            if (!$eventId || !$placeAddress) {
+                throw new \InvalidArgumentException('Event ID and place address are required.');
+            }
+    
+            // Създаване на организацията чрез EventService
+            $this->eventService->createEventOrganization(
+                $eventId,
+                $organizerId,
+                $organizerPaymentDetails,
+                $placeAddress,
+                $isAnonymous,
+                $excludedUserId
+            );
+    
+            // Връщане на успешен JSON отговор
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Organization added successfully!',
+            ]);
+        } catch (\Exception $e) {
+            // Връщане на грешка в JSON отговор
+            header('Content-Type: application/json', true, 400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+        exit;
+    }
+    
 }

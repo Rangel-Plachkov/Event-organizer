@@ -20,6 +20,34 @@
             <p><strong>Payment Info:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
         <?php else: ?>
             <button id="add-organization-btn">Add Organization</button>
+
+            <div id="organization-form-container" style="display: none;">
+                <h2>Add Organization</h2>
+                <form id="add-organization-form">
+                    <div>
+                        <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
+                        <label for="organizer_payment_details">Payment Details:</label>
+                        <input type="text" id="organizer_payment_details" name="organizer_payment_details" placeholder="Enter payment details">
+                    </div>
+                    <div>
+                        <label for="place_address">Place Address:</label>
+                        <input type="text" id="place_address" name="place_address" placeholder="Enter the place address"></>
+                    </div>
+                    <div>
+                        <label for="is_anonymous">Make Anonymous:</label>
+                        <input type="checkbox" id="is_anonymous" name="is_anonymous">
+                    </div>
+                    <div id="anonymous-users-container" style="display: none;">
+                        <label for="excluded_user">Excluded User:</label>
+                        <input type="text" id="excluded_user" name="excluded_user" placeholder="Enter username">
+                    </div>
+                    <button type="submit">Save Organization</button>
+                </form>
+            </div>
+
+            <div id="organization-feedback"></div>
+
+            
         <?php endif; ?>
 
         <h2>Participants</h2>
@@ -131,8 +159,82 @@
         });
     });
 }
+ //Adding organization
+    const addOrganizationBtn = document.getElementById("add-organization-btn");
+    const organizationFormContainer = document.getElementById("organization-form-container");
+    const isAnonymousCheckbox = document.getElementById("is_anonymous");
+    const anonymousUsersContainer = document.getElementById("anonymous-users-container");
 
+    // Показване/скриване на формуляра
+    addOrganizationBtn.addEventListener("click", () => {
+        if (organizationFormContainer.style.display === "none") {
+            organizationFormContainer.style.display = "block";
+            addOrganizationBtn.style.display = "none";
+        } else {
+            organizationFormContainer.style.display = "none";
+            addOrganizationBtn.style.display = "block";
+        }
+    });
+
+    // Показване/скриване на полето за изключени потребители
+    isAnonymousCheckbox.addEventListener("change", () => {
+        if (isAnonymousCheckbox.checked) {
+            anonymousUsersContainer.style.display = "block";
+        } else {
+            anonymousUsersContainer.style.display = "none";
+        }
+    });
+        
+    // Обработка на формуляра за добавяне на организация
+    const addOrganizationForm = document.getElementById("add-organization-form");
+    addOrganizationForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Спиране на презареждането на страницата
+
+        // Извличане на данни ръчно от полетата във формуляра
+        const eventId = document.getElementById("event_id").value; // Задайте правилния ID елемент
+        const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
+        const placeAddress = document.getElementById("place_address").value;
+        const isAnonymous = document.getElementById("is_anonymous").value === "true";
+        const excludedUserId = document.getElementById("excluded_user_id")?.value || null;
+
+        // Подготвяне на обекта с данни
+        const data = {
+            eventId: eventId,
+            organizer_payment_details: organizerPaymentDetails,
+            place_address: placeAddress,
+            is_anonymous: isAnonymous,
+            excluded_user_id: excludedUserId,
+        };
+
+        // Изпращане на заявката чрез fetch
+        fetch("/add-organization-op", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const feedback = document.getElementById("organization-feedback");
+                if (data.status === "success") {
+                    feedback.textContent = "Organization added successfully!";
+                    feedback.style.color = "green";
+                    // Можете да добавите логика за показване на организацията в интерфейса
+                } else {
+                    feedback.textContent = `Failed to add organization: ${data.message}`;
+                    feedback.style.color = "red";
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                const feedback = document.getElementById("organization-feedback");
+                feedback.textContent = "An error occurred while adding the organization.";
+                feedback.style.color = "red";
+            });
+    });
 });
+
 </script>
 </body>
 </html>
