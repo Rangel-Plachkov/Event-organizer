@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="View/css/event-dashboard.css">
 </head>
 <body>
+
+<form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
+    <input type="hidden" name="eventId" value="">
+</form>
+
 <div class="dashboard">
     <div class="left-panel">
         <h1>Event Details</h1>
@@ -16,8 +21,20 @@
 
         <?php if ($event->getHasOrganization()): ?>
             <h2>Organization Details</h2>
-            <p><strong>Place:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
-            <p><strong>Payment Info:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
+            <p><strong>Location:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
+            <p><strong> Info for sending money:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
+
+            <h2>Participants</h2>
+            <ul>
+                <?php foreach ($participantsIds as $participant): ?>
+                    <li>User ID: <?= htmlspecialchars($participant) ?></li>
+                <?php endforeach; ?>
+            </ul>
+
+            <?php if (!$isParticipant): ?>
+                <button id="join-event-btn">Join Event</button>
+            <?php endif; ?>
+
         <?php else: ?>
             <button id="add-organization-btn">Add Organization</button>
 
@@ -50,16 +67,6 @@
             
         <?php endif; ?>
 
-        <h2>Participants</h2>
-        <ul>
-            <?php foreach ($participantsIds as $participant): ?>
-                <li>User ID: <?= htmlspecialchars($participant) ?></li>
-            <?php endforeach; ?>
-        </ul>
-
-        <?php if (!$isParticipant): ?>
-            <button id="join-event-btn">Join Event</button>
-        <?php endif; ?>
     </div>
 
     <div class="right-panel">
@@ -75,6 +82,7 @@
         <?php if ($isParticipant): ?>
             <!-- <form action="/create-comment-op" method="post"> -->
             <form id="comment-form">
+                <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
                 <textarea id="new-comment" name="comment" placeholder="Add a comment..." required></textarea>
                 <button type="submit">Submit</button>
             </form>
@@ -114,6 +122,7 @@
         event.preventDefault(); // Спира стандартното поведение на формата
 
         const comment = document.getElementById('new-comment').value;
+        const eventId = document.getElementById('eventId').value;
         const commentsContainer = document.getElementById('comments');
 
         if (!commentsContainer) {
@@ -126,6 +135,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                eventId: eventId,
                 comment: comment,
             }),
         })
@@ -191,13 +201,13 @@
         e.preventDefault(); // Спиране на презареждането на страницата
 
         // Извличане на данни ръчно от полетата във формуляра
-        const eventId = document.getElementById("event_id").value; // Задайте правилния ID елемент
+        const eventId = document.getElementById("eventId").value; // Задайте правилния ID елемент
         const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
         const placeAddress = document.getElementById("place_address").value;
-        const isAnonymous = document.getElementById("is_anonymous").value === "true";
-        const excludedUserId = document.getElementById("excluded_user_id")?.value || null;
+        const isAnonymous = document.getElementById("is_anonymous").checked;
+        const excludedUserId = document.getElementById("excluded_user")?.value || null;
 
-        // Подготвяне на обекта с данни
+
         const data = {
             eventId: eventId,
             organizer_payment_details: organizerPaymentDetails,
@@ -220,7 +230,13 @@
                 if (data.status === "success") {
                     feedback.textContent = "Organization added successfully!";
                     feedback.style.color = "green";
-                    // Можете да добавите логика за показване на организацията в интерфейса
+
+                    //Reaload the page using the reload form
+                    const reloadForm = document.getElementById("reload-form");
+                    reloadForm.querySelector('input[name="eventId"]').value = eventId;
+
+                //  send the post querry to refresh the page
+                reloadForm.submit();
                 } else {
                     feedback.textContent = `Failed to add organization: ${data.message}`;
                     feedback.style.color = "red";

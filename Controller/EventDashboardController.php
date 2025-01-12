@@ -48,13 +48,16 @@ class EventDashboardController
         
         // require_once 'View/templates/event_dashboard.phtml';
     }
+
     public function createComment()
     {
         try {
             $data = json_decode(file_get_contents('php://input'), true);
 
             $commentContent = trim($data['comment'] ?? '');
-            $targetId = 46; // Текущото ID на събитието (примерно)
+            $eventId = trim($data['eventId'] ?? '');
+            // $eventId = $_POST['eventId'] ?? null;
+            $targetId = $eventId;
             $targetType = 'event';
 
             $userId = 1; // Тук трябва да бъде ID на потребителя от сесията (или статично за тест)

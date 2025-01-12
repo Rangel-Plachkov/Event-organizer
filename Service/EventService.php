@@ -63,6 +63,8 @@ class EventService
 
         //add the organizer as the first particiapnt
         $this -> includeParticipants($eventId, [$organizerId]);
+        
+        $this -> setHasOrganization($eventId, true);
     }
 
     public function includeParticipants($eventId, array $userIds): void
@@ -147,6 +149,17 @@ class EventService
     public function getAllEvents(): array
     {
         return $this->eventRepository->getAllEvents();
+    }
+    
+    public function setHasOrganization(int $eventId, bool $hasOrganization): void
+    {
+        // Проверка на валидността на ID
+        if ($eventId <= 0) {
+            throw new \InvalidArgumentException('Invalid event ID.');
+        }
+
+        // Актуализация на полето в базата данни
+        $this->eventRepository->updateHasOrganization($eventId, $hasOrganization);
     }
 
 }
