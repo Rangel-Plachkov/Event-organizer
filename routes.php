@@ -30,7 +30,8 @@ $routesRegistrator->map("POST", "[eventDashboard@addOrganization]", "add-organiz
 $routesRegistrator->map("GET", "[giftVoting@showGiftPoll]", "gift-poll", "gift-poll-page");
 $routesRegistrator->map("POST", "[giftVoting@addGift]", "add-gift", "add-gift-op");
 $routesRegistrator->map("POST", "[giftVoting@voteForGift]", "vote-gift", "vote-gift-op");
-$routesRegistrator->map("POST", "[giftVoting@closePoll]", "close-poll", "close-poll-op");
+$routesRegistrator->map("POST", "[giftVoting@endPoll]", "end-poll", "end-poll-op");
+$routesRegistrator->map("POST", "[giftVoting@createPoll]", "create-poll", "create-poll-op");
 
 
 //COMMENT ROUTES

@@ -19,11 +19,11 @@ class VoteRepository extends BaseRepository
     public function getVotesByEvent($eventId)
     {
         $sql = "
-            SELECT g.id as gift_id, g.name, g.price, COUNT(v.id) as vote_count
+            SELECT g.id as gift_id, g.gift_name, g.gift_price, COUNT(v.id) as vote_count
             FROM gifts g
             LEFT JOIN votes v ON g.id = v.gift_id
             WHERE g.event_id = :event_id
-            GROUP BY g.id, g.name, g.price
+            GROUP BY g.id, g.gift_name, g.gift_price
             ORDER BY vote_count DESC
         ";
         $params = [':event_id' => $eventId];
@@ -44,6 +44,7 @@ class VoteRepository extends BaseRepository
         return $result['count'] > 0;
     }
 
+    // Get the user's vote for an event
     public function getUserVoteByEvent($eventId, $userId)
     {
         $sql = "SELECT g.id AS gift_id, g.gift_name, g.gift_price
@@ -56,18 +57,31 @@ class VoteRepository extends BaseRepository
             ':user_id' => $userId,
         ];
 
-        // Проверете дали имате метод fetchOne() или подобен
-        $result = $this->fetchOne($sql, $params); // Заменете fetch с fetchOne или аналогичен метод
+        $result = $this->fetchOne($sql, $params);
 
         if ($result) {
             return [
                 'gift_id' => $result['gift_id'],
-                'name' => $result['name'],
-                'price' => $result['price'],
+                'gift_name' => $result['gift_name'],
+                'gift_price' => $result['gift_price'],
             ];
         }
 
-        return null; // Ако потребителят не е гласувал
+        return null; // If the user hasn't voted
+    }
+    public function updateUserVote($giftId, $userId)
+    {
+        // Delete the prev vote
+        $sqlDelete = "DELETE FROM votes WHERE user_id = :user_id";
+        $this->executeQuery($sqlDelete, [':user_id' => $userId]);
+
+        // add new vote
+        $sqlInsert = "INSERT INTO votes (gift_id, user_id) VALUES (:gift_id, :user_id)";
+        $params = [
+            ':gift_id' => $giftId,
+            ':user_id' => $userId
+        ];
+        $this->executeQuery($sqlInsert, $params);
     }
 
 }

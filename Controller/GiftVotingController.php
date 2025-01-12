@@ -19,13 +19,17 @@ class GiftVotingController
         //Fix when integrating into a page
         
         // $eventId = $_POST['eventId'] ?? null;
-        $eventId = 46;
+        $eventId = 1;
+        $hasPoll = $this->giftVotingService->hasPoll($eventId);
+        $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
+        $winningGift = $this->giftVotingService->getWinningGift($eventId);
 
         if (!$eventId) {
             throw new \InvalidArgumentException('Event ID is required.');
         }
 
         $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
+
         $userId = 1; // Текущият потребител (взет от сесия)
 
         // Проверка дали потребителят вече е гласувал
@@ -37,41 +41,120 @@ class GiftVotingController
     // Добавя нов подарък
     public function addGift()
     {
-        // $eventId = $_POST['eventId'];
-        $eventId = 46;
-        $giftName = trim($_POST['gift_name']);
-        $giftPrice = trim($_POST['gift_price']);
+        header('Content-Type: application/json');
+        try {
 
-        if (empty($giftName) || empty($giftPrice)) {
-            throw new \InvalidArgumentException('Gift name and price are required.');
+            $eventId = 1; // Тестово ID
+            $giftName = trim($_POST['gift_name'] ?? '');
+            $giftPrice = trim($_POST['gift_price'] ?? '');
+    
+            if (empty($giftName) || empty($giftPrice)) {
+                throw new \InvalidArgumentException('Gift name and price are required.');
+            }
+    
+            $newGiftId = $this->giftVotingService->addGift($eventId, $giftName, $giftPrice);
+    
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Gift added successfully!',
+                'gift' => [
+                    'id' => $newGiftId,
+                    'gift_name' => $giftName,
+                    'gift_price' => $giftPrice,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
-
-        $this->giftVotingService->addGift($eventId, $giftName, $giftPrice);
-
-        echo json_encode(['status' => 'success', 'message' => 'Gift added successfully']);
         exit;
     }
-
-    // Гласува за подарък
+    
     public function voteForGift()
     {
-        $giftId = $_POST['giftId'];
-        $userId = 1; // Взет от сесия
-
-        $this->giftVotingService->voteForGift($giftId, $userId);
-
-        echo json_encode(['status' => 'success', 'message' => 'Vote cast successfully']);
+        // Вземане на JSON данните
+        $data = json_decode(file_get_contents('php://input'), true);
+    
+        if (!isset($data['giftId']) || empty($data['giftId'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid gift ID.']);
+            exit;
+        }
+    
+        $giftId = (int)$data['giftId'];
+        //Todo: change for id with session
+        $userId = 1; // Примерен ID, вземи го от сесията
+    
+        try {
+            $this->giftVotingService->changeVote($giftId, $userId);
+            echo json_encode(['status' => 'success', 'message' => 'Vote cast successfully']);
+        } catch (\Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
         exit;
     }
+     
 
-    // Затваря гласуването и показва победителя
-    public function closePoll()
+    public function createPoll()
     {
-        $eventId = $_POST['eventId'];
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        $winningGift = $this->giftVotingService->getWinningGift($eventId);
+        //TODO: temp remove later
+        $data['eventId'] = 1;
 
-        echo json_encode(['status' => 'success', 'winningGift' => $winningGift]);
+        if (empty($data['eventId']) || empty($data['duration'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Event ID and duration are required.']);
+            exit;
+        }
+
+        try {
+            $eventId = $data['eventId'];
+            $duration = $data['duration'];
+
+            $this->giftVotingService->createPoll($eventId, $duration);
+
+            echo json_encode(['status' => 'success', 'message' => 'Poll created successfully.']);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
         exit;
     }
+
+    public function endPoll()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        $eventId = 1; //TODO: TMP, to remove
+    
+        // if (empty($data['eventId'])) {
+        //     echo json_encode(['status' => 'error', 'message' => 'Event ID is required.']);
+        //     exit;
+        // }
+    
+        try {
+            // $eventId = $data['eventId'];
+    
+            // Приключване на poll-a
+            $this->giftVotingService->endPoll($eventId);
+    
+            // Вземане на победителя
+            $winner = $this->giftVotingService->getWinningGift($eventId);
+    
+            if ($winner) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Poll ended successfully.',
+                    'winner' => $winner
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Poll ended successfully, but no votes were cast.',
+                    'winner' => null
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
+    
 }
