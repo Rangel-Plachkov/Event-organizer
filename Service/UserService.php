@@ -190,19 +190,7 @@ class UserService
     }
 
 
-    public function getFollowing($username): array
-    {
-        $user = $this->userRepository->findUserByUsername($username);
-
-        if (!$user) {
-            echo "User does not exist.";
-            return [];
-        }
-        
-        return $this->userRepository->getFollowedUsers($user['id']);
-    }
-
-    public function getFollowers($username): array
+    public function getFollowingUsernames($username): array
     {
         $user = $this->userRepository->findUserByUsername($username);
 
@@ -211,8 +199,53 @@ class UserService
             return [];
         }
 
-        return $this->userRepository->getFollowers($user['id']);
+        $resultRaw = $this->userRepository->getFollowedUsers($user['id']);
+
+        $usernames = [];
+
+        foreach ($resultRaw as $followedUser) {
+            $user = $this->userRepository->findUserById($followedUser['followed_id']);
+            $usernames[] = $user['username'];
+        }
+
+        return $usernames;
     }
+
+
+    public function getFollowersUsernames($username): array
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return [];
+        }
+        $resultRaw = $this->userRepository->getFollowers($user['id']);
+
+        $usernames = [];
+
+        foreach ($resultRaw as $follower) {
+            $user = $this->userRepository->findUserById($follower['user_id']);
+            $usernames[] = $user['username'];
+        }
+
+        return $usernames;
+    }
+
+
+    public function getFollowersCount($username): int
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return 0;
+        }
+
+        $followers = $this->userRepository->getFollowers($user['id']);
+        return count($followers);
+    }
+
 
 
 

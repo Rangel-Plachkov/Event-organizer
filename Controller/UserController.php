@@ -130,10 +130,13 @@ class UserController extends AbstractController
         if($FOUND_USERS==null){
             require_once 'View/templates/404user.html';
         }elseif ($FOUND_USERS['id']==$session->getSessionValue('userId')){
+            $_SESSION['followers'] = $this->userService->getFollowersUsernames($FOUND_USERS['username']);
+            $_SESSION['following'] = $this->userService->getFollowingUsernames($FOUND_USERS['username']);
             require_once 'View/templates/myProfile.phtml';
         }else {
             $FOUND_USERS['isFollowed'] = $this->userService->isFollowing($FOUND_USERS['username']);
-
+            $FOUND_USERS['followers'] = $this->userService->getFollowersUsernames($FOUND_USERS['username']);
+            $FOUND_USERS['following'] = $this->userService->getFollowingUsernames($FOUND_USERS['username']);
             require_once 'View/templates/viewProfile.phtml';
         }
     }

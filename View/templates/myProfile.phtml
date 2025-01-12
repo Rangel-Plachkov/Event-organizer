@@ -4,6 +4,14 @@ $email = $_SESSION['email'] ?? '';
 $firstName = $_SESSION['firstname'] ?? '';
 $lastName = $_SESSION['lastname'] ?? '';
 $birthdate = $_SESSION['birthdate'] ?? '';
+
+
+$followers = $_SESSION['followers'] ?? [];
+$followersCount = count($followers);
+
+$following = $_SESSION['following'] ?? [];
+$followingCount = count($following);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +42,55 @@ $birthdate = $_SESSION['birthdate'] ?? '';
         <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
 
     </div>
+    <div class="followers-section">
+        <h2>Followers  #<?php echo $followersCount; ?></h2>
+
+        <?php if (!empty($followers)): ?>
+            <ul>
+                <?php foreach ($followers as $follower): ?>
+                    <li>
+                        <form action="/user-search" method="post" style="display: inline;">
+                            <button
+                                    type="submit"
+                                    name="searchedUser"
+                                    value="<?php echo htmlspecialchars($follower); ?>"
+                                    style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                                <?php echo htmlspecialchars($follower); ?>
+                            </button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No followers.</p>
+        <?php endif; ?>
+    </div>
+
+    <div class="following-section">
+        <h2>Following #<?php echo $followingCount; ?></h2>
+
+        <?php if (!empty($following)): ?>
+            <ul>
+                <?php foreach ($following as $followedUser): ?>
+                    <li>
+                        <form action="/user-search" method="post" style="display: inline;">
+                            <button
+                                    type="submit"
+                                    name="searchedUser"
+                                    value="<?php echo htmlspecialchars($followedUser); ?>"
+                                    style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                                <?php echo htmlspecialchars($followedUser); ?>
+                            </button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Not following anyone.</p>
+        <?php endif; ?>
+    </div>
+
 </main>
+
 </body>
 </html>

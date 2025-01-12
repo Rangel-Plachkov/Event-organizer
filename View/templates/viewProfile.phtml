@@ -5,6 +5,10 @@ $firstName = $FOUND_USERS['firstname'] ?? '';
 $lastName = $FOUND_USERS['lastname'] ?? '';
 $birthdate = $FOUND_USERS['birthdate'] ?? '';
 $FOLLOW_STATE = $FOUND_USERS['isFollowed'] ?? false;
+
+
+$followers = $FOUND_USERS['followers'] ?? [];
+$followersCount = count($followers);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +49,29 @@ $FOLLOW_STATE = $FOUND_USERS['isFollowed'] ?? false;
                 <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
                 <button type="submit" class="btn-follow">Follow</button>
             </form>
+        <?php endif; ?>
+    </div>
+    <div class="followers-section">
+        <h2>Followers  #<?php echo $followersCount; ?></h2>
+
+        <?php if (!empty($followers)): ?>
+            <ul>
+                <?php foreach ($followers as $follower): ?>
+                    <li>
+                        <form action="/user-search" method="post" style="display: inline;">
+                            <button
+                                    type="submit"
+                                    name="searchedUser"
+                                    value="<?php echo htmlspecialchars($follower); ?>"
+                                    style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                                <?php echo htmlspecialchars($follower); ?>
+                            </button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No followers.</p>
         <?php endif; ?>
     </div>
 </main>
