@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Poll</title>
+    <link rel="stylesheet" href="View/css/gift-poll.css"> <!-- Добавете CSS файл, ако имате -->
+</head>
+<body>
+    <div class="gift-poll">
+        <h1>Gift Poll</h1>
+
+        <!-- Form for adding gifts -->
+        <div class="add-gift">
+            <h2>Add a Gift</h2>
+            <form id="add-gift-form">
+                <input type="hidden" name="eventId" id="eventId" value="<?= $eventId ?>">
+                <label for="gift_name">Gift Name:</label>
+                <input type="text" id="gift_name" name="gift_name" required>
+                <label for="gift_price">Gift Price:</label>
+                <input type="number" id="gift_price" name="gift_price" step="0.01" required>
+                <button type="submit">Add Gift</button>
+            </form>
+            <div id="add-gift-feedback"></div>
+        </div>
+
+        <!-- List of gifts -->
+        <div class="gifts">
+            <h2>Vote for Your Favorite Gift</h2>
+            <ul id="gift-list">
+                <?php foreach ($gifts as $gift): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($gift['gift_name']) ?>:</strong> $<?= htmlspecialchars($gift['gift_price']) ?>
+                        <button 
+                            data-gift-id="<?= $gift['id'] ?>" 
+                            class="vote-button"
+                            <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'disabled' : '' ?>>
+                            <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'Voted' : 'Vote' ?>
+                        </button>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <!-- Winner section -->
+        <div class="winner-section" style="display: none;">
+            <h2>Winning Gift</h2>
+            <p id="winning-gift-message"></p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const addGiftForm = document.getElementById("add-gift-form");
+        const giftList = document.getElementById("gift-list");
+        const feedback = document.getElementById("add-gift-feedback");
+
+
+        // Add gift
+        addGiftForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const formData = new FormData(addGiftForm);
+
+            fetch("/add-gift", {
+                method: "POST",
+                body: formData,
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const feedback = document.getElementById("gift-feedback");
+                feedback.textContent = data.message;
+                feedback.style.color = data.status === "success" ? "green" : "red";
+
+                if (data.status === "success") {
+                    addGiftForm.reset(); // Нулиране на формуляра след успешно добавяне
+                }
+            })
+            .catch((error) => {
+                console.error("Error occurred:", error);
+                const feedback = document.getElementById("gift-feedback");
+                feedback.textContent = "An error occurred while adding the gift.";
+                feedback.style.color = "red";
+            });
+        });
+
+        // Vote for a gift
+        giftList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("vote-button")) {
+                const giftId = e.target.dataset.giftId;
+
+                fetch("/vote-gift", {
+                    method: "POST",
+                    body: JSON.stringify({ giftId }),
+                    headers: { "Content-Type": "application/json" },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        location.reload(); // Reload to show updated votes
+                    }
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>
