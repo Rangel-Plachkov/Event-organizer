@@ -10,6 +10,8 @@ $routesRegistrator->map("GET", "[page@signUp]", "sign-up", "signUpPage");
 $routesRegistrator->map("GET", "[page@signIn]", "sign-in", "signInPage");
 $routesRegistrator->map("GET", "[page@edit]", "edit", "editPage");
 $routesRegistrator->map("GET", "[page@createEvent]", "create-event", "create_event-page");
+$routesRegistrator->map("GET", "[page@listEvents]", "event-list", "create_event-page");
+// $routesRegistrator->map("GET", "[page@eventDashboard]", "event-dashboard", "event-dashboard-page");
 
 
 //USER ROUTES
@@ -21,9 +23,10 @@ $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
+$routesRegistrator->map("GET", "[eventDashboard@showEventDashboard]", "event-dashboard/{id}", "event-dashboard-page");
 
 //COMMENT ROUTES
-$routesRegistrator->map("POST", "[comment@createComment]", "create-comment-op", "createComment");
+$routesRegistrator->map("POST", "[eventDashboard@createComment]", "create-comment-op", "createComment");
 
 
 //ERROR PAGES ROUTES

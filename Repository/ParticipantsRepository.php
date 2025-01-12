@@ -19,4 +19,20 @@ class ParticipantsRepository extends BaseRepository
 
         $this->executeQuery($sql, $params);
     }
+    public function getParticipants(int $eventId): array
+    {
+        $sql = "SELECT user_id FROM participants WHERE event_id = :event_id";
+    
+        $params = [':event_id' => $eventId];
+    
+        $rows = $this->fetchAll($sql, $params);
+    
+        $participants = [];
+        foreach ($rows as $row) {
+            $participants[] = $row['user_id'];
+        }
+    
+        return $participants;
+    }
+    
 }

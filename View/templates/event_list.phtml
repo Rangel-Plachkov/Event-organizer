@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event List</title>
+    <link rel="stylesheet" href="View/css/event_list.css">
+</head>
+<body>
+<h1>All Events</h1>
+<div class="event-list">
+    <?php if (empty($events)): ?>
+        <p>No events found.</p>
+    <?php else: ?>
+        <ul>
+            <?php foreach ($events as $event): ?>
+                <li>
+                    <strong><?= htmlspecialchars($event->getTitle()) ?></strong>
+                    <span><?= htmlspecialchars($event->getEventDate()) ?></span>
+                    <!-- <a href="/event-dashboard?id=<?= $event->getId() ?>">View Details</a> -->
+                    <form action="/event-dashboard" method="get" class="view-button-form">
+                        <input type="hidden" name="id" value="<?= $event->getId() ?>">
+                        <button type="submit" class="view-button">View</button>
+                    </form>
+                    
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>
+</body>
+</html>

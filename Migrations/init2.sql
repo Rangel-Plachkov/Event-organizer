@@ -56,3 +56,5 @@ CREATE TABLE `participants` (
   FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- TODO: should comments delete when the event is deleted?

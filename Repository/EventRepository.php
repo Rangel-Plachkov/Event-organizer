@@ -43,5 +43,45 @@ class EventRepository extends BaseRepository
 
         $this->executeQuery($sql, $params);
     }
+    public function getEventById(int $eventId): ?Event
+    {
+    $sql = "SELECT * FROM events WHERE id = :id";
+    $params = [':id' => $eventId];
+
+    $row = $this->fetchOne($sql, $params);
+
+    if ($row) {
+        return new Event(
+            $row['id'],
+            $row['title'],
+            $row['event_date'],
+            $row['type'],
+            $row['visibility'],
+            (bool)$row['has_organization']
+        );
+    }
+
+    return null; // Return null if no event found
+    }
+
+    public function getAllEvents()
+    {
+        $sql = "SELECT * FROM events ORDER BY event_date ASC"; // Подреждане по дата на събитието
+        $rows = $this->fetchAll($sql);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = new Event(
+                $row['id'],
+                $row['title'],
+                $row['event_date'],
+                $row['type'],
+                $row['visibility'],
+                $row['has_organization']
+            );
+        }
+
+        return $events;
+    }
 
 }

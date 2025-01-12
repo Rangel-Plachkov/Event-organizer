@@ -62,7 +62,7 @@ class EventService
         );
 
         //add the organizer as the first particiapnt
-        // $this -> includeParticipants($eventId, [$$organizerId]);
+        $this -> includeParticipants($eventId, [$organizerId]);
     }
 
     public function includeParticipants($eventId, array $userIds): void
@@ -75,7 +75,6 @@ class EventService
         if (empty($userIds)) {
             throw new \InvalidArgumentException('Participants list cannot be empty.');
         }
-
         foreach ($userIds as $userId) {
             if ($userId <= 0) {
                 throw new \InvalidArgumentException('Invalid user ID: ' . $userId);
@@ -109,5 +108,45 @@ class EventService
         $this->eventOrganizationRepository->updatePlaceAddress($eventId, $placeAddress);
     }
 
+    public function getEventById(int $eventId): ?Event
+    {
+        //simulating function
+        //
+        // Примерен обект за Event
+        // $exampleEvent = new Event(
+        //     1,                      // ID на събитието
+        //     'Company Meeting',      // Заглавие на събитието
+        //     '2025-03-15',           // Дата на събитието
+        //     'Meeting',              // Тип на събитието (например "Meeting")
+        //     'private',              // Видимост на събитието (например "private")
+        //     true                    // Флаг за организация (например true, ако има организация)
+        // );
+        // return $exampleEvent;
+        return $this->eventRepository->getEventById($eventId);
+    }
+
+    public function getParticipants(int $eventId): array
+    {
+        if ($eventId <= 0) {
+            throw new \InvalidArgumentException('Invalid event ID.');
+        }
+        //simulating function
+        return $this->participantsRepository->getParticipants($eventId);
+    }
+
+    public function getEventOrganization(int $eventId): ?array
+    {
+        if ($eventId <= 0) {
+            throw new \InvalidArgumentException('Invalid event ID.');
+        }
+
+        //simulating function
+        // return [];
+        return $this->eventOrganizationRepository->getEventOrganization($eventId);
+    }
+    public function getAllEvents(): array
+    {
+        return $this->eventRepository->getAllEvents();
+    }
 
 }

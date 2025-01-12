@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Dashboard</title>
+    <link rel="stylesheet" href="View/css/event-dashboard.css">
+</head>
+<body>
+<div class="dashboard">
+    <div class="left-panel">
+        <h1>Event Details</h1>
+        <p><strong>Title:</strong> <?= htmlspecialchars($event->getTitle()) ?></p>
+        <p><strong>Date:</strong> <?= htmlspecialchars($event->getEventDate()) ?></p>
+        <p><strong>Type:</strong> <?= htmlspecialchars($event->getType()) ?></p>
+
+        <?php if ($event->getHasOrganization()): ?>
+            <h2>Organization Details</h2>
+            <p><strong>Place:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
+            <p><strong>Payment Info:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
+        <?php else: ?>
+            <button id="add-organization-btn">Add Organization</button>
+        <?php endif; ?>
+
+        <h2>Participants</h2>
+        <ul>
+            <?php foreach ($participantsIds as $participant): ?>
+                <li>User ID: <?= htmlspecialchars($participant) ?></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php if (!$isParticipant): ?>
+            <button id="join-event-btn">Join Event</button>
+        <?php endif; ?>
+    </div>
+
+    <div class="right-panel">
+        <h2>Event Comments</h2>
+        <div id="comments">
+            <?php foreach ($comments as $comment): ?>
+                <div class="comment">
+                    <p><strong>User <?= htmlspecialchars($comment->getUserId()) ?>:</strong></p>
+                    <p><?= htmlspecialchars($comment->getContent()) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php if ($isParticipant): ?>
+            <!-- <form action="/create-comment-op" method="post"> -->
+            <form id="comment-form">
+                <textarea id="new-comment" name="comment" placeholder="Add a comment..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="comment-feedback"></div>
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<!-- <script src="scripts/dashboard.js"></script> -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const joinButton = document.getElementById('join-event-btn');
+    const commentForm = document.getElementById('comment-form');
+    const commentsContainer = document.getElementById('comments');
+
+    // Join Event
+    if (joinButton) {
+        joinButton.addEventListener('click', async () => {
+            const response = await fetch('/join-event', {
+                method: 'POST',
+                body: JSON.stringify({ eventId: EVENT_ID, userId: USER_ID }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to join the event.');
+            }
+        });
+    }
+
+    // Submit comment
+    if (commentForm) {
+    commentForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Спира стандартното поведение на формата
+
+        const comment = document.getElementById('new-comment').value;
+        const commentsContainer = document.getElementById('comments');
+
+        if (!commentsContainer) {
+            console.error('Comments container not found!');
+            return;
+        }
+
+        // AJAX заявка за добавяне на коментар
+        fetch('/create-comment-op', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                comment: comment,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('comment-feedback').textContent = 'Comment added successfully.';
+                document.getElementById('comment-feedback').style.color = 'green';
+                document.getElementById('new-comment').value = ''; // Clear the text field for the next comment
+
+                // Add the new commnt to the html
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('comment');
+                commentElement.innerHTML = `<p><strong>User ${data.userId}:</strong></p><p>${data.comment}</p>`;
+                commentsContainer.appendChild(commentElement);
+            } else {
+                document.getElementById('comment-feedback').textContent = 'Failed to add comment.';
+                document.getElementById('comment-feedback').style.color = 'red';
+                setTimeout(() => {
+                            feedbackElement.style.display = 'none';
+                        }, 3000); // 3000 miliseconds = 3 sec
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('comment-feedback').textContent = 'An error occurred.';
+            document.getElementById('comment-feedback').style.color = 'red';
+            setTimeout(() => {
+                        feedbackElement.style.display = 'none';
+                    }, 3000); // 3000 miliseconds = 3 sec
+        });
+    });
+}
+
+});
+</script>
+</body>
+</html>

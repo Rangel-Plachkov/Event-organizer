@@ -62,4 +62,16 @@ class EventOrganizationRepository extends BaseRepository
 
         $this->executeQuery($sql, $params);
     }
+
+    public function getEventOrganization(int $eventId): ?array
+    {
+        $sql = "SELECT * FROM event_organization WHERE event_id = :event_id";
+    
+        $params = [':event_id' => $eventId];
+    
+        $result = $this->fetchOne($sql, $params);
+    
+        return $result ?: null;
+    }
+    
 }
