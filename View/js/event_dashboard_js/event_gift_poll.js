@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (createPollBtn) {
         createPollBtn.addEventListener("click", () => {
             const duration = 10;
+            const eventId = document.getElementById('eventId').value;
 
             fetch("/create-poll", {
                 method: "POST",
@@ -135,6 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!confirm("Are you sure you want to end the poll?")) {
                 return;
             }
+
+            const eventId = document.getElementById('eventId').value;
 
             fetch("/end-poll", {
                 method: "POST",

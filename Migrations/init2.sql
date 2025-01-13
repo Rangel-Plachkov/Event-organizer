@@ -57,8 +57,6 @@ CREATE TABLE `participants` (
   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- TODO: should comments delete when the event is deleted?
--- test the change
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -68,12 +66,11 @@ CREATE TABLE `comments` (
   `content` TEXT NOT NULL COMMENT 'Текст на коментара',
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Време на създаване',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
-  FOREIGN KEY (`target_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`target_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- Таблица за предложения подаръци
 CREATE TABLE gifts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
@@ -83,7 +80,6 @@ CREATE TABLE gifts (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Таблица за гласове
 CREATE TABLE votes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     gift_id INT NOT NULL,
