@@ -8,10 +8,6 @@ class ErrorController extends AbstractController
     public function error404(){
         require_once 'View/templates/404.html';
     }
-    public function error404user(){
-
-    }
-
     public function error500()
     {
         require_once 'View/templates/500.html';
@@ -21,5 +17,10 @@ class ErrorController extends AbstractController
     public function unhandledError()
     {
         require_once 'View/unhandledError.html';
+    }
+
+    public function error404user()
+    {
+        require_once 'View/templates/404user.html';
     }
 }

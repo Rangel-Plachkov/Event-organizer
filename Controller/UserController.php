@@ -128,7 +128,7 @@ class UserController extends AbstractController
         $this->userService -> populateUser($session->getSessionValue('userId'));
 
         if($FOUND_USERS==null){
-            require_once 'View/templates/404user.html';
+            header("Location:". Url::generateUrl('indexPage'));
         }elseif ($FOUND_USERS['id']==$session->getSessionValue('userId')){
             $_SESSION['followers'] = $this->userService->getFollowersUsernames($FOUND_USERS['username']);
             $_SESSION['following'] = $this->userService->getFollowingUsernames($FOUND_USERS['username']);
