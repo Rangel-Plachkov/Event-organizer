@@ -13,13 +13,12 @@ class GiftVotingController
         $this->giftVotingService = new GiftVotingService();
     }
 
-    // Показва страницата за гласуване
     public function showGiftPoll()
     {
         //Fix when integrating into a page
         
-        // $eventId = $_POST['eventId'] ?? null;
-        $eventId = 1;
+        $eventId = $_POST['eventId'] ?? null;
+        // $eventId = 1;
         $hasPoll = $this->giftVotingService->hasPoll($eventId);
         $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
         $winningGift = $this->giftVotingService->getWinningGift($eventId);
@@ -30,7 +29,9 @@ class GiftVotingController
 
         $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
 
-        $userId = 1; // Текущият потребител (взет от сесия)
+        $session = SessionHandler::getInstance();
+        $userId = $session->getSessionValue('userId');
+        // $userId = 1; // Текущият потребител (взет от сесия)
 
         // Проверка дали потребителят вече е гласувал
         $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
@@ -44,7 +45,8 @@ class GiftVotingController
         header('Content-Type: application/json');
         try {
 
-            $eventId = 1; // Тестово ID
+            // $eventId = 1; // Тестово ID
+            $eventId = $_POST['eventId'] ?? null;
             $giftName = trim($_POST['gift_name'] ?? '');
             $giftPrice = trim($_POST['gift_price'] ?? '');
     
@@ -71,7 +73,6 @@ class GiftVotingController
     
     public function voteForGift()
     {
-        // Вземане на JSON данните
         $data = json_decode(file_get_contents('php://input'), true);
     
         if (!isset($data['giftId']) || empty($data['giftId'])) {
@@ -80,8 +81,10 @@ class GiftVotingController
         }
     
         $giftId = (int)$data['giftId'];
-        //Todo: change for id with session
-        $userId = 1; // Примерен ID, вземи го от сесията
+
+        $session = SessionHandler::getInstance();
+        $userId = $session->getSessionValue('userId');
+        // $userId = 1;
     
         try {
             $this->giftVotingService->changeVote($giftId, $userId);
@@ -98,7 +101,7 @@ class GiftVotingController
         $data = json_decode(file_get_contents('php://input'), true);
 
         //TODO: temp remove later
-        $data['eventId'] = 1;
+        // $data['eventId'] = 1;
 
         if (empty($data['eventId']) || empty($data['duration'])) {
             echo json_encode(['status' => 'error', 'message' => 'Event ID and duration are required.']);
@@ -122,15 +125,15 @@ class GiftVotingController
     {
         $data = json_decode(file_get_contents('php://input'), true);
         
-        $eventId = 1; //TODO: TMP, to remove
+        // $eventId = 1; //TODO: TMP, to remove
     
-        // if (empty($data['eventId'])) {
-        //     echo json_encode(['status' => 'error', 'message' => 'Event ID is required.']);
-        //     exit;
-        // }
+        if (empty($data['eventId'])) {
+            echo json_encode(['status' => 'error', 'message' => 'Event ID is required.']);
+            exit;
+        }
     
         try {
-            // $eventId = $data['eventId'];
+            $eventId = $data['eventId'];
     
             // Приключване на poll-a
             $this->giftVotingService->endPoll($eventId);

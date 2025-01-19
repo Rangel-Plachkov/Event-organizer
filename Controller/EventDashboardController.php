@@ -3,6 +3,7 @@ namespace Controller;
 
 use Service\EventService;
 use Service\CommentService;
+use http\SessionHandler;
 
 use Entity\Comment;
 use Service\GiftVotingService;
@@ -24,7 +25,10 @@ class EventDashboardController
     {
         $eventId = $_POST['eventId'] ?? null;
         
-        $userId = 1;
+        $session = SessionHandler::getInstance();
+        $userId = $session->getSessionValue('userId');
+        // $userId = 1;
+        
         // Fetch event information
         $event = $this->eventService->getEventById($eventId);
         if (!$event) {
@@ -73,7 +77,9 @@ class EventDashboardController
             $targetId = $eventId;
             $targetType = 'event';
 
-            $userId = 1; // Тук трябва да бъде ID на потребителя от сесията (или статично за тест)
+            $session = SessionHandler::getInstance();
+            $userId = $session->getSessionValue('userId');
+            // $userId = 1;
 
             if (empty($commentContent)) {
                 throw new \InvalidArgumentException('Comment content cannot be empty.');
@@ -112,24 +118,29 @@ class EventDashboardController
     public function addOrganization()
     {
         try {
-            // Вземане на данните от POST заявката
             $data = json_decode(file_get_contents('php://input'), true);
     
             $eventId = $data['eventId'] ?? null;
-            //TODO: със сессия
-            $organizerId = 1; // Тук трябва да се използва ID на потребителя от сесията (примерно)
+
+            $session = SessionHandler::getInstance();
+            $userId = $session->getSessionValue('userId');
+            // dd('user id' + $userId);
+
+            if ($userId) {
+                throw new \InvalidArgumentException('user id should not be null');
+            }
+
+            $organizerId = $userId;
             $organizerPaymentDetails = $data['organizer_payment_details'] ?? null;
             $placeAddress = $data['place_address'] ?? null;
             $isAnonymous = $data['is_anonymous'] ?? false;
             $excludedUserId = $data['excluded_user_id'] ?? null;
 
     
-            // Валидация на входните данни
             if (!$eventId || !$placeAddress) {
                 throw new \InvalidArgumentException('Event ID and place address are required.');
             }
     
-            // Създаване на организацията чрез EventService
             $this->eventService->createEventOrganization(
                 $eventId,
                 $organizerId,
@@ -139,14 +150,14 @@ class EventDashboardController
                 $excludedUserId
             );
     
-            // Връщане на успешен JSON отговор
+            // Retturn successful answer
             header('Content-Type: application/json');
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Organization added successfully!',
             ]);
         } catch (\Exception $e) {
-            // Връщане на грешка в JSON отговор
+            // Return error
             header('Content-Type: application/json', true, 400);
             echo json_encode([
                 'status' => 'error',
@@ -156,14 +167,13 @@ class EventDashboardController
         exit;
     }
     
-    // Add New Gift
     public function addGift()
     {
         header('Content-Type: application/json');
         try {
 
             $eventId = trim($_POST['eventId'] ?? '');
-            // $eventId = 1; // Тестово ID
+            // $eventId = 1; // Testing Id
             $giftName = trim($_POST['gift_name'] ?? '');
             $giftPrice = trim($_POST['gift_price'] ?? '');
     
@@ -190,7 +200,6 @@ class EventDashboardController
     
     public function voteForGift()
     {
-        // Вземане на JSON данните
         $data = json_decode(file_get_contents('php://input'), true);
     
         if (!isset($data['giftId']) || empty($data['giftId'])) {
@@ -199,8 +208,10 @@ class EventDashboardController
         }
     
         $giftId = (int)$data['giftId'];
-        //Todo: change for id with session
-        $userId = 1; // Примерен ID, вземи го от сесията
+
+        $session = SessionHandler::getInstance();
+        $userId = $session->getSessionValue('userId');
+        // $userId = 1;
     
         try {
             $this->giftVotingService->changeVote($giftId, $userId);
@@ -215,9 +226,6 @@ class EventDashboardController
     public function createPoll()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-
-        //TODO: temp remove later
-        // $data['eventId'] = 1;
 
         if (empty($data['eventId']) || empty($data['duration'])) {
             echo json_encode(['status' => 'error', 'message' => 'Event ID and duration are required.']);
@@ -241,8 +249,6 @@ class EventDashboardController
     {
         $data = json_decode(file_get_contents('php://input'), true);
         
-        // $eventId = 1; //TODO: TMP, to remove
-    
         if (empty($data['eventId'])) {
             echo json_encode(['status' => 'error', 'message' => 'Event ID is required.']);
             exit;
@@ -251,10 +257,8 @@ class EventDashboardController
         try {
             $eventId = $data['eventId'];
     
-            // Приключване на poll-a
             $this->giftVotingService->endPoll($eventId);
     
-            // Вземане на победителя
             $winner = $this->giftVotingService->getWinningGift($eventId);
     
             if ($winner) {
