@@ -1,16 +1,15 @@
 <?php
-$username = $FOUND_USERS['username'] ?? '';
-$email = $FOUND_USERS['email'] ?? '';
-$firstName = $FOUND_USERS['firstname'] ?? '';
-$lastName = $FOUND_USERS['lastname'] ?? '';
-$birthdate = $FOUND_USERS['birthdate'] ?? '';
-$FOLLOW_STATE = $FOUND_USERS['isFollowed'] ?? false;
 
-$username = $_POST['searchedUser'] ?? $username;
-dd($_POST);
+$username = $_SESSION['searchedUserUsername'] ?? '';
+$email = $_SESSION['searchedUserEmail'] ?? '';
+$firstName = $_SESSION['searchedUserFirstname'] ?? '';
+$lastName = $_SESSION['searchedUserLastname'] ?? '';
+$birthdate = $_SESSION['searchedUserBirthdate'] ?? '';
+$FOLLOW_STATE = $_SESSION['searchedUserIsFollowed'] ?? false;
 
-$followers = $FOUND_USERS['followers'] ?? [];
+$followers = $_SESSION['searchedUserFollowers'] ?? [];
 $followersCount = count($followers);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

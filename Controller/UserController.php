@@ -103,44 +103,31 @@ class UserController extends AbstractController
     public function follow(){
         $toFollow = $_POST['username'];
 
-        $session = SessionHandler::getInstance();
-        $this->userService -> populateUser($session->getSessionValue('userId'));
-
+        SessionHandler::getInstance();
         $this->userService->follow($toFollow);
-
         $this->redirectToSearchResults($toFollow);
     }
     public function unfollow(){
         $toUnfollow = $_POST['username'];
 
-        $session = SessionHandler::getInstance();
-        $this->userService -> populateUser($session->getSessionValue('userId'));
-
+        SessionHandler::getInstance();
         $this->userService->unfollow($toUnfollow);
-
         $this->redirectToSearchResults($toUnfollow);
-
     }
 
+    /**
+     * @throws \Exception
+     */
     private function redirectToSearchResults($searchedUser){
-        $FOUND_USERS=$this->userService->getUserByUsername($searchedUser);
-        $session = SessionHandler::getInstance();
-        $this->userService -> populateUser($session->getSessionValue('userId'));
-
-        if($FOUND_USERS==null){
+        SessionHandler::getInstance();
+        if($searchedUser == null){
             header("Location:". Url::generateUrl('indexPage'));
-        }elseif ($FOUND_USERS['id']==$session->getSessionValue('userId')){
-            $_SESSION['followers'] = $this->userService->getFollowersUsernames($FOUND_USERS['username']);
-            $_SESSION['following'] = $this->userService->getFollowingUsernames($FOUND_USERS['username']);
+        }else if($searchedUser == $_SESSION['username']){
             header("Location:". Url::generateUrl('myProfile'));
+        }else if(!$this->userService->loadSearchedUser($searchedUser)){
+            header("Location:". Url::generateUrl('indexPage'));
         }else {
-            $FOUND_USERS['isFollowed'] = $this->userService->isFollowing($FOUND_USERS['username']);
-            $FOUND_USERS['followers'] = $this->userService->getFollowersUsernames($FOUND_USERS['username']);
-            $FOUND_USERS['following'] = $this->userService->getFollowingUsernames($FOUND_USERS['username']);
-
-            $_POST['searchedUser'] = $FOUND_USERS['username'];
-
-            header("Location:". Url::generateUrl('viewProfile'));
+            header("Location:" . Url::generateUrl('viewProfile'));
         }
     }
 

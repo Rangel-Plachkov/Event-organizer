@@ -37,7 +37,6 @@ class PageController extends AbstractController
     public function viewProfile(){
         $session = SessionHandler::getInstance();
         $this->userService->populateUser($session->getSessionValue('userId'));
-
         require_once 'View/templates/viewProfile.phtml';
     }
     public function myProfile(){
