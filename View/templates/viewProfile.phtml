@@ -6,6 +6,8 @@ $lastName = $FOUND_USERS['lastname'] ?? '';
 $birthdate = $FOUND_USERS['birthdate'] ?? '';
 $FOLLOW_STATE = $FOUND_USERS['isFollowed'] ?? false;
 
+$username = $_POST['searchedUser'] ?? $username;
+dd($_POST);
 
 $followers = $FOUND_USERS['followers'] ?? [];
 $followersCount = count($followers);

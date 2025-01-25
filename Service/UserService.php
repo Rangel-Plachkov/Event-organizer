@@ -189,6 +189,8 @@ class UserService
         return $this->userRepository->isFollowing($followerId, $followingId);
     }
 
+    
+
 
     public function getFollowingUsernames($username): array
     {
@@ -245,9 +247,6 @@ class UserService
         $followers = $this->userRepository->getFollowers($user['id']);
         return count($followers);
     }
-
-
-
 
 
 
