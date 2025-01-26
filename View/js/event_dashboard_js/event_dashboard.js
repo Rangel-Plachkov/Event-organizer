@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
 
             const formData = new FormData(joinForm);
+            const eventId = formData.get('eventId');
 
             fetch("/join-event-btn", {
                 method: "POST",
@@ -22,6 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .then((data) => {
                     if (data.status === "success") {
+
+                        //Reaload the page using the reload form
+                        // unsuccessfull try
+                        // const reloadForm = document.getElementById("reload-form");
+                        // reloadForm.querySelector('input[name="eventId"]').value = eventId;
+
                         window.location.reload(); // Reload the page
                     } else {
                         alert(`Failed to join the event: ${data.message}`);

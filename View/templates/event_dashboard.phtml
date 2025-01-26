@@ -13,9 +13,9 @@
 </head>
 <body>
 
-<!-- <form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
+<form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
     <input type="hidden" name="eventId" value="">
-</form> -->
+</form>
 
 <div class="dashboard">
     <div class="left-panel">
@@ -31,6 +31,7 @@
 
                 <form action="join-event-btn" method="POST" id="join-event-form">
                     <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
+                    <input type="hidden" id="event-Id" name="eventId" value=<?= $eventId; ?>>
                     <input type="hidden" name="userId" value="<?= htmlspecialchars($userId) ?>">
                     <button type="submit">Join Event Organization</button>
                 </form>
@@ -112,7 +113,7 @@
                 <h2>Add Organization</h2>
                 <form id="add-organization-form">
                     <div>
-                        <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
+                        <input type="hidden" id="eventId" name="eventId" value=<?= $eventId; ?>>
                         <input type="hidden" id="user-id" name="user-id" value=<?= $userId ?>>
                         <label for="organizer_payment_details">Payment Details:</label>
                         <input type="text" id="organizer_payment_details" name="organizer_payment_details" placeholder="Enter payment details">
