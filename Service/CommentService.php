@@ -27,10 +27,21 @@ class CommentService
         }
 
         // Validate user ID
-        if (empty($comment->getUserId())) {
+        if (empty($comment->getUsername())) {
             throw new \InvalidArgumentException('User ID cannot be empty.');
         }
 
         return $this->commentRepository->createComment($comment);
+    }
+
+    public function getCommentsByTarget($targetId, $targetType)
+    {
+        // Validate target ID and type
+        if (empty($targetId) || empty($targetType)) {
+            throw new \InvalidArgumentException('Target ID and type must be specified.');
+        }
+
+        // Retrieve comments using the repository
+        return $this->commentRepository->getCommentsByTarget($targetId, $targetType);
     }
 }

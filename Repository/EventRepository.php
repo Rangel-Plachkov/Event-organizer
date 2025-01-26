@@ -6,7 +6,7 @@ use Entity\Event;
 
 class EventRepository extends BaseRepository
 {
-    public function createEvent(Event $event)
+    public function createEvent(Event $event): int
     {
         $sql = "INSERT INTO events (title, event_date, type, visibility, has_organization)
                 VALUES (:title, :event_date, :type, :visibility, :has_organization)";
@@ -16,13 +16,72 @@ class EventRepository extends BaseRepository
             ':event_date' => $event->getEventDate(),
             ':type' => $event->getType(),
             ':visibility' => $event->getVisibility(),
-            ':has_organization' => $event->getHasOrganization() ? 1 : 0,
+            ':has_organization' => $event->getHasOrganization() ? 1 : 0
         ];
-        //(alternative formating of date)':event_date' => $event->getEventDate()->format('Y-m-d H:i:s'),
 
         $this->executeQuery($sql, $params);
 
-        // Връщаме ID на създадения запис
         return $this->connection->lastInsertId();
     }
+
+    public function deleteEvent(int $eventId): void
+    {
+        $sql = "DELETE FROM events WHERE id = :id";
+        $params = [':id' => $eventId];
+
+        $this->executeQuery($sql, $params);
+    }
+
+    public function updateHasOrganization(int $eventId, bool $hasOrganization): void
+    {
+        $sql = "UPDATE events SET has_organization = :has_organization WHERE id = :event_id";
+
+        $params = [
+            ':has_organization' => $hasOrganization ? 1 : 0,
+            ':event_id' => $eventId,
+        ];
+
+        $this->executeQuery($sql, $params);
+    }
+    public function getEventById(int $eventId): ?Event
+    {
+    $sql = "SELECT * FROM events WHERE id = :id";
+    $params = [':id' => $eventId];
+
+    $row = $this->fetchOne($sql, $params);
+
+    if ($row) {
+        return new Event(
+            $row['id'],
+            $row['title'],
+            $row['event_date'],
+            $row['type'],
+            $row['visibility'],
+            (bool)$row['has_organization']
+        );
+    }
+
+    return null; // Return null if no event found
+    }
+
+    public function getAllEvents()
+    {
+        $sql = "SELECT * FROM events ORDER BY event_date ASC"; // Подреждане по дата на събитието
+        $rows = $this->fetchAll($sql);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = new Event(
+                $row['id'],
+                $row['title'],
+                $row['event_date'],
+                $row['type'],
+                $row['visibility'],
+                $row['has_organization']
+            );
+        }
+
+        return $events;
+    }
+
 }
