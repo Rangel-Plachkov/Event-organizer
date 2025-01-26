@@ -48,6 +48,29 @@ class UserService
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['birthdate'] = $user['birthdate'];
     }
+    public function loadSearchedUser($username): bool{
+        $searchedUser = $this->userRepository->findUserByUsername($username);
+
+        if (!$searchedUser) {
+            echo "User to check does not exist.";
+            return false;
+        }
+        if($searchedUser['id'] == $_SESSION['userId']){
+            echo "You cannot search for yourself.";
+            return false;
+        }
+
+        $_SESSION['searchedUserUsername'] = $searchedUser['username'];
+        $_SESSION['searchedUserEmail'] = $searchedUser['email'];
+        $_SESSION['searchedUserFirstname'] = $searchedUser['firstname'];
+        $_SESSION['searchedUserLastname'] = $searchedUser['lastname'];
+        $_SESSION['searchedUserBirthdate'] = $searchedUser['birthdate'];
+
+        $_SESSION['searchedUserIsFollowed'] = $this->userRepository->isFollowing( $_SESSION['userId'], $searchedUser['id']);
+        $_SESSION['searchedUserFollowers'] = $this->getFollowersUsernames($searchedUser['username']);
+        $_SESSION['searchedUserFollowing'] = $this->getFollowingUsernames($searchedUser['username']);
+        return true;
+    }
 
 
 
@@ -190,7 +213,9 @@ class UserService
     }
 
 
-    public function getFollowingUsernames($username): array
+
+
+    private function getFollowingUsernames($username): array
     {
         $user = $this->userRepository->findUserByUsername($username);
 
@@ -212,7 +237,7 @@ class UserService
     }
 
 
-    public function getFollowersUsernames($username): array
+    private function getFollowersUsernames($username): array
     {
         $user = $this->userRepository->findUserByUsername($username);
 
@@ -249,9 +274,6 @@ class UserService
 
 
 
-
-
-
     public function followFromTo($followerId, $followingId): void
     {
         if ($followerId === $followingId) {
@@ -278,5 +300,8 @@ class UserService
         $this->userRepository->unfollowUser($followerId, $followingId);
         echo "User unfollowed successfully!";
     }
+
+
+
 
 }

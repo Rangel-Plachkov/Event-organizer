@@ -34,6 +34,16 @@ class PageController extends AbstractController
     public function search(){
         require_once 'View/templates/search.html';
     }
+    public function viewProfile(){
+        $session = SessionHandler::getInstance();
+        $this->userService->populateUser($session->getSessionValue('userId'));
+        require_once 'View/templates/viewProfile.phtml';
+    }
+    public function myProfile(){
+        $session = SessionHandler::getInstance();
+        $this->userService->populateUser($session->getSessionValue('userId'));
+        require_once 'View/templates/myProfile.phtml';
+    }
 
 }
 
