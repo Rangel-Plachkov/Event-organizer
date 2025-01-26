@@ -40,12 +40,12 @@ CREATE TABLE `event_organization` (
   `organizer_payment_details` VARCHAR(255) COMMENT 'Информация за плащане',
   `place_address` TEXT NOT NULL COMMENT 'Адрес на мястото за провеждане',
   `is_anonymous` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието е анонимно',
-  `excluded_user_id` INT DEFAULT NULL COMMENT 'ID на потребителя, за когото е събитието, ако събитието е анонимно',
+  `excluded_user_name` varchar(255) DEFAULT NULL COMMENT 'Username на потребителя, за когото е събитието, ако събитието е анонимно',
 
   PRIMARY KEY (`event_id`),
   FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`),
-  FOREIGN KEY (`excluded_user_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`excluded_user_name`) REFERENCES `Users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `participants`;

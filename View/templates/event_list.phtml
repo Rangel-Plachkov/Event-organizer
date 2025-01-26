@@ -1,3 +1,8 @@
+<?php
+$userId = isset($_SESSION['userId']) ? $_SESSION['userId'] : '';
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,6 +77,7 @@
         <div>
             <button type="button" id="organise-btn">Organize</button>
             <input type="hidden" id="has_organization" name="has_organization" value="false">
+            <input type="hidden" id="username" name="username" value="<?= $username ?>">
 
             <div id="organizer-container" style="display: none;">
                 <div>
@@ -87,8 +93,8 @@
                     <input type="hidden" id="is_anonymous" name="is_anonymous" value="false">
 
                     <div id="anonymous-users-container" style="display: none;">
-                        <label for="excluded_users">Excluded Users:</label>
-                        <input type="text" id="excluded_user" name="excluded_user_name" placeholder="Enter nicknames separated by commas">
+                        <label for="excluded_users">Excluded User:</label>
+                        <input type="text" id="excluded_user" name="excluded_user_name" placeholder="Enter username separated by commas">
                     </div>
                 </div>
             </div>
@@ -175,8 +181,13 @@
         .catch(error => {
             console.error('Error:', error);
             const feedback = document.getElementById('create-event-feedback');
-            feedback.textContent = 'An error occurred while creating the event.';
+            feedback.textContent = 'An error occurred while creating the event.' + error;
             feedback.style.color = 'red';
+
+            // Wait 5 seconds (5000 milliseconds) before reloading the page
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
         });
     });
 </script>

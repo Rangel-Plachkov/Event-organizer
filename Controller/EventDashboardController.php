@@ -21,50 +21,51 @@ class EventDashboardController
         $this->giftVotingService = new GiftVotingService();
     }
 
-    public function showEventDashboard()
-    {
-        $eventId = $_POST['eventId'] ?? null;
+    // public function showEventDashboard()
+    // {
+    //     $eventId = $_POST['eventId'] ?? null;
         
-        $session = SessionHandler::getInstance();
-        $userId = $session->getSessionValue('userId');
-        // $userId = 1;
+    //     $session = SessionHandler::getInstance();
+    //     $userId = $session->getSessionValue('userId');
+    //     // $userId = 1;
         
-        // Fetch event information
-        $event = $this->eventService->getEventById($eventId);
-        if (!$event) {
-            throw new \InvalidArgumentException('Event not found.');
-        }
+    //     // Fetch event information
+    //     $event = $this->eventService->getEventById($eventId);
+    //     if (!$event) {
+    //         throw new \InvalidArgumentException('Event not found.');
+    //     }
 
-        // Fetch participants
-        $participantsIds = $this->eventService->getParticipants($eventId);
+    //     // Fetch participants
+    //     $participantsIds = $this->eventService->getParticipants($eventId);
         
-        // Fetch comments
-        $comments = $this->commentService->getCommentsByTarget($eventId, 'event');
+    //     // Fetch comments
+    //     $comments = $this->commentService->getCommentsByTarget($eventId, 'event');
 
-        // Check if the user is a participant
-        $isParticipant = in_array($userId, $participantsIds);
+    //     // Check if the user is a participant
+    //     $isParticipant = in_array($userId, $participantsIds);
 
-        // Fetch organization details if the event has an organization
-        $organization = null;
-        if ($event->getHasOrganization()) {
-            $organization = $this->eventService->getEventOrganization($eventId);
-        }
+    //     // Fetch organization details if the event has an organization
+    //     $organization = null;
+    //     if ($event->getHasOrganization()) {
+    //         $organization = $this->eventService->getEventOrganization($eventId);
+    //     }
         
-        //Gift poll variables
-        $hasPoll = $this->giftVotingService->hasPoll($eventId);
-        $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
-        $winningGift = $this->giftVotingService->getWinningGift($eventId);
-        $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
+    //     //Gift poll variables
+    //     $hasPoll = $this->giftVotingService->hasPoll($eventId);
+    //     $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
+    //     $winningGift = $this->giftVotingService->getWinningGift($eventId);
+    //     $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
 
-        // Check if the user has allready voted 
-        $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
+    //     // Check if the user has already voted 
+    //     $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
  
 
-        // Render the dashboard view
-        include 'View/templates/event_dashboard.phtml';
+    //     // Render the dashboard view
+    //     header("Location:". Url::generateUrl('eventDashboard'));
+    //     // include 'View/templates/event_dashboard.phtml';
         
-        // require_once 'View/templates/event_dashboard.phtml';
-    }
+    //     // require_once 'View/templates/event_dashboard.phtml';
+    // }
 
     public function createComment()
     {
@@ -122,15 +123,15 @@ class EventDashboardController
     
             $eventId = $data['eventId'] ?? null;
 
-            $session = SessionHandler::getInstance();
-            $userId = $session->getSessionValue('userId');
-            // dd('user id' + $userId);
+            $userId = $data['user_id'] ?? null;
 
-            if ($userId) {
-                throw new \InvalidArgumentException('user id should not be null');
+
+            if ($userId === null) {
+                throw new \InvalidArgumentException('user id should not be null:' + $userId);
             }
 
             $organizerId = $userId;
+
             $organizerPaymentDetails = $data['organizer_payment_details'] ?? null;
             $placeAddress = $data['place_address'] ?? null;
             $isAnonymous = $data['is_anonymous'] ?? false;

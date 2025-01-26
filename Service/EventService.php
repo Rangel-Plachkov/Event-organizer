@@ -41,11 +41,11 @@ class EventService
 
     public function createEventOrganization(
         $eventId,
-        $organizerId = null,
+        $organizerId,
         $organizerPaymentDetails = null,
         ?string $placeAddress = null,
         ?bool $isAnonymous = false,
-        ?int $excludedUserId = null
+        ?int $excludedUserName = null
     ): void {
         // Validate event ID
         if ($eventId <= 0) {
@@ -58,7 +58,7 @@ class EventService
             $organizerPaymentDetails,
             $placeAddress,
             $isAnonymous,
-            $excludedUserId
+            $excludedUserName
         );
 
         //add the organizer as the first particiapnt
@@ -86,14 +86,14 @@ class EventService
         }
     }
 
-    public function makeEventAnonymous($eventId, $isAnonymous, $excludedUserId): void
+    public function makeEventAnonymous($eventId, $isAnonymous, $excludedUserName): void
     {
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');
         }
 
         // Update anonymity details for the event
-        $this->eventOrganizationRepository-> updateEventAnonymity($eventId, $isAnonymous, $excludedUserId);
+        $this->eventOrganizationRepository-> updateEventAnonymity($eventId, $isAnonymous, $excludedUserName);
     }
 
     public function updatePlaceAddress(int $eventId, string $placeAddress): void

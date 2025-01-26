@@ -22,58 +22,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Submit comment
     if (commentForm) {
-    commentForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Спира стандартното поведение на формата
+        commentForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Спира стандартното поведение на формата
 
-        const comment = document.getElementById('new-comment').value;
-        const eventId = document.getElementById('eventId').value;
-        const commentsContainer = document.getElementById('comments');
+            const comment = document.getElementById('new-comment').value;
+            const eventId = document.getElementById('eventId').value;
+            const commentsContainer = document.getElementById('comments');
 
-        if (!commentsContainer) {
-            console.error('Comments container not found!');
-            return;
-        }
+            if (!commentsContainer) {
+                console.error('Comments container not found!');
+                return;
+            }
 
-        // AJAX querry for adding comments
-        fetch('/create-comment-op', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                eventId: eventId,
-                comment: comment,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                document.getElementById('comment-feedback').textContent = 'Comment added successfully.';
-                document.getElementById('comment-feedback').style.color = 'green';
-                document.getElementById('new-comment').value = ''; // Clear the text field for the next comment
+            // AJAX querry for adding comments
+            fetch('/create-comment-op', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    eventId: eventId,
+                    comment: comment,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('comment-feedback').textContent = 'Comment added successfully.';
+                    document.getElementById('comment-feedback').style.color = 'green';
+                    document.getElementById('new-comment').value = ''; // Clear the text field for the next comment
 
-                // Add the new commnt to the html
-                const commentElement = document.createElement('div');
-                commentElement.classList.add('comment');
-                commentElement.innerHTML = `<p><strong>User ${data.userId}:</strong></p><p>${data.comment}</p>`;
-                commentsContainer.appendChild(commentElement);
-            } else {
-                document.getElementById('comment-feedback').textContent = 'Failed to add comment.';
+                    // Add the new commnt to the html
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('comment');
+                    commentElement.innerHTML = `<p><strong>User ${data.userId}:</strong></p><p>${data.comment}</p>`;
+                    commentsContainer.appendChild(commentElement);
+                } else {
+                    document.getElementById('comment-feedback').textContent = 'Failed to add comment.';
+                    document.getElementById('comment-feedback').style.color = 'red';
+                    setTimeout(() => {
+                                feedbackElement.style.display = 'none';
+                            }, 3000); // 3000 miliseconds = 3 sec
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('comment-feedback').textContent = 'An error occurred.';
                 document.getElementById('comment-feedback').style.color = 'red';
                 setTimeout(() => {
                             feedbackElement.style.display = 'none';
                         }, 3000); // 3000 miliseconds = 3 sec
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('comment-feedback').textContent = 'An error occurred.';
-            document.getElementById('comment-feedback').style.color = 'red';
-            setTimeout(() => {
-                        feedbackElement.style.display = 'none';
-                    }, 3000); // 3000 miliseconds = 3 sec
+            });
         });
-    });
-}
- //Adding organization
+    }
+
+    //Adding organization
     const addOrganizationBtn = document.getElementById("add-organization-btn");
     const organizationFormContainer = document.getElementById("organization-form-container");
     const isAnonymousCheckbox = document.getElementById("is_anonymous");
@@ -105,20 +106,24 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault(); // Спиране на презареждането на страницата
 
         // Извличане на данни ръчно от полетата във формуляра
-        const eventId = document.getElementById("eventId").value; // Задайте правилния ID елемент
+        const eventId = document.getElementById("eventId").value; 
+        const user_id = document.getElementById("user-id").value; 
         const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
         const placeAddress = document.getElementById("place_address").value;
         const isAnonymous = document.getElementById("is_anonymous").checked;
-        const excludedUserId = document.getElementById("excluded_user")?.value || null;
-
-
+        const excludedUserName = document.getElementById("excluded_user")?.value || null;
+        
         const data = {
             eventId: eventId,
             organizer_payment_details: organizerPaymentDetails,
             place_address: placeAddress,
             is_anonymous: isAnonymous,
-            excluded_user_id: excludedUserId,
+            excluded_user_name: excludedUserName,
+            user_id: user_id
         };
+        
+        console.log("Hello world");
+
 
         // Изпращане на заявката чрез fetch
         fetch("/add-organization-op", {

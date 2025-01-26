@@ -37,11 +37,11 @@ class EventController
     
             $visibility = trim($_POST['visibility'] ?? 'public');
             $hasOrganization = $_POST['has_organization'] === 'true';
+
+            $username = trim($_POST['username'] ?? '');
     
             $session = SessionHandler::getInstance();
             $currUserId = $session->getSessionValue('userId');
-    
-            //TODO: test with active session
             $organizerId = $currUserId;
     
             $organizerPaymentDetails = trim($_POST['organizer_payment_details'] ?? '');
@@ -49,9 +49,6 @@ class EventController
     
             $isAnonymous = $_POST['is_anonymous'] === 'true';
             $excludedUserName = $_POST['excluded_user_name'] ?? '';
-
-            //TODO: get the user id by the name
-            $excludedUserId = '1'; 
     
             if (empty($title) || empty($eventDate)) {
                 throw new \InvalidArgumentException('Title and event date are required.');
@@ -77,17 +74,18 @@ class EventController
                         $organizerPaymentDetails,
                         $placeAddress,
                         $isAnonymous,
-                        $excludedUserId
+                        $excludedUserName
                     );
                 }
     
                 // Return successful json
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Event created successfully.',
+                    'message' => 'Event created successfully.' . $hasOrganization,
                     'eventId' => $eventId
                 ]);
             } catch (\Exception $e) {
+                $this->eventService->deleteEvent($eventId);
                 // Retun json with
                 echo json_encode([
                     'status' => 'error',

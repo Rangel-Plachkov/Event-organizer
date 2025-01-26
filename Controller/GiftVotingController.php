@@ -13,31 +13,31 @@ class GiftVotingController
         $this->giftVotingService = new GiftVotingService();
     }
 
-    public function showGiftPoll()
-    {
-        //Fix when integrating into a page
+    // public function showGiftPoll()
+    // {
+    //     //Fix when integrating into a page
         
-        $eventId = $_POST['eventId'] ?? null;
-        // $eventId = 1;
-        $hasPoll = $this->giftVotingService->hasPoll($eventId);
-        $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
-        $winningGift = $this->giftVotingService->getWinningGift($eventId);
+    //     $eventId = $_POST['eventId'] ?? null;
+    //     // $eventId = 1;
+    //     $hasPoll = $this->giftVotingService->hasPoll($eventId);
+    //     $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
+    //     $winningGift = $this->giftVotingService->getWinningGift($eventId);
 
-        if (!$eventId) {
-            throw new \InvalidArgumentException('Event ID is required.');
-        }
+    //     if (!$eventId) {
+    //         throw new \InvalidArgumentException('Event ID is required.');
+    //     }
 
-        $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
+    //     $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
 
-        $session = SessionHandler::getInstance();
-        $userId = $session->getSessionValue('userId');
-        // $userId = 1; // Текущият потребител (взет от сесия)
+    //     $session = SessionHandler::getInstance();
+    //     $userId = $session->getSessionValue('userId');
+    //     // $userId = 1; // Текущият потребител (взет от сесия)
 
-        // Проверка дали потребителят вече е гласувал
-        $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
+    //     // Проверка дали потребителят вече е гласувал
+    //     $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
 
-        include 'View/templates/gift_poll.phtml';
-    }
+    //     include 'View/templates/gift_poll.phtml';
+    // }
 
     // Добавя нов подарък
     public function addGift()
@@ -45,7 +45,6 @@ class GiftVotingController
         header('Content-Type: application/json');
         try {
 
-            // $eventId = 1; // Тестово ID
             $eventId = $_POST['eventId'] ?? null;
             $giftName = trim($_POST['gift_name'] ?? '');
             $giftPrice = trim($_POST['gift_price'] ?? '');
@@ -82,9 +81,9 @@ class GiftVotingController
     
         $giftId = (int)$data['giftId'];
 
+        //TODO: is this working??        
         $session = SessionHandler::getInstance();
         $userId = $session->getSessionValue('userId');
-        // $userId = 1;
     
         try {
             $this->giftVotingService->changeVote($giftId, $userId);
@@ -99,9 +98,6 @@ class GiftVotingController
     public function createPoll()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-
-        //TODO: temp remove later
-        // $data['eventId'] = 1;
 
         if (empty($data['eventId']) || empty($data['duration'])) {
             echo json_encode(['status' => 'error', 'message' => 'Event ID and duration are required.']);
@@ -125,8 +121,6 @@ class GiftVotingController
     {
         $data = json_decode(file_get_contents('php://input'), true);
         
-        // $eventId = 1; //TODO: TMP, to remove
-    
         if (empty($data['eventId'])) {
             echo json_encode(['status' => 'error', 'message' => 'Event ID is required.']);
             exit;
