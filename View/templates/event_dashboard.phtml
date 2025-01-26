@@ -139,6 +139,11 @@
             
         <?php endif; ?>
 
+        <form id="delete-event-form" method="POST" action="/delete-event">
+            <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
+            <button type="submit" id="delete-event-btn" class="delete-button">Delete Event</button>
+        </form>
+
     </div>
 
     <div class="right-panel">

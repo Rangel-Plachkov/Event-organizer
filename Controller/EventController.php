@@ -83,6 +83,28 @@ class EventController
     
         exit;
     }
+
+    public function deleteEvent()
+    {
+        header('Content-Type: application/json');
+
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $eventId = $data['eventId'] ?? null;
+
+            if (!$eventId) {
+                throw new \InvalidArgumentException('Event ID is required.');
+            }
+
+            $this->eventService->deleteEvent($eventId);
+
+            echo json_encode(['status' => 'success', 'message' => 'Event deleted successfully']);
+        } catch (\Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+
+        exit;
+    }
     
     public function createComment()
     {

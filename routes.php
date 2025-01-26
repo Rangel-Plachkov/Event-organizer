@@ -30,6 +30,7 @@ $routesRegistrator->map("POST", "[user@unfollow]", "unfollow", "unfollow");
 
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
+$routesRegistrator->map("POST", "[event@deleteEvent]", "delete-event", "delete-event-operation");
 $routesRegistrator->map("POST", "[event@addOrganization]", "add-organization-op", "add-ogranization-operation");
 $routesRegistrator->map("POST", "[event@joinOrganization]", "join-event-btn", "join-ogranization-operation");
 //GIFT ROUTES

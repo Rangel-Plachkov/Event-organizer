@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         // reloadForm.querySelector('input[name="eventId"]').value = eventId;
 
                         window.location.reload(); // Reload the page
+                        // window.location.href = '/event-list';
                     } else {
                         alert(`Failed to join the event: ${data.message}`);
                     }
@@ -187,5 +188,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 feedback.style.color = "red";
             });
     });
+});
+
+//Delete event
+document.addEventListener("DOMContentLoaded", () => {
+    const deleteEventForm = document.getElementById('delete-event-form');
+
+    if (deleteEventForm) {
+        deleteEventForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+
+            const formData = new FormData(deleteEventForm);
+            const eventId = formData.get('eventId');
+
+            fetch('/delete-event', {
+                method: 'POST',
+                body: JSON.stringify({ eventId }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Event deleted successfully!');
+                        
+                    // Redirect to the previous page
+                    window.location.href = '/event-list';
+                } else {
+                    alert(`Failed to delete event: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the event.');
+            });
+        });
+    }
 });
 
