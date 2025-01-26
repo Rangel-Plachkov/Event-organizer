@@ -112,18 +112,6 @@ class EventService
 
     public function getEventById(int $eventId): ?Event
     {
-        //simulating function
-        //
-        // Примерен обект за Event
-        // $exampleEvent = new Event(
-        //     1,                      // ID на събитието
-        //     'Company Meeting',      // Заглавие на събитието
-        //     '2025-03-15',           // Дата на събитието
-        //     'Meeting',              // Тип на събитието (например "Meeting")
-        //     'private',              // Видимост на събитието (например "private")
-        //     true                    // Флаг за организация (например true, ако има организация)
-        // );
-        // return $exampleEvent;
         return $this->eventRepository->getEventById($eventId);
     }
 
@@ -132,7 +120,7 @@ class EventService
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');
         }
-        //simulating function
+
         return $this->participantsRepository->getParticipants($eventId);
     }
 
@@ -142,8 +130,6 @@ class EventService
             throw new \InvalidArgumentException('Invalid event ID.');
         }
 
-        //simulating function
-        // return [];
         return $this->eventOrganizationRepository->getEventOrganization($eventId);
     }
     public function getAllEvents(): array
@@ -153,13 +139,24 @@ class EventService
     
     public function setHasOrganization(int $eventId, bool $hasOrganization): void
     {
-        // Проверка на валидността на ID
+        // Check event id validity
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');
         }
 
-        // Актуализация на полето в базата данни
         $this->eventRepository->updateHasOrganization($eventId, $hasOrganization);
+    }
+
+    public function joinOrganization(int $eventId, int $userId): void
+    {
+        // Check of participant is allready added
+        $participants = $this->participantsRepository->getParticipants($eventId);
+        if (in_array($userId, $participants, true)) {
+            throw new \Exception('User is already a participant in this event.');
+        }
+
+        // Add participant
+       $this->participantsRepository->addParticipant($eventId, $userId);
     }
 
 }

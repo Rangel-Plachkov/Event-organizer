@@ -1,22 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const joinButton = document.getElementById('join-event-btn');
+    const joinForm = document.getElementById('join-event-form');
     const commentForm = document.getElementById('comment-form');
     const commentsContainer = document.getElementById('comments');
 
     // Join Event
-    if (joinButton) {
-        joinButton.addEventListener('click', async () => {
-            const response = await fetch('/join-event', {
-                method: 'POST',
-                body: JSON.stringify({ eventId: EVENT_ID, userId: USER_ID }),
-                headers: { 'Content-Type': 'application/json' }
-            });
+    if (joinForm) {
+        joinForm.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-            if (response.ok) {
-                location.reload();
-            } else {
-                alert('Failed to join the event.');
-            }
+            const formData = new FormData(joinForm);
+
+            fetch("/join-event-btn", {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.status === "success") {
+                        window.location.reload(); // Reload the page
+                    } else {
+                        alert(`Failed to join the event: ${data.message}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("An error occurred while trying to join the event.");
+                });
         });
     }
 

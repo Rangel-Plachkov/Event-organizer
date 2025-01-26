@@ -184,6 +184,26 @@ class EventController
         }
         exit;
     }
+    
+    public function joinOrganization()
+    {
+        $eventId = $_POST['eventId'] ?? null;
+        $userId = $_POST['userId'] ?? null;
+        
+        if (!$eventId || !$userId) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid event or user ID.']);
+            exit;
+        }
+
+        try {
+            $this->eventService->joinOrganization($eventId, $userId);
+
+            echo json_encode(['status' => 'success', 'message' => 'Successfully joined the event.']);
+        } catch (\Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
 
     public function addGift()
     {

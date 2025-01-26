@@ -87,7 +87,7 @@ DROP TABLE IF EXISTS `participants`;
 CREATE TABLE `participants` (
   `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
   `user_id` INT NOT NULL COMMENT 'ID на потребителя участник',
-  PRIMARY KEY (`event_id`),
+  PRIMARY KEY (`event_id`, `user_id`),
   FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
