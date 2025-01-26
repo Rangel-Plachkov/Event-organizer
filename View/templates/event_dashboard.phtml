@@ -26,76 +26,77 @@
 
         <?php if ($event->getHasOrganization()): ?>
             <h2>Organization Details</h2>
-            <p><strong>Location:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
-
-            <h2>Participants</h2>
-            <ul>
-                <?php foreach ($participantsIds as $participant): ?>
-                    <li>User ID: <?= htmlspecialchars($participant) ?></li>
-                <?php endforeach; ?>
-            </ul>
 
             <?php if (!$isParticipant): ?>
                 <button id="join-event-btn">Join event organization</button>
-            <?php endif; ?>
+            <?php else: ?>
+                <p><strong>Location:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
+
+                <h2>Participants</h2>
+                <ul>
+                    <?php foreach ($participantsIds as $participant): ?>
+                        <li>User ID: <?= htmlspecialchars($participant) ?></li>
+                    <?php endforeach; ?>
+                </ul>
 
                 <!-- Create gift poll -->
 
-                <div class="poll-management">
-                    <?php if (!$hasPoll && !$pollEnded): ?>
-                        <button id="create-poll-btn">Create Gift Poll</button>
-                    <?php endif; ?>
+                    <div class="poll-management">
+                        <?php if (!$hasPoll && !$pollEnded): ?>
+                            <button id="create-poll-btn">Create Gift Poll</button>
+                        <?php endif; ?>
 
-                    <div class="gift-poll" style="<?= ($hasPoll && !$pollEnded) ? 'display: block;' : 'display: none;' ?>">
-                        <h1>Gift Poll</h1>
+                        <div class="gift-poll" style="<?= ($hasPoll && !$pollEnded) ? 'display: block;' : 'display: none;' ?>">
+                            <h1>Gift Poll</h1>
 
-                        <div class="add-gift">
-                            <h2>Add a Gift</h2>
-                            <form id="add-gift-form">
-                                <input type="hidden" name="eventId" id="eventId" value="<?= $eventId ?>">
-                                <label for="gift_name">Gift Name:</label>
-                                <input type="text" id="gift_name" name="gift_name" required>
-                                <label for="gift_price">Gift Price:</label>
-                                <input type="number" id="gift_price" name="gift_price" step="0.50" required>
-                                <button type="submit">Add Gift</button>
-                            </form>
-                            <div id="add-gift-feedback"></div>
+                            <div class="add-gift">
+                                <h2>Add a Gift</h2>
+                                <form id="add-gift-form">
+                                    <input type="hidden" name="eventId" id="eventId" value="<?= $eventId ?>">
+                                    <label for="gift_name">Gift Name:</label>
+                                    <input type="text" id="gift_name" name="gift_name" required>
+                                    <label for="gift_price">Gift Price:</label>
+                                    <input type="number" id="gift_price" name="gift_price" step="0.50" required>
+                                    <button type="submit">Add Gift</button>
+                                </form>
+                                <div id="add-gift-feedback"></div>
+                            </div>
+
+                            <!-- List of gifts -->
+                            <div class="gifts">
+                                <h2>Vote for Your Favorite Gift</h2>
+                                <ul id="gift-list">
+                                    <?php foreach ($gifts as $gift): ?>
+                                        <li data-gift-id="<?= $gift['id'] ?>">
+                                            <strong><?= htmlspecialchars($gift['gift_name']) ?>:</strong> $<?= htmlspecialchars($gift['gift_price']) ?>
+                                            <button 
+                                                class="vote-button"
+                                                <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'disabled' : '' ?>>
+                                                <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'Voted' : 'Vote' ?>
+                                            </button>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+
+
                         </div>
 
-                        <!-- List of gifts -->
-                        <div class="gifts">
-                            <h2>Vote for Your Favorite Gift</h2>
-                            <ul id="gift-list">
-                                <?php foreach ($gifts as $gift): ?>
-                                    <li data-gift-id="<?= $gift['id'] ?>">
-                                        <strong><?= htmlspecialchars($gift['gift_name']) ?>:</strong> $<?= htmlspecialchars($gift['gift_price']) ?>
-                                        <button 
-                                            class="vote-button"
-                                            <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'disabled' : '' ?>>
-                                            <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'Voted' : 'Vote' ?>
-                                        </button>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-
+                        <button id="end-poll-btn" style="display: <?= ($hasPoll && !$pollEnded) ? 'block' : 'none' ?>;" >End Poll</button>
 
                     </div>
 
-                    <button id="end-poll-btn" style="display: <?= ($hasPoll && !$pollEnded) ? 'block' : 'none' ?>;" >End Poll</button>
+                    <!-- Winner section -->
+                    <div class="winner-section" style="display: <?= ($pollEnded) ? 'block' : 'none' ?>;">
+                        <h2>Winning Gift</h2>
+                        <p id="winning-gift-message">
+                            <?= isset($winningGift) ? "Winning gift: {$winningGift['gift_name']}, Price: \${$winningGift['gift_price']}, Votes: {$winningGift['vote_count']}" : "" ?>
+                        </p>
 
-                </div>
+                        <p><strong> Info for sending money:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
+                    </div>
 
-                <!-- Winner section -->
-                <div class="winner-section" style="display: <?= ($pollEnded) ? 'block' : 'none' ?>;">
-                    <h2>Winning Gift</h2>
-                    <p id="winning-gift-message">
-                        <?= isset($winningGift) ? "Winning gift: {$winningGift['gift_name']}, Price: \${$winningGift['gift_price']}, Votes: {$winningGift['vote_count']}" : "" ?>
-                    </p>
-
-                    <p><strong> Info for sending money:</strong> <?= htmlspecialchars($organization['organizer_payment_details']) ?></p>
-                </div>
-
+                <?php endif; ?>
 
                 <!-- End create gift poll -->
         <?php else: ?>
