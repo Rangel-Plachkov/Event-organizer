@@ -71,6 +71,11 @@ class UserService
         $_SESSION['searchedUserFollowing'] = $this->getFollowingUsernames($searchedUser['username']);
         return true;
     }
+    public function loadFollowLinks(): void{
+        SessionHandler::getInstance();
+        $_SESSION['followers'] = $this->getFollowersUsernames($_SESSION['username']);
+        $_SESSION['following'] = $this->getFollowingUsernames($_SESSION['username']);
+    }
 
 
 

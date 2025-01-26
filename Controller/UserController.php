@@ -123,6 +123,7 @@ class UserController extends AbstractController
         if($searchedUser == null){
             header("Location:". Url::generateUrl('indexPage'));
         }else if($searchedUser == $_SESSION['username']){
+            $this->userService->loadFollowLinks();
             header("Location:". Url::generateUrl('myProfile'));
         }else if(!$this->userService->loadSearchedUser($searchedUser)){
             header("Location:". Url::generateUrl('indexPage'));
