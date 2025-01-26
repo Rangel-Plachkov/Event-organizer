@@ -12,7 +12,9 @@ $routesRegistrator->map("GET", "[page@edit]", "edit", "editPage");
 $routesRegistrator->map("GET", "[page@createEvent]", "create-event", "create_event-page");
 $routesRegistrator->map("GET", "[page@listEvents]", "event-list", "create_event-page");
 $routesRegistrator->map("POST", "[page@eventDashboard]", "event-dashboard", "event-dashboard");
-
+$routesRegistrator->map("GET", "[page@viewProfile]", "viewProfile", "viewProfile");
+$routesRegistrator->map("GET", "[page@search]", "search", "search");
+$routesRegistrator->map("GET", "[page@myProfile]", "myProfile", "myProfile");
 
 //USER ROUTES
 $routesRegistrator->map("POST", "[user@createAcc]", "create-acc", "createAcc");
@@ -20,6 +22,11 @@ $routesRegistrator->map("POST", "[user@login]", "login", "login");
 $routesRegistrator->map("GET", "[user@logout]", "logout", "logout");
 $routesRegistrator->map("POST", "[user@editAcc]", "edit-acc", "editAcc");
 $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
+$routesRegistrator->map("POST", "[user@searchUser]", "user-search", "user-search");
+$routesRegistrator->map("POST", "[user@follow]", "follow", "follow");
+$routesRegistrator->map("POST", "[user@unfollow]", "unfollow", "unfollow");
+
+
 
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
@@ -38,3 +45,4 @@ $routesRegistrator->map("POST", "[event@createComment]", "create-comment-op", "c
 $routesRegistrator->map("GET", "[error@error404]", "error/404", "pageNotFoundError");
 $routesRegistrator->map("GET", "[error@error500]", "error/500", "serverError");
 $routesRegistrator->map("GET", "[error@unhandledError]", "error/503", "unhandledError");
+$routesRegistrator->map("GET", "[error@error404user]", "error/404user", "userNotFoundError");

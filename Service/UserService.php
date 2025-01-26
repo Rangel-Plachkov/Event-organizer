@@ -48,6 +48,31 @@ class UserService
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['birthdate'] = $user['birthdate'];
     }
+    public function loadSearchedUser($username): bool{
+        $searchedUser = $this->userRepository->findUserByUsername($username);
+
+        if (!$searchedUser) {
+            echo "User to check does not exist.";
+            return false;
+        }
+        if($searchedUser['id'] == $_SESSION['userId']){
+            echo "You cannot search for yourself.";
+            return false;
+        }
+
+        $_SESSION['searchedUserUsername'] = $searchedUser['username'];
+        $_SESSION['searchedUserEmail'] = $searchedUser['email'];
+        $_SESSION['searchedUserFirstname'] = $searchedUser['firstname'];
+        $_SESSION['searchedUserLastname'] = $searchedUser['lastname'];
+        $_SESSION['searchedUserBirthdate'] = $searchedUser['birthdate'];
+
+        $_SESSION['searchedUserIsFollowed'] = $this->userRepository->isFollowing( $_SESSION['userId'], $searchedUser['id']);
+        $_SESSION['searchedUserFollowers'] = $this->getFollowersUsernames($searchedUser['username']);
+        $_SESSION['searchedUserFollowing'] = $this->getFollowingUsernames($searchedUser['username']);
+        return true;
+    }
+
+
 
     public function login($username, $password){
         $session = SessionHandler::getInstance();
@@ -59,6 +84,7 @@ class UserService
                 $session->setSessionValue('username' , $username);
                 $session->setSessionValue('fullName' , $user['firstname'] . ' ' . $user['lastname']);
                 $session->setSessionValue('userId' , $user['id']);
+
                 return true;
             }
         } else {
@@ -84,6 +110,9 @@ class UserService
         $session = SessionHandler::getInstance();
         $session->sessionDestroy();
     }
+
+
+
     public function editAcc(\Entity\User $user, $old_password){
         $session = SessionHandler::getInstance();
         $id = $session->getSessionValue('userId');
@@ -114,4 +143,165 @@ class UserService
             }
         }
     }
+
+    public function getUserByUsername($username){
+        return $this->userRepository->findUserByUsername($username);
+    }
+
+
+
+
+    public function follow($usernameToFollow): void
+    {
+        $followerId = $_SESSION['userId'];
+        $followingUser = $this->userRepository->findUserByUsername($usernameToFollow);
+
+        if (!$followingUser) {
+            echo "User to follow does not exist.";
+            return;
+        }
+
+        $followingId = $followingUser['id'];
+
+        if ($followerId === $followingId) {
+            echo "You cannot follow yourself.";
+            return;
+        }
+
+        if ($this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are already following this user.";
+            return;
+        }
+
+        $this->userRepository->followUser($followerId, $followingId);
+    }
+
+    public function unfollow($usernameToUnfollow): void
+    {
+        $followerId = $_SESSION['userId'];
+        $followingUser = $this->userRepository->findUserByUsername($usernameToUnfollow);
+
+        if (!$followingUser) {
+            echo "User to unfollow does not exist.";
+            return;
+        }
+
+        $followingId = $followingUser['id'];
+
+        if (!$this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are not following this user.";
+            return;
+        }
+
+        $this->userRepository->unfollowUser($followerId, $followingId);
+    }
+
+    public function isFollowing($username): bool
+    {
+
+        $followerId = $_SESSION['userId'];
+        $followingUser = $this->userRepository->findUserByUsername($username);
+
+        if (!$followingUser) {
+            echo "User to check does not exist.";
+            return false;
+        }
+
+        $followingId = $followingUser['id'];
+
+        return $this->userRepository->isFollowing($followerId, $followingId);
+    }
+
+
+
+
+    private function getFollowingUsernames($username): array
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return [];
+        }
+
+        $resultRaw = $this->userRepository->getFollowedUsers($user['id']);
+
+        $usernames = [];
+
+        foreach ($resultRaw as $followedUser) {
+            $user = $this->userRepository->findUserById($followedUser['followed_id']);
+            $usernames[] = $user['username'];
+        }
+
+        return $usernames;
+    }
+
+
+    private function getFollowersUsernames($username): array
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return [];
+        }
+        $resultRaw = $this->userRepository->getFollowers($user['id']);
+
+        $usernames = [];
+
+        foreach ($resultRaw as $follower) {
+            $user = $this->userRepository->findUserById($follower['user_id']);
+            $usernames[] = $user['username'];
+        }
+
+        return $usernames;
+    }
+
+
+    public function getFollowersCount($username): int
+    {
+        $user = $this->userRepository->findUserByUsername($username);
+
+        if (!$user) {
+            echo "User does not exist.";
+            return 0;
+        }
+
+        $followers = $this->userRepository->getFollowers($user['id']);
+        return count($followers);
+    }
+
+
+
+
+    public function followFromTo($followerId, $followingId): void
+    {
+        if ($followerId === $followingId) {
+            echo "You cannot follow yourself.";
+            return;
+        }
+
+        if ($this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are already following this user.";
+            return;
+        }
+
+        $this->userRepository->followUser($followerId, $followingId);
+        echo "User followed successfully!";
+    }
+
+    public function unfollowFromTo($followerId, $followingId): void
+    {
+        if (!$this->userRepository->isFollowing($followerId, $followingId)) {
+            echo "You are not following this user.";
+            return;
+        }
+
+        $this->userRepository->unfollowUser($followerId, $followingId);
+        echo "User unfollowed successfully!";
+    }
+
+
+
+
 }

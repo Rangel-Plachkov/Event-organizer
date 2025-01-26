@@ -95,4 +95,40 @@ class UserController extends AbstractController
         $this->userService->deleteUser();
         header("Location:". Url::generateUrl('indexPage'));
     }
+
+    public function searchUser(){
+        $this -> redirectToSearchResults($_POST['searchedUser']);
+    }
+
+    public function follow(){
+        $toFollow = $_POST['username'];
+
+        SessionHandler::getInstance();
+        $this->userService->follow($toFollow);
+        $this->redirectToSearchResults($toFollow);
+    }
+    public function unfollow(){
+        $toUnfollow = $_POST['username'];
+
+        SessionHandler::getInstance();
+        $this->userService->unfollow($toUnfollow);
+        $this->redirectToSearchResults($toUnfollow);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function redirectToSearchResults($searchedUser){
+        SessionHandler::getInstance();
+        if($searchedUser == null){
+            header("Location:". Url::generateUrl('indexPage'));
+        }else if($searchedUser == $_SESSION['username']){
+            header("Location:". Url::generateUrl('myProfile'));
+        }else if(!$this->userService->loadSearchedUser($searchedUser)){
+            header("Location:". Url::generateUrl('indexPage'));
+        }else {
+            header("Location:" . Url::generateUrl('viewProfile'));
+        }
+    }
+
 }

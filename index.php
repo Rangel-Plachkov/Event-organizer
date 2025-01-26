@@ -22,5 +22,7 @@ try {
 } catch (Throwable $exception) {
     dd($exception);
     \http\Response::getInstance()->redirect(Router\Url::generateUrl('unhandledError'));
+} catch (\Exception\RoutingException $exception) {
+    \http\Response::getInstance()->redirect(Router\Url::generateUrl('userNotFoundError'));
 }
 
