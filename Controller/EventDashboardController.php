@@ -28,7 +28,6 @@ class EventDashboardController
 
             $commentContent = trim($data['comment'] ?? '');
             $eventId = trim($data['eventId'] ?? '');
-            // $eventId = $_POST['eventId'] ?? null;
             $targetId = $eventId;
             $targetType = 'event';
 

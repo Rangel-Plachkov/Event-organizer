@@ -75,32 +75,6 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
         </div>
 
         <div>
-            <button type="button" id="organise-btn">Organize</button>
-            <input type="hidden" id="has_organization" name="has_organization" value="false">
-            <input type="hidden" id="username" name="username" value="<?= $username ?>">
-
-            <div id="organizer-container" style="display: none;">
-                <div>
-                    <label for="organizer_payment_details">Payment Details:</label>
-                    <input type="text" id="organizer_payment_details" name="organizer_payment_details" placeholder="Enter payment details">
-                </div>
-                <div>
-                    <label for="place_address">Place Address:</label>
-                    <textarea id="place_address" name="place_address" placeholder="Enter the place address"></textarea>
-                </div>
-                <div>
-                    <button type="button" id="make-anonymous-btn">Make Anonymous</button>
-                    <input type="hidden" id="is_anonymous" name="is_anonymous" value="false">
-
-                    <div id="anonymous-users-container" style="display: none;">
-                        <label for="excluded_users">Excluded User:</label>
-                        <input type="text" id="excluded_user" name="excluded_user_name" placeholder="Enter username separated by commas">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div>
             <button type="submit">Create Event</button>
         </div>
     </form>
@@ -121,39 +95,6 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
             document.getElementById('customType').value = '';
         }
     }
-
-    document.getElementById('organise-btn').addEventListener('click', function () {
-        const hasOrganizationInput = document.getElementById('has_organization');
-        const organizerContainer = document.getElementById('organizer-container');
-        const organizer_payment_details = document.getElementById('organizer_payment_details');
-
-        if (organizerContainer.style.display === 'block') {
-            organizerContainer.style.display = 'none';
-            organizer_payment_details.required = false;
-            hasOrganizationInput.value = "false";
-        } else {
-            organizerContainer.style.display = 'block';
-            organizer_payment_details.required = true;
-            hasOrganizationInput.value = "true";
-        }
-    });
-
-    document.getElementById('make-anonymous-btn').addEventListener('click', function () {
-        const isAnonymousInput = document.getElementById('is_anonymous');
-        const anonymousUsersContainer = document.getElementById('anonymous-users-container');
-        const excluded_user = document.getElementById('excluded_user');
-
-        if (anonymousUsersContainer.style.display === 'block') {
-            anonymousUsersContainer.style.display = 'none';
-            excluded_user.required = false;
-            isAnonymousInput.value = "false";
-        } else {
-            anonymousUsersContainer.style.display = 'block';
-            excluded_user.required = true;
-            isAnonymousInput.value = "true";
-        }
-    });
-
 
     // Handle the create event form submission
     document.getElementById('create-event-form').addEventListener('submit', function (e) {

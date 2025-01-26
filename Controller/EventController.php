@@ -18,6 +18,7 @@ class EventController
         $this->eventService = new EventService();
         $this->commentService = new CommentService();
     }
+
     public function createEvent()
     {
         header('Content-Type: application/json');
@@ -36,20 +37,8 @@ class EventController
             }
     
             $visibility = trim($_POST['visibility'] ?? 'public');
-            $hasOrganization = $_POST['has_organization'] === 'true';
-
-            $username = trim($_POST['username'] ?? '');
-    
             $session = SessionHandler::getInstance();
-            $currUserId = $session->getSessionValue('userId');
-            $organizerId = $currUserId;
-    
-            $organizerPaymentDetails = trim($_POST['organizer_payment_details'] ?? '');
-            $placeAddress = trim($_POST['place_address'] ?? '');
-    
-            $isAnonymous = $_POST['is_anonymous'] === 'true';
-            $excludedUserName = $_POST['excluded_user_name'] ?? '';
-    
+
             if (empty($title) || empty($eventDate)) {
                 throw new \InvalidArgumentException('Title and event date are required.');
             }
@@ -61,27 +50,16 @@ class EventController
                 $eventDate,
                 $type,
                 $visibility,
-                $hasOrganization
+                false
             );
     
             try {
                 $eventId = $this->eventService->createEvent($event);
-    
-                if ($hasOrganization) {
-                    $this->eventService->createEventOrganization(
-                        $eventId,
-                        $organizerId,
-                        $organizerPaymentDetails,
-                        $placeAddress,
-                        $isAnonymous,
-                        $excludedUserName
-                    );
-                }
-    
+                
                 // Return successful json
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Event created successfully.' . $hasOrganization,
+                    'message' => 'Event created successfully.',
                     'eventId' => $eventId
                 ]);
             } catch (\Exception $e) {
@@ -103,7 +81,6 @@ class EventController
         exit;
     }
     
-
     private function saveOrganizationExplanationAsComment($eventId, $organizationExplanation, $userId)
     {
         if (empty($organizationExplanation)) {
