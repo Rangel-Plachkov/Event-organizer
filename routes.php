@@ -10,7 +10,7 @@ $routesRegistrator->map("GET", "[page@signUp]", "sign-up", "signUpPage");
 $routesRegistrator->map("GET", "[page@signIn]", "sign-in", "signInPage");
 $routesRegistrator->map("GET", "[page@edit]", "edit", "editPage");
 $routesRegistrator->map("GET", "[page@createEvent]", "create-event", "create_event-page");
-$routesRegistrator->map("GET", "[page@listEvents]", "event-list", "create_event-page");
+$routesRegistrator->map("GET", "[page@listEvents]", "event-list", "eventList");
 $routesRegistrator->map("POST", "[page@eventDashboard]", "event-dashboard", "event-dashboard");
 $routesRegistrator->map("GET", "[page@viewProfile]", "viewProfile", "viewProfile");
 $routesRegistrator->map("GET", "[page@search]", "search", "search");

@@ -302,6 +302,9 @@ class UserService
     }
 
 
-
+    public function doesUsernameExist(string $username): bool
+    {
+        return $this->userRepository->doesUsernameExist($username);
+    }
 
 }

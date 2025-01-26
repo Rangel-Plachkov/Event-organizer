@@ -141,6 +141,15 @@ class UserRepository extends BaseRepository
 
     }
 
+    public function doesUsernameExist(string $username): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM Users WHERE username = :username";
+        $params = [':username' => $username];
+        $result = $this->fetchOne($sql, $params);
+
+        return $result['count'] > 0;
+    }
+
 
 
 }

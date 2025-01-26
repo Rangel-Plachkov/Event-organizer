@@ -1,3 +1,11 @@
+// Добавяне на ново състояние при зареждане на страницата
+window.history.replaceState(null, "", "/event-list");
+
+// Обработване на натискане на бутона "Назад"
+window.addEventListener("popstate", () => {
+    window.location.href = "/event-list"; // Redirect to the correct page
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     const joinForm = document.getElementById('join-event-form');
     const commentForm = document.getElementById('comment-form');
@@ -111,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const organizationFormContainer = document.getElementById("organization-form-container");
     const isAnonymousCheckbox = document.getElementById("is_anonymous");
     const anonymousUsersContainer = document.getElementById("anonymous-users-container");
+    const excludedUserInput = document.getElementById("excluded_user");
 
     // Hide/reveal of the form
     addOrganizationBtn.addEventListener("click", () => {
@@ -129,65 +138,80 @@ document.addEventListener("DOMContentLoaded", () => {
             anonymousUsersContainer.style.display = "block";
         } else {
             anonymousUsersContainer.style.display = "none";
+            excludedUserInput.value = ""; // Clear the value if hidden
         }
     });
+    
+    // // Validate the form before submission
+    // addOrganizationForm.addEventListener("submit", (e) => {
+    // });
         
     // Add organization form 
     const addOrganizationForm = document.getElementById("add-organization-form");
     addOrganizationForm.addEventListener("submit", (e) => {
-        e.preventDefault(); // Stop the standard form behaviour and page reloading
+        e.preventDefault(); // Prevent form submission
+        if (isAnonymousCheckbox.checked && excludedUserInput.value.trim() === "") {
+            alert("The excluded user field is required when 'Make Anonymous' is checked.");
+            excludedUserInput.focus(); // Focus on the excluded user field
+        } else {
+            // e.preventDefault(); // Stop the standard form behaviour and page reloading
 
-        // Manually extract data from the form
-        const eventId = document.getElementById("eventId").value; 
-        const user_id = document.getElementById("user-id").value; 
-        const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
-        const placeAddress = document.getElementById("place_address").value;
-        const isAnonymous = document.getElementById("is_anonymous").checked;
-        const excludedUserName = document.getElementById("excluded_user")?.value || null;
-        
-        const data = {
-            eventId: eventId,
-            organizer_payment_details: organizerPaymentDetails,
-            place_address: placeAddress,
-            is_anonymous: isAnonymous,
-            excluded_user_name: excludedUserName,
-            user_id: user_id
-        };
-        
+            // Manually extract data from the form
+            const eventId = document.getElementById("eventId").value; 
+            const user_id = document.getElementById("user-id").value; 
+            const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
+            const placeAddress = document.getElementById("place_address").value;
+            const isAnonymous = document.getElementById("is_anonymous").checked;
+            const excludedUser = document.getElementById("excluded_user")?.value || null;
+            
+            const data = {
+                eventId: eventId,
+                organizer_payment_details: organizerPaymentDetails,
+                place_address: placeAddress,
+                is_anonymous: isAnonymous,
+                excluded_user: excludedUser,
+                user_id: user_id
+            };
+            
 
-        // get the querry through fetch
-        fetch("/add-organization-op", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                const feedback = document.getElementById("organization-feedback");
-                if (data.status === "success") {
-                    feedback.textContent = "Organization added successfully!";
-                    feedback.style.color = "green";
-
-                    //Reaload the page using the reload form
-                    const reloadForm = document.getElementById("reload-form");
-                    reloadForm.querySelector('input[name="eventId"]').value = eventId;
-
-                //  send the post querry to refresh the page
-                reloadForm.submit();
-                } else {
-                    feedback.textContent = `Failed to add organization: ${data.message}`;
-                    feedback.style.color = "red";
-                }
+            // get the querry through fetch
+            fetch("/add-organization-op", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             })
-            .catch((error) => {
-                console.error("Error:", error);
-                const feedback = document.getElementById("organization-feedback");
-                feedback.textContent = "An error occurred while adding the organization.";
-                feedback.style.color = "red";
-            });
+                .then((response) => response.json())
+                .then((data) => {
+                    const feedback = document.getElementById("organization-feedback");
+                    if (data.status === "success") {
+                        feedback.textContent = "Organization added successfully!";
+                        feedback.style.color = "green";
+
+                        //Reaload the page using the reload form
+                        const reloadForm = document.getElementById("reload-form");
+                        reloadForm.querySelector('input[name="eventId"]').value = eventId;
+
+                    //  send the post querry to refresh the page
+                    reloadForm.submit();
+                    } else if(data.status === "missing_name") {
+                        alert("There is no user with this username");
+                    } else {
+                        feedback.textContent = `Failed to add organization: ${data.message}`;
+                        feedback.style.color = "red";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    const feedback = document.getElementById("organization-feedback");
+                    feedback.textContent = "An error occurred while adding the organization.";
+                    feedback.style.color = "red";
+                });
+
+        }
     });
+
 });
 
 //Delete event

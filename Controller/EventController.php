@@ -8,18 +8,21 @@ use Service\EventService;
 use Service\GiftVotingService;
 use Entity\Event;
 use http\SessionHandler;
+use Service\UserService;
 
 class EventController
 {
     private EventService $eventService;
     private CommentService $commentService;
     private GiftVotingService $giftVotingService;
+    private UserService $userService;
 
     public function __construct()
     {
         $this->eventService = new EventService();
         $this->commentService = new CommentService();
         $this->giftVotingService = new GiftVotingService();
+        $this->userService = new UserService();
     }
 
     public function createEvent()
@@ -175,8 +178,16 @@ class EventController
             $organizerPaymentDetails = $data['organizer_payment_details'] ?? null;
             $placeAddress = $data['place_address'] ?? null;
             $isAnonymous = $data['is_anonymous'] ?? false;
-            $excludedUserId = $data['excluded_user_id'] ?? null;
+            $excludedUser = $data['excluded_user'] ?? null;
 
+            if ($isAnonymous && empty($excludedUser)) {
+                throw new \InvalidArgumentException("The 'Excluded User' field is required when 'Make Anonymous' is selected.");
+            }
+            
+            if($isAnonymous && !$this->userService->doesUsernameExist($excludedUser)) {
+                echo json_encode(['status' => 'missing_name', 'message' => 'Username does not exist.']);   
+                return;
+            }
     
             if (!$eventId || !$placeAddress) {
                 throw new \InvalidArgumentException('Event ID and place address are required.');
@@ -188,7 +199,7 @@ class EventController
                 $organizerPaymentDetails,
                 $placeAddress,
                 $isAnonymous,
-                $excludedUserId
+                $excludedUser
             );
     
             // Retturn successful answer

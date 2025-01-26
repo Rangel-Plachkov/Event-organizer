@@ -45,7 +45,7 @@ class EventService
         $organizerPaymentDetails = null,
         ?string $placeAddress = null,
         ?bool $isAnonymous = false,
-        ?int $excludedUserName = null
+        ?string $excludedUserName = null
     ): void {
         // Validate event ID
         if ($eventId <= 0) {
