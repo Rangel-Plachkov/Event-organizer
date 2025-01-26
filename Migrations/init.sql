@@ -56,9 +56,7 @@ UNLOCK TABLES;
 
 -- Dump completed on 2024-12-27 17:09:11
 
--- Table structure for table `events`
 
--- (трябва да се добави участници ако има организация)
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -67,46 +65,33 @@ CREATE TABLE `events` (
   `type` VARCHAR(255) DEFAULT 'Other' COMMENT 'Тип на събитието, напр. рожден ден',
   `visibility` VARCHAR(50) DEFAULT 'public' COMMENT 'Видимост на събитието: public, friends, private',
   `has_organization` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието има активна организация',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `event_organization`;
+CREATE TABLE `event_organization` (
+  `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
   `organizer_id` INT DEFAULT NULL COMMENT 'ID на организатора, ако има организация',
+  `organizer_payment_details` VARCHAR(255) COMMENT 'Информация за плащане',
+  `place_address` TEXT NOT NULL COMMENT 'Адрес на мястото за провеждане',
   `is_anonymous` BOOLEAN DEFAULT FALSE COMMENT 'Флаг дали събитието е анонимно',
-  `excluded_user_id` INT DEFAULT NULL COMMENT 'ID на потребителя, за когото е събитието, ако събитието е анонимно',
-  PRIMARY KEY (`id`),
+  `excluded_user_name` varchar(255) DEFAULT NULL COMMENT 'Username на потребителя, за когото е събитието, ако събитието е анонимно',
+
+  PRIMARY KEY (`event_id`),
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`),
-  FOREIGN KEY (`excluded_user_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`excluded_user_name`) REFERENCES `Users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Table structure for table `event_invitations`
-
--- (Tрябва да се промени да бъде таблица която показва дали даден юзър е джойннал евента)
--- event id
--- joined user
-
-DROP TABLE IF EXISTS `event_invitations`;
-CREATE TABLE `event_invitations` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `participants`;
+CREATE TABLE `participants` (
   `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
-  `user_id` INT NOT NULL COMMENT 'ID на поканения потребител',
-  `status` VARCHAR(50) DEFAULT 'pending' COMMENT 'Статус на поканата: pending, accepted, declined',
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+  `user_id` INT NOT NULL COMMENT 'ID на потребителя участник',
+  PRIMARY KEY (`event_id`),
+  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Table structure for table `gift_ideas`
-
-DROP TABLE IF EXISTS `gift_ideas`;
-CREATE TABLE `gift_ideas` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `event_id` INT NOT NULL COMMENT 'ID на свързаното събитие',
-  `user_id` INT NOT NULL COMMENT 'ID на потребителя, който е предложил идеята',
-  `idea` VARCHAR(255) NOT NULL COMMENT 'Описание на идеята за подарък',
-  `votes` INT DEFAULT 0 COMMENT 'Брой гласове за идеята',
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Table structure for table `comments`
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -116,10 +101,45 @@ CREATE TABLE `comments` (
   `content` TEXT NOT NULL COMMENT 'Текст на коментара',
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Време на създаване',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`target_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS gifts;
+CREATE TABLE gifts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    gift_name VARCHAR(255) NOT NULL,
+    gift_price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS votes;
+CREATE TABLE votes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    gift_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (gift_id) REFERENCES gifts(id) ON DELETE CASCADE,
+    UNIQUE (gift_id, user_id) -- A user can vote only once for a gift
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;;
+
+DROP TABLE IF EXISTS polls;
+CREATE TABLE polls (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ends_at TIMESTAMP NOT NULL,
+    hasEnded TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+
+
+
+-- USEFULL ?? 
 -- Table structure for table `fundraising`
 
 DROP TABLE IF EXISTS `fundraising`;
