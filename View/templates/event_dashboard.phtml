@@ -134,11 +134,10 @@
     </div>
 
     <div class="right-panel">
-        <h2>Event Comments</h2>
+        <h2>Event Details</h2>
         <div id="comments">
             <?php foreach ($comments as $comment): ?>
                 <div class="comment">
-                    <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
                     <p><strong><?= $username ?>:</strong></p>
                     <p><?= htmlspecialchars($comment->getContent()) ?></p>
                 </div>
@@ -147,6 +146,7 @@
         <?php if ($isParticipant): ?>
             <!-- <form action="/create-comment-op" method="post"> -->
             <form id="comment-form">
+                <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
                 <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
                 <textarea id="new-comment" name="comment" placeholder="Add a comment..." required></textarea>
                 <button type="submit">Submit</button>

@@ -23,15 +23,14 @@ $routesRegistrator->map("GET", "[user@deleteAcc]", "delete-acc", "deleteAcc");
 
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
-// $routesRegistrator->map("POST", "[eventDashboard@showEventDashboard]", "event-dashboard", "event-dashboard-page");
-$routesRegistrator->map("POST", "[eventDashboard@addOrganization]", "add-organization-op", "add-ogranization-operation");
+$routesRegistrator->map("POST", "[event@addOrganization]", "add-organization-op", "add-ogranization-operation");
 //GIFT ROUTES
-$routesRegistrator->map("POST", "[eventDashboard@addGift]", "add-gift", "add-gift-op");
-$routesRegistrator->map("POST", "[eventDashboard@voteForGift]", "vote-gift", "vote-gift-op");
-$routesRegistrator->map("POST", "[eventDashboard@endPoll]", "end-poll", "end-poll-op");
-$routesRegistrator->map("POST", "[eventDashboard@createPoll]", "create-poll", "create-poll-op");
+$routesRegistrator->map("POST", "[event@addGift]", "add-gift", "add-gift-op");
+$routesRegistrator->map("POST", "[event@voteForGift]", "vote-gift", "vote-gift-op");
+$routesRegistrator->map("POST", "[event@endPoll]", "end-poll", "end-poll-op");
+$routesRegistrator->map("POST", "[event@createPoll]", "create-poll", "create-poll-op");
 //COMMENT ROUTES
-$routesRegistrator->map("POST", "[eventDashboard@createComment]", "create-comment-op", "createComment");
+$routesRegistrator->map("POST", "[event@createComment]", "create-comment-op", "createComment");
 
 
 //ERROR PAGES ROUTES
