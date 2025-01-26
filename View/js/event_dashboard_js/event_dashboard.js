@@ -1,10 +1,11 @@
-// Добавяне на ново състояние при зареждане на страницата
-window.history.replaceState(null, "", "/event-list");
+// Това ми чупи рефрешването на Join бутона
+// // Добавяне на ново състояние при зареждане на страницата
+// window.history.replaceState(null, "", "/event-list");
 
-// Обработване на натискане на бутона "Назад"
-window.addEventListener("popstate", () => {
-    window.location.href = "/event-list"; // Redirect to the correct page
-});
+// // Обработване на натискане на бутона "Назад"
+// window.addEventListener("popstate", () => {
+//     window.location.href = "/event-list"; // Redirect to the correct page
+// });
 
 document.addEventListener("DOMContentLoaded", () => {
     const joinForm = document.getElementById('join-event-form');

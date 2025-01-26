@@ -307,4 +307,9 @@ class UserService
         return $this->userRepository->doesUsernameExist($username);
     }
 
+    public function getUsernameById(int $userId): ?string
+    {
+        return $this->userRepository->getUsernameById($userId);
+    }
+
 }

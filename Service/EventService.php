@@ -12,12 +12,14 @@ class EventService
     private EventRepository $eventRepository;
     private EventOrganizationRepository $eventOrganizationRepository;
     private ParticipantsRepository $participantsRepository;
+    private UserService $userService;
 
     public function __construct()
     {
         $this->eventRepository = new EventRepository();
         $this->eventOrganizationRepository = new EventOrganizationRepository();
         $this->participantsRepository = new ParticipantsRepository();
+        $this->userService = new UserService();
     }
 
     public function createEvent(Event $event): int
@@ -120,8 +122,26 @@ class EventService
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');
         }
+        
+        $participantsIds = $this->participantsRepository->getParticipantsIds($eventId);
 
-        return $this->participantsRepository->getParticipants($eventId);
+        // Convert participant IDs to usernames
+        $participants = [];
+        foreach ($participantsIds as $userId) {
+            $username = $this->userService->getUsernameById($userId);
+            if ($username) {
+                $participants[] = $username;
+            }
+        }       
+
+        return $participants;
+    }
+    
+    public function isParticipant($userId, $eventId)
+    {
+
+        return $this->participantsRepository->isParticipant($userId, $eventId);
+        // return in_array($userId, $participantsIds);
     }
 
     public function getEventOrganization(int $eventId): ?array
@@ -150,7 +170,7 @@ class EventService
     public function joinOrganization(int $eventId, int $userId): void
     {
         // Check of participant is allready added
-        $participants = $this->participantsRepository->getParticipants($eventId);
+        $participants = $this->participantsRepository->getParticipantsIds($eventId);
         if (in_array($userId, $participants, true)) {
             throw new \Exception('User is already a participant in this event.');
         }

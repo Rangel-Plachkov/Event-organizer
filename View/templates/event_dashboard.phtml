@@ -37,12 +37,23 @@
                 </form>
                 <!-- <button href="/join-event-btn">Join event organization</button> -->
             <?php else: ?>
+
+                <?php if (!is_null($organizerName) && $organizerName !== ''): ?>
+                    <p><strong>Organizer:</strong> <?= htmlspecialchars($organizerName) ?></p>
+                <?php endif; ?>
+
                 <p><strong>Location:</strong> <?= htmlspecialchars($organization['place_address']) ?></p>
 
                 <h2>Participants</h2>
+
+                <!-- Excluded User -->
+                <?php if (!empty($organization['is_anonymous']) && $organization['is_anonymous'] && !empty($organization['excluded_user_name'])): ?>
+                    <p><strong>Excluded User:</strong> <?= htmlspecialchars($organization['excluded_user_name']) ?></p>
+                <?php endif; ?>
+
                 <ul>
-                    <?php foreach ($participantsIds as $participant): ?>
-                        <li>User ID: <?= htmlspecialchars($participant) ?></li>
+                    <?php foreach ($participants as $participant): ?>
+                        <li><?= htmlspecialchars($participant) ?></li>
                     <?php endforeach; ?>
                 </ul>
 
