@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     eventId: eventId,
+                    username: username,
                     comment: comment,
                 }),
             })
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Add the new commnt to the html
                     const commentElement = document.createElement('div');
                     commentElement.classList.add('comment');
-                    commentElement.innerHTML = `<p><strong>${username}:</strong></p><p>${data.comment}</p>`;
+                    commentElement.innerHTML = `<p><strong>${data.username}:</strong></p><p>${data.comment}</p>`;
                     commentsContainer.appendChild(commentElement);
                 } else {
                     document.getElementById('comment-feedback').textContent = 'Failed to add comment.';
@@ -145,8 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
             user_id: user_id
         };
         
-        console.log("Hello world");
-
 
         // get the querry through fetch
         fetch("/add-organization-op", {

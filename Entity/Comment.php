@@ -7,7 +7,7 @@ class Comment
     private $_id;
     private $_targetId;
     private $_targetType;
-    private $_userId;
+    private $_username;
     private $_content;
 
     /**
@@ -16,12 +16,12 @@ class Comment
      * @param $userId
      * @param $content
      */
-    public function __construct($id, $targetId, $targetType, $userId, $content)
+    public function __construct($id, $targetId, $targetType, $username, $content)
     {
         $this->_id = $id;
         $this->_targetId = $targetId;
         $this->_targetType = $targetType;
-        $this->_userId = $userId;
+        $this->_username = $username;
         $this->_content = $content;
     }
 
@@ -70,9 +70,9 @@ class Comment
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUsername()
     {
-        return $this->_userId;
+        return $this->_username;
     }
 
     /**
@@ -80,7 +80,7 @@ class Comment
      */
     public function setUserId($userId): void
     {
-        $this->_userId = $userId;
+        $this->_username = $userId;
     }
 
     /**

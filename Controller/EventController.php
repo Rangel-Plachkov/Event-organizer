@@ -93,11 +93,12 @@ class EventController
 
             $commentContent = trim($data['comment'] ?? '');
             $eventId = trim($data['eventId'] ?? '');
+            $username = trim($data['username'] ?? '');
             $targetId = $eventId;
             $targetType = 'event';
 
-            $session = SessionHandler::getInstance();
-            $userId = $session->getSessionValue('userId');
+            // $session = SessionHandler::getInstance();
+            // $username = $session->getSessionValue('userId');
 
             if (empty($commentContent)) {
                 throw new \InvalidArgumentException('Comment content cannot be empty.');
@@ -107,7 +108,7 @@ class EventController
                 null,         
                 $targetId,      
                 $targetType,   
-                $userId,      
+                $username,      
                 $commentContent
             );
 
@@ -118,7 +119,7 @@ class EventController
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Comment added successfully.',
-                'userId' => $userId,
+                'username' => $username,
                 'comment' => $commentContent,
             ]);
         } catch (\Exception $e) {

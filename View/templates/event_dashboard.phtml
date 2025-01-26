@@ -145,7 +145,7 @@
         <div id="comments">
             <?php foreach ($comments as $comment): ?>
                 <div class="comment">
-                    <p><strong><?= $username ?>:</strong></p>
+                    <p><strong><?= $comment->getUsername() ?>:</strong></p>
                     <p><?= htmlspecialchars($comment->getContent()) ?></p>
                 </div>
             <?php endforeach; ?>

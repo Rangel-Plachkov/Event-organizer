@@ -97,11 +97,11 @@ CREATE TABLE `comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `target_id` INT NOT NULL COMMENT 'ID на свързания обект',
   `target_type` ENUM('event', 'gift_idea', 'fundraising', 'comment') NOT NULL COMMENT 'Тип на свързания обект',
-  `user_id` INT NOT NULL COMMENT 'ID на автора на коментара',
+  `username` varchar(255) NOT NULL COMMENT 'ID на автора на коментара',
   `content` TEXT NOT NULL COMMENT 'Текст на коментара',
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Време на създаване',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
+  FOREIGN KEY (`username`) REFERENCES `Users` (`username`),
   FOREIGN KEY (`target_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

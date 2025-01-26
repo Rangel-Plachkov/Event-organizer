@@ -27,7 +27,7 @@ class CommentService
         }
 
         // Validate user ID
-        if (empty($comment->getUserId())) {
+        if (empty($comment->getUsername())) {
             throw new \InvalidArgumentException('User ID cannot be empty.');
         }
 
