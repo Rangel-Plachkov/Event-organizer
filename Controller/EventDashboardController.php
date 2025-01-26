@@ -21,52 +21,6 @@ class EventDashboardController
         $this->giftVotingService = new GiftVotingService();
     }
 
-    // public function showEventDashboard()
-    // {
-    //     $eventId = $_POST['eventId'] ?? null;
-        
-    //     $session = SessionHandler::getInstance();
-    //     $userId = $session->getSessionValue('userId');
-    //     // $userId = 1;
-        
-    //     // Fetch event information
-    //     $event = $this->eventService->getEventById($eventId);
-    //     if (!$event) {
-    //         throw new \InvalidArgumentException('Event not found.');
-    //     }
-
-    //     // Fetch participants
-    //     $participantsIds = $this->eventService->getParticipants($eventId);
-        
-    //     // Fetch comments
-    //     $comments = $this->commentService->getCommentsByTarget($eventId, 'event');
-
-    //     // Check if the user is a participant
-    //     $isParticipant = in_array($userId, $participantsIds);
-
-    //     // Fetch organization details if the event has an organization
-    //     $organization = null;
-    //     if ($event->getHasOrganization()) {
-    //         $organization = $this->eventService->getEventOrganization($eventId);
-    //     }
-        
-    //     //Gift poll variables
-    //     $hasPoll = $this->giftVotingService->hasPoll($eventId);
-    //     $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
-    //     $winningGift = $this->giftVotingService->getWinningGift($eventId);
-    //     $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
-
-    //     // Check if the user has already voted 
-    //     $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
- 
-
-    //     // Render the dashboard view
-    //     header("Location:". Url::generateUrl('eventDashboard'));
-    //     // include 'View/templates/event_dashboard.phtml';
-        
-    //     // require_once 'View/templates/event_dashboard.phtml';
-    // }
-
     public function createComment()
     {
         try {
@@ -212,7 +166,6 @@ class EventDashboardController
 
         $session = SessionHandler::getInstance();
         $userId = $session->getSessionValue('userId');
-        // $userId = 1;
     
         try {
             $this->giftVotingService->changeVote($giftId, $userId);
@@ -240,7 +193,7 @@ class EventDashboardController
             $this->giftVotingService->createPoll($eventId, $duration);
 
             echo json_encode(['status' => 'success', 'message' => 'Poll created successfully.']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
         exit;
@@ -275,7 +228,7 @@ class EventDashboardController
                     'winner' => null
                 ]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
         exit;

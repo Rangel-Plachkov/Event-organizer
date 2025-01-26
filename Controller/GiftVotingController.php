@@ -13,33 +13,7 @@ class GiftVotingController
         $this->giftVotingService = new GiftVotingService();
     }
 
-    // public function showGiftPoll()
-    // {
-    //     //Fix when integrating into a page
-        
-    //     $eventId = $_POST['eventId'] ?? null;
-    //     // $eventId = 1;
-    //     $hasPoll = $this->giftVotingService->hasPoll($eventId);
-    //     $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
-    //     $winningGift = $this->giftVotingService->getWinningGift($eventId);
-
-    //     if (!$eventId) {
-    //         throw new \InvalidArgumentException('Event ID is required.');
-    //     }
-
-    //     $gifts = $this->giftVotingService->getGiftsByEvent($eventId);
-
-    //     $session = SessionHandler::getInstance();
-    //     $userId = $session->getSessionValue('userId');
-    //     // $userId = 1; // Текущият потребител (взет от сесия)
-
-    //     // Проверка дали потребителят вече е гласувал
-    //     $userVote = $this->giftVotingService->getUserVote($eventId, $userId);
-
-    //     include 'View/templates/gift_poll.phtml';
-    // }
-
-    // Добавя нов подарък
+    // Add new gift
     public function addGift()
     {
         header('Content-Type: application/json');
@@ -111,7 +85,7 @@ class GiftVotingController
             $this->giftVotingService->createPoll($eventId, $duration);
 
             echo json_encode(['status' => 'success', 'message' => 'Poll created successfully.']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
         exit;
@@ -129,10 +103,10 @@ class GiftVotingController
         try {
             $eventId = $data['eventId'];
     
-            // Приключване на poll-a
+            // Start the poll
             $this->giftVotingService->endPoll($eventId);
     
-            // Вземане на победителя
+            // Get the winner
             $winner = $this->giftVotingService->getWinningGift($eventId);
     
             if ($winner) {
@@ -148,7 +122,7 @@ class GiftVotingController
                     'winner' => null
                 ]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
         exit;

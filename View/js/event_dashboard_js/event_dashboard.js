@@ -23,10 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Submit comment
     if (commentForm) {
         commentForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // Спира стандартното поведение на формата
+            event.preventDefault(); // Stop the standart form behaviour
 
             const comment = document.getElementById('new-comment').value;
             const eventId = document.getElementById('eventId').value;
+            const username = document.getElementById('username-comment-container').dataset.value;
+
             const commentsContainer = document.getElementById('comments');
 
             if (!commentsContainer) {
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Add the new commnt to the html
                     const commentElement = document.createElement('div');
                     commentElement.classList.add('comment');
-                    commentElement.innerHTML = `<p><strong>User ${data.userId}:</strong></p><p>${data.comment}</p>`;
+                    commentElement.innerHTML = `<p><strong>${username}:</strong></p><p>${data.comment}</p>`;
                     commentsContainer.appendChild(commentElement);
                 } else {
                     document.getElementById('comment-feedback').textContent = 'Failed to add comment.';
@@ -62,6 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 feedbackElement.style.display = 'none';
                             }, 3000); // 3000 miliseconds = 3 sec
                 }
+                    
+                //scroll to the bottom to show the new message
+                requestAnimationFrame(() => {
+                    commentsContainer.scrollTop = commentsContainer.scrollHeight;
+                });
+                
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -69,9 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('comment-feedback').style.color = 'red';
                 setTimeout(() => {
                             feedbackElement.style.display = 'none';
-                        }, 3000); // 3000 miliseconds = 3 sec
+                        }, 3000); // 3000 milliseconds = 3 sec
             });
         });
+
     }
 
     //Adding organization
@@ -80,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isAnonymousCheckbox = document.getElementById("is_anonymous");
     const anonymousUsersContainer = document.getElementById("anonymous-users-container");
 
-    // Показване/скриване на формуляра
+    // Hide/reveal of the form
     addOrganizationBtn.addEventListener("click", () => {
         if (organizationFormContainer.style.display === "none") {
             organizationFormContainer.style.display = "block";
@@ -91,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Показване/скриване на полето за изключени потребители
+    // Hide/reveal of the filed for excluded users
     isAnonymousCheckbox.addEventListener("change", () => {
         if (isAnonymousCheckbox.checked) {
             anonymousUsersContainer.style.display = "block";
@@ -100,12 +109,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
         
-    // Обработка на формуляра за добавяне на организация
+    // Add organization form 
     const addOrganizationForm = document.getElementById("add-organization-form");
     addOrganizationForm.addEventListener("submit", (e) => {
-        e.preventDefault(); // Спиране на презареждането на страницата
+        e.preventDefault(); // Stop the standard form behaviour and page reloading
 
-        // Извличане на данни ръчно от полетата във формуляра
+        // Manually extract data from the form
         const eventId = document.getElementById("eventId").value; 
         const user_id = document.getElementById("user-id").value; 
         const organizerPaymentDetails = document.getElementById("organizer_payment_details").value || null;
@@ -125,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Hello world");
 
 
-        // Изпращане на заявката чрез fetch
+        // get the querry through fetch
         fetch("/add-organization-op", {
             method: "POST",
             headers: {
