@@ -1,0 +1,150 @@
+/* Main layout for event list and create event form */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Container for the event list and create event form */
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: flex-start; /* Ensure items align to the top */
+}
+
+/* Event list section */
+.event-list {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: calc(100vh - 80px); /* Adjust for header and padding */
+}
+
+.event-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.event-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.event-list li:hover {
+    background: #eaeaea;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.event-list li strong {
+    font-size: 18px;
+    color: #333;
+}
+
+.event-list li span {
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+}
+
+.event-list .view-button {
+    padding: 8px 12px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.event-list .view-button:hover {
+    background-color: #555;
+}
+
+/* Create event section */
+.create-event {
+    flex: 0 0 300px; /* Fix width and prevent flex-grow */
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 600px; /* Limit height */
+    position: sticky;
+    top: 20px; /* Stay in view while scrolling */
+}
+
+.create-event h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.create-event form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-event label {
+    font-size: 14px;
+    color: #333;
+}
+
+.create-event input,
+.create-event textarea,
+.create-event select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.create-event button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-start;
+}
+
+.create-event button:hover {
+    background-color: #45a049;
+}
+
+#create-event-feedback {
+    margin-top: 10px;
+    font-size: 14px;
+}
