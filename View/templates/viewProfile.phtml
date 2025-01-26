@@ -1,0 +1,80 @@
+<?php
+
+$username = $_SESSION['searchedUserUsername'] ?? '';
+$email = $_SESSION['searchedUserEmail'] ?? '';
+$firstName = $_SESSION['searchedUserFirstname'] ?? '';
+$lastName = $_SESSION['searchedUserLastname'] ?? '';
+$birthdate = $_SESSION['searchedUserBirthdate'] ?? '';
+$FOLLOW_STATE = $_SESSION['searchedUserIsFollowed'] ?? false;
+
+$followers = $_SESSION['searchedUserFollowers'] ?? [];
+$followersCount = count($followers);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+</head>
+<body>
+<nav class="dashboard-nav">
+    <a class="logo-href" href="/">
+        <h1>Event Organizer</h1>
+    </a>
+    <ul>
+        <li><a href="#events">Manage Events</a></li>
+        <li><a href="/edit">Edit Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<main class="dashboard-main">
+    <h1>View Profile</h1>
+    <div class="profile-info">
+        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+        <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+        <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+        <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+    </div>
+    <div class="profile-actions">
+        <?php if ($FOLLOW_STATE): ?>
+            <form action="/unfollow" method="POST">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                <button type="submit" class="btn-unfollow">Unfollow</button>
+            </form>
+        <?php else: ?>
+            <form action="/follow" method="POST">
+                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                <button type="submit" class="btn-follow">Follow</button>
+            </form>
+        <?php endif; ?>
+    </div>
+    <div class="followers-section">
+        <h2>Followers  #<?php echo $followersCount; ?></h2>
+
+        <?php if (!empty($followers)): ?>
+            <ul>
+                <?php foreach ($followers as $follower): ?>
+                    <li>
+                        <form action="/user-search" method="post" style="display: inline;">
+                            <button
+                                    type="submit"
+                                    name="searchedUser"
+                                    value="<?php echo htmlspecialchars($follower); ?>"
+                                    style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                                <?php echo htmlspecialchars($follower); ?>
+                            </button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No followers.</p>
+        <?php endif; ?>
+    </div>
+</main>
+</body>
+</html>

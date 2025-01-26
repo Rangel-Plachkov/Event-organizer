@@ -134,10 +134,10 @@ CREATE TABLE `fundraising` (
 DROP TABLE IF EXISTS `follows`;
 CREATE TABLE `follows` (
   `user_id` INT NOT NULL COMMENT 'ID на потребителя',
-  `follower_id` INT NOT NULL COMMENT 'ID на последователя',
-  PRIMARY KEY (`user_id`, `follower_id`),
+  `followed_id` INT NOT NULL COMMENT 'ID на последователя',
+  PRIMARY KEY (`user_id`, `followed_id`),
   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
-  FOREIGN KEY (`follower_id`) REFERENCES `Users` (`id`)
+  FOREIGN KEY (`followed_id`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Table structure for table `favorites`
