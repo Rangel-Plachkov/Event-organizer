@@ -37,7 +37,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                 <p>No hidden events for your followers.</p>
             <?php else: ?>
                 <?php foreach ($hiddenFollowingEvents as $followerName => $events): ?>
-                    <h3>Events for <?= htmlspecialchars($followerName) ?>:</h3>
+                    <h3>Hidden from <?= htmlspecialchars($followerName) ?>:</h3>
                     <ul>
                         <?php foreach ($events as $event): ?>
                             <li>
@@ -138,14 +138,14 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
             <input type="text" id="customType" name="customType" placeholder="Enter type">
         </div>
 
-        <div>
+        <!-- <div>
             <label for="visibility">Visibility:</label>
             <select id="visibility" name="visibility">
                 <option value="public">Public</option>
                 <option value="private">Private</option>
                 <option value="friends">Friends</option>
             </select>
-        </div>
+        </div> -->
 
         <div>
             <button type="submit">Create Event</button>

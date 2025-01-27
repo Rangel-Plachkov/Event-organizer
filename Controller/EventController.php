@@ -42,7 +42,8 @@ class EventController
                 $type = $customType;
             }
     
-            $visibility = trim($_POST['visibility'] ?? 'public');
+            // $visibility = trim($_POST['visibility'] ?? 'public');
+            $visibility = 'public';
             $session = SessionHandler::getInstance();
 
             if (empty($title) || empty($eventDate)) {
