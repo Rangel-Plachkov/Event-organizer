@@ -1,5 +1,4 @@
 <?php
-
 $username = $_SESSION['searchedUserUsername'] ?? '';
 $email = $_SESSION['searchedUserEmail'] ?? '';
 $firstName = $_SESSION['searchedUserFirstname'] ?? '';
@@ -9,72 +8,80 @@ $FOLLOW_STATE = $_SESSION['searchedUserIsFollowed'] ?? false;
 
 $followers = $_SESSION['searchedUserFollowers'] ?? [];
 $followersCount = count($followers);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+    <title>View Profile</title>
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
+    <link rel="stylesheet" href="/View/css/profile-styles.css">
 </head>
 <body>
 <nav class="dashboard-nav">
-    <a class="logo-href" href="/">
-        <h1>Event Organizer</h1>
-    </a>
-    <ul>
-        <li><a href="#events">Manage Events</a></li>
-        <li><a href="/edit">Edit Profile</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+    <div class="logo-section">
+        <a class="logo-href" href="/">
+            <h1>Event Organizer</h1>
+        </a>
+    </div>
+    <div class="nav-buttons">
+        <button onclick="navigateTo('events')">Manage Events</button>
+        <button onclick="navigateTo('/search')">Search</button>
+        <button onclick="navigateTo('/edit')">Edit Profile</button>
+        <button onclick="navigateTo('/logout')">Logout</button>
+        <button onclick="navigateTo('/delete-acc')">Delete Profile</button>
+    </div>
 </nav>
 <main class="dashboard-main">
-    <h1>View Profile</h1>
-    <div class="profile-info">
-        <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
-        <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
-        <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
-        <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-    </div>
-    <div class="profile-actions">
-        <?php if ($FOLLOW_STATE): ?>
-            <form action="/unfollow" method="POST">
-                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
-                <button type="submit" class="btn-unfollow">Unfollow</button>
-            </form>
-        <?php else: ?>
-            <form action="/follow" method="POST">
-                <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
-                <button type="submit" class="btn-follow">Follow</button>
-            </form>
-        <?php endif; ?>
-    </div>
-    <div class="followers-section">
-        <h2>Followers  #<?php echo $followersCount; ?></h2>
+    <section class="profile-container">
+        <h1>View Profile</h1>
+        <div class="profile-info">
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+            <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+            <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+            <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+        </div>
 
-        <?php if (!empty($followers)): ?>
-            <ul>
-                <?php foreach ($followers as $follower): ?>
-                    <li>
-                        <form action="/user-search" method="post" style="display: inline;">
-                            <button
-                                    type="submit"
-                                    name="searchedUser"
-                                    value="<?php echo htmlspecialchars($follower); ?>"
-                                    style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+        <div class="profile-actions">
+            <?php if ($FOLLOW_STATE): ?>
+                <form action="/unfollow" method="POST">
+                    <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                    <button type="submit" class="btn-unfollow">Unfollow</button>
+                </form>
+            <?php else: ?>
+                <form action="/follow" method="POST">
+                    <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                    <button type="submit" class="btn-follow">Follow</button>
+                </form>
+            <?php endif; ?>
+        </div>
+
+        <div class="followers-section">
+            <h2>Followers (#<?php echo $followersCount; ?>)</h2>
+            <?php if (!empty($followers)): ?>
+                <div class="user-list">
+                    <?php foreach ($followers as $follower): ?>
+                        <form action="/user-search" method="post" class="user-form">
+                            <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($follower); ?>">
                                 <?php echo htmlspecialchars($follower); ?>
                             </button>
                         </form>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php else: ?>
-            <p>No followers.</p>
-        <?php endif; ?>
-    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="empty-list">No followers.</p>
+            <?php endif; ?>
+        </div>
+    </section>
 </main>
+
+<script>
+    function navigateTo(route) {
+        window.location.href = route;
+    }
+</script>
 </body>
 </html>

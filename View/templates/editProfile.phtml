@@ -11,24 +11,29 @@ $birthdate = isset($_SESSION['birthdate']) ? $_SESSION['birthdate'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
-    <link rel="stylesheet" href="/View/css/editProfile-styles.css">
 </head>
 <body>
 <nav class="dashboard-nav">
-    <a class="logo-href" href="/">
-        <h1>Event Organizer</h1>
-    </a>
-    <ul>
-        <li><a href="#events">Manage Events</a></li>
-        <li><a class="active" href="/edit">Edit Profile</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+    <div class="logo-section">
+        <a class="logo-href" href="/">
+            <h1>Event Organizer</h1>
+        </a>
+    </div>
+    <div class="nav-buttons">
+        <button onclick="navigateTo('events')">Manage Events</button>
+        <button onclick="navigateTo('/search')">Search</button>
+        <button onclick="navigateTo('/edit')">Edit Profile</button>
+        <button onclick="navigateTo('/logout')">Logout</button>
+        <button onclick="navigateTo('/delete-acc')">Delete Profile</button>
+    </div>
 </nav>
 <main class="dashboard-main">
     <section id="events">
         <div class="edit-profile-container">
-            <h1>Edit Your Profile</h1>
+            <h2>Edit Your Profile</h2>
             <form action="/edit-acc" method="post">
                 <label for="firstname">First Name:</label>
                 <input type="text" name="firstname" id="firstname" value="<?php echo htmlspecialchars($firstName); ?>" required>
@@ -54,21 +59,25 @@ $birthdate = isset($_SESSION['birthdate']) ? $_SESSION['birthdate'] : '';
                 <label for="confirmpassword">Confirm New Password:</label>
                 <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm new password">
 
-                <button type="submit">Update Profile</button>
+                <button type="submit" class="update-btn">Update Profile</button>
             </form>
             <?php
             if (isset($_SESSION['update_success'])) {
                 echo '<div class="success-message">' . $_SESSION['update_success'] . '</div>';
-
                 unset($_SESSION['update_success']);
             }
-            if (isset($_SESSION['error'])) {
+            if (isset($_SESSION['update_error'])) {
                 echo '<div class="error-message">' . $_SESSION['update_error'] . '</div>';
             }
             ?>
         </div>
     </section>
 </main>
+
+<script>
+    function navigateTo(route) {
+        window.location.href = route;
+    }
+</script>
 </body>
 </html>
-

@@ -1,0 +1,96 @@
+/* Navigation Bar */
+.dashboard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0056b3;
+    padding: 10px 20px;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-nav h1 {
+    font-size: 1.5rem;
+}
+
+.nav-buttons button {
+    background-color: #fff;
+    color: #0056b3;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-buttons button:hover {
+    background-color: #004494;
+    color: #fff;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    filter: brightness(90%);
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+form input:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 86, 179, 0.5);
+}
+
+/* Messages */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+/* Cards */
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
