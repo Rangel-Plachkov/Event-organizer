@@ -215,7 +215,7 @@ class UserService
 
 
 
-    private function getFollowingUsernames($username): array
+    public function getFollowingUsernames($username): array
     {
         $user = $this->userRepository->findUserByUsername($username);
 

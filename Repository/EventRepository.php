@@ -84,4 +84,17 @@ class EventRepository extends BaseRepository
         return $events;
     }
 
+    public function getHiddenEventsForUser(string $username): array
+    {
+        $sql = "SELECT e.* 
+                FROM events e
+                JOIN event_organization eo ON e.id = eo.event_id
+                WHERE eo.excluded_user_name = :username";
+    
+        $params = [
+            ':username' => $username,
+        ];
+    
+        return $this->fetchAll($sql, $params);
+    } 
 }

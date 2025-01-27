@@ -45,12 +45,18 @@ class PageController extends AbstractController
         
     public function listEvents()
     {
-        $events = $this->eventService->getAllEvents();
-
         $session = sessionhandler::getinstance();
+        
+        //TODO: add filtering for removing events that you are excluded from
+        $username = $session->getSessionValue('username');
+        
+        $following = $this->userService->getFollowingUsernames($username);
+        
+        $hiddenFollowingEvents = $this->eventService->getHiddenEventsByFollowingUsers($following);
 
         require_once  'View/templates/event_list.phtml';
     }
+
     public function search(){
         require_once 'View/templates/search.html';
     }

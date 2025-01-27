@@ -178,5 +178,19 @@ class EventService
         // Add participant
        $this->participantsRepository->addParticipant($eventId, $userId);
     }
+    
+    public function getHiddenEventsByFollowingUsers($following): array
+    {
+        $eventsByFollower = [];
+
+        foreach ($following as $follower) {
+            $events = $this->eventRepository->getHiddenEventsForUser($follower);
+            if (!empty($events)) {
+                $eventsByFollower[$follower] = $events;
+            }
+        }
+
+        return $eventsByFollower;
+    }
 
 }
