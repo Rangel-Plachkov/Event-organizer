@@ -45,11 +45,9 @@
 }
 
 .profile-image img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+    width: 80%;
+    height: 80%;
     border: 3px solid #0056b3;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .about-container h1, .about-container h2 {

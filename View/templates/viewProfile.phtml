@@ -30,14 +30,14 @@ $followersCount = count($followers);
         <button onclick="navigateTo('events')">Manage Events</button>
         <button onclick="navigateTo('/search')">Search</button>
         <button onclick="navigateTo('/edit')">Edit Profile</button>
-        <button onclick="navigateTo('/about')">About</button>
+        <button onclick="navigateTo('/about')">About Us</button>
         <button onclick="navigateTo('/logout')">Logout</button>
         <button onclick="navigateTo('/delete-acc')">Delete Profile</button>
     </div>
 </nav>
 <main class="dashboard-main">
     <section class="profile-container">
-        <h1>View Profile</h1>
+        <h2>View Profile</h2>
         <div class="profile-info">
             <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
             <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
