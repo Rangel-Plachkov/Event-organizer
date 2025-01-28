@@ -15,6 +15,7 @@ $routesRegistrator->map("POST", "[page@eventDashboard]", "event-dashboard", "eve
 $routesRegistrator->map("GET", "[page@viewProfile]", "viewProfile", "viewProfile");
 $routesRegistrator->map("GET", "[page@search]", "search", "search");
 $routesRegistrator->map("GET", "[page@myProfile]", "myProfile", "myProfile");
+$routesRegistrator->map("GET", "[page@about]", "about", "about");
 
 //USER ROUTES
 $routesRegistrator->map("POST", "[user@createAcc]", "create-acc", "createAcc");

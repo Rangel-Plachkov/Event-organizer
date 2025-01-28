@@ -104,4 +104,7 @@ class PageController extends AbstractController
         
         require_once 'View/templates/event_dashboard.phtml';
     }
+    public function about(){
+        require_once 'View/templates/about.html';
+    }
 }
