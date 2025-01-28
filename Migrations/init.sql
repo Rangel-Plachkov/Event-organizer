@@ -123,7 +123,7 @@ CREATE TABLE votes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (gift_id) REFERENCES gifts(id) ON DELETE CASCADE,
     UNIQUE (gift_id, user_id) -- A user can vote only once for a gift
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_ci;;
 
 DROP TABLE IF EXISTS polls;
 CREATE TABLE polls (
