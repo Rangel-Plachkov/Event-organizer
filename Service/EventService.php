@@ -6,18 +6,24 @@ use Repository\EventOrganizationRepository;
 use Repository\EventRepository;
 use Entity\Event;
 use Repository\ParticipantsRepository;
+use Repository\UserRepository;
 
 class EventService
 {
     private EventRepository $eventRepository;
     private EventOrganizationRepository $eventOrganizationRepository;
     private ParticipantsRepository $participantsRepository;
+    private UserService $userService;
+    private UserRepository $userRepository;
 
     public function __construct()
     {
         $this->eventRepository = new EventRepository();
         $this->eventOrganizationRepository = new EventOrganizationRepository();
         $this->participantsRepository = new ParticipantsRepository();
+
+        $this->userRepository = new UserRepository();
+        $this->userService = new UserService();
     }
 
     public function createEvent(Event $event): int
@@ -45,7 +51,7 @@ class EventService
         $organizerPaymentDetails = null,
         ?string $placeAddress = null,
         ?bool $isAnonymous = false,
-        ?int $excludedUserName = null
+        ?string $excludedUserName = null
     ): void {
         // Validate event ID
         if ($eventId <= 0) {
@@ -120,8 +126,26 @@ class EventService
         if ($eventId <= 0) {
             throw new \InvalidArgumentException('Invalid event ID.');
         }
+        
+        $participantsIds = $this->participantsRepository->getParticipantsIds($eventId);
 
-        return $this->participantsRepository->getParticipants($eventId);
+        // Convert participant IDs to usernames
+        $participants = [];
+        foreach ($participantsIds as $userId) {
+            $username = $this->userService->getUsernameById($userId);
+            if ($username) {
+                $participants[] = $username;
+            }
+        }       
+
+        return $participants;
+    }
+    
+    public function isParticipant($userId, $eventId)
+    {
+
+        return $this->participantsRepository->isParticipant($userId, $eventId);
+        // return in_array($userId, $participantsIds);
     }
 
     public function getEventOrganization(int $eventId): ?array
@@ -137,6 +161,11 @@ class EventService
         return $this->eventRepository->getAllEvents();
     }
     
+    public function getAllNotHiddenEvents(string $username): array
+    {
+        return $this->eventRepository->getAllNotHiddenEvents($username);
+    }
+    
     public function setHasOrganization(int $eventId, bool $hasOrganization): void
     {
         // Check event id validity
@@ -150,13 +179,52 @@ class EventService
     public function joinOrganization(int $eventId, int $userId): void
     {
         // Check of participant is allready added
-        $participants = $this->participantsRepository->getParticipants($eventId);
+        $participants = $this->participantsRepository->getParticipantsIds($eventId);
         if (in_array($userId, $participants, true)) {
             throw new \Exception('User is already a participant in this event.');
         }
 
         // Add participant
        $this->participantsRepository->addParticipant($eventId, $userId);
+    }
+    
+    public function getHiddenEventsByFollowingUsers($following): array
+    {
+        $eventsByFollower = [];
+
+        foreach ($following as $follower) {
+            $events = $this->eventRepository->getHiddenEventsForUser($follower);
+            if (!empty($events)) {
+                $eventsByFollower[$follower] = $events;
+            }
+        }
+
+        return $eventsByFollower;
+    }
+
+    public function getEventsWhereNotHiddenAndFollowingParticipate($username, $following) 
+    {
+        $eventsByFollower = [];
+
+        foreach ($following as $follower) {
+
+            $user = $this->userRepository->findUserByUsername($follower);
+            
+            if ($user) {
+
+                $events = $this->eventRepository->getEventsWhereFollowerParticipateAndNotHidden($username, $user['id']);
+                if (!empty($events)) {
+                    $eventsByFollower[$follower] = $events;
+                }
+            }
+        }
+
+        return $eventsByFollower;
+    }
+
+    public function getEventsWithOrganizationAndNotHidden(string $username): array
+    {
+        return $this->eventRepository->getEventsWithOrganizationAndNotHidden($username);
     }
 
 }

@@ -10,7 +10,7 @@ $routesRegistrator->map("GET", "[page@signUp]", "sign-up", "signUpPage");
 $routesRegistrator->map("GET", "[page@signIn]", "sign-in", "signInPage");
 $routesRegistrator->map("GET", "[page@edit]", "edit", "editPage");
 $routesRegistrator->map("GET", "[page@createEvent]", "create-event", "create_event-page");
-$routesRegistrator->map("GET", "[page@listEvents]", "event-list", "create_event-page");
+$routesRegistrator->map("GET", "[page@listEvents]", "event-list", "eventList");
 $routesRegistrator->map("POST", "[page@eventDashboard]", "event-dashboard", "event-dashboard");
 $routesRegistrator->map("GET", "[page@viewProfile]", "viewProfile", "viewProfile");
 $routesRegistrator->map("GET", "[page@search]", "search", "search");
@@ -31,6 +31,7 @@ $routesRegistrator->map("POST", "[user@unfollow]", "unfollow", "unfollow");
 
 //EVENT ROUTES
 $routesRegistrator->map("POST", "[event@createEvent]", "create-event-op", "createEvent");
+$routesRegistrator->map("POST", "[event@deleteEvent]", "delete-event", "delete-event-operation");
 $routesRegistrator->map("POST", "[event@addOrganization]", "add-organization-op", "add-ogranization-operation");
 $routesRegistrator->map("POST", "[event@joinOrganization]", "join-event-btn", "join-ogranization-operation");
 //GIFT ROUTES

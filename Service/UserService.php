@@ -220,7 +220,7 @@ class UserService
 
 
 
-    private function getFollowingUsernames($username): array
+    public function getFollowingUsernames($username): array
     {
         $user = $this->userRepository->findUserByUsername($username);
 
@@ -307,6 +307,14 @@ class UserService
     }
 
 
+    public function doesUsernameExist(string $username): bool
+    {
+        return $this->userRepository->doesUsernameExist($username);
+    }
 
+    public function getUsernameById(int $userId): ?string
+    {
+        return $this->userRepository->getUsernameById($userId);
+    }
 
 }
