@@ -45,12 +45,20 @@ class PageController extends AbstractController
         
     public function listEvents()
     {
-        $events = $this->eventService->getAllEvents();
-
         $session = sessionhandler::getinstance();
+        
+        $username = $session->getSessionValue('username');
+        
+        $following = $this->userService->getFollowingUsernames($username);
+        
+        $hiddenFollowingEvents = $this->eventService->getHiddenEventsByFollowingUsers($following);
+        $participantFollowerEvents  = $this->eventService->getEventsWhereNotHiddenAndFollowingParticipate($username, $following);
+        $allNotHiddenEvents = $this->eventService->getAllNotHiddenEvents($username);
+        $organizationEvents = $this->eventService->getEventsWithOrganizationAndNotHidden($username);
 
         require_once  'View/templates/event_list.phtml';
     }
+
     public function search(){
         require_once 'View/templates/search.html';
     }
@@ -78,21 +86,23 @@ class PageController extends AbstractController
             throw new \InvalidArgumentException('Event not found.');
         }
 
-        // Fetch participants
-        $participantsIds = $this->eventService->getParticipants($eventId);
-        
+        $participants = $this->eventService->getParticipants($eventId);
+
         // Fetch comments
         $comments = $this->commentService->getCommentsByTarget($eventId, 'event');
 
         // Check if the user is a participant
-        $isParticipant = in_array($userId, $participantsIds);
+        $isParticipant = $this->eventService->isParticipant($userId, $eventId);
 
         // Fetch organization details if the event has an organization
         $organization = null;
+        $organizerName = null;
         if ($event->getHasOrganization()) {
             $organization = $this->eventService->getEventOrganization($eventId);
+            $organizerName =$this->userService->getUsernameById($organization['organizer_id']);
         }
-        
+
+
         //Gift poll variables
         $hasPoll = $this->giftVotingService->hasPoll($eventId);
         $pollEnded = $this->giftVotingService->hasPollEnded($eventId);
