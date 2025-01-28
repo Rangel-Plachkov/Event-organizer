@@ -26,12 +26,29 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                 <option value="hidden-follower">Hidden Follower Events</option>
                 <option value="participant-follower">Follower Participant Events</option>
                 <option value="with-organization">Events with Organization</option>
-                <option value="other">Other Events</option>
             </select>
         </div>
 
+        <!-- All Events -->
+        <div class="event-subsection all-events" style="display: none;">
+            <h2>All Events</h2>
+            <ul>
+                <?php foreach ($allNotHiddenEvents as $event): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($event->getTitle()) ?></strong>
+                        <strong><?= htmlspecialchars($event->getType()) ?></strong>
+                        <span><?= htmlspecialchars($event->getEventDate()) ?></span>
+                        <form action="/event-dashboard" method="POST" class="view-button-form">
+                            <input type="hidden" name="eventId" value="<?= $event->getId() ?>">
+                            <button type="submit" class="view-button">View</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
         <!-- Hidden Follower Events -->
-        <div class="event-subsection hidden-follower-events" style="display: block;">
+        <div class="event-subsection hidden-follower-events" style="display: none;">
             <h2>Hidden Follower Events</h2>
             <?php if (empty($hiddenFollowingEvents)): ?>
                 <p>No hidden events for your followers.</p>
@@ -55,25 +72,32 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
         </div>
 
         <!-- Follower Participant Events -->
-        <div class="event-subsection participant-follower-events" style="display: block;">
-            <h2>Follower Participant Events</h2>
-            <ul>
-                <?php foreach ($participantFollowerEvents as $event): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($event->getTitle()) ?></strong>
-                        <strong><?= htmlspecialchars($event->getType()) ?></strong>
-                        <span><?= htmlspecialchars($event->getEventDate()) ?></span>
-                        <form action="/event-dashboard" method="POST" class="view-button-form">
-                            <input type="hidden" name="eventId" value="<?= $event->getId() ?>">
-                            <button type="submit" class="view-button">View</button>
-                        </form>
-                    </li>
+        <div class="event-subsection participant-follower-events" style="display: none;">
+            <h2>Following participating in Events</h2>
+            <?php if (empty($participantFollowerEvents)): ?>
+                <p>No events found for your followers.</p>
+            <?php else: ?>
+                <?php foreach ($participantFollowerEvents as $followerName => $events): ?>
+                    <h3><?= htmlspecialchars($followerName)?> participates in:</h3>
+                    <ul>
+                        <?php foreach ($events as $event): ?>
+                            <li>
+                                <strong><?= htmlspecialchars($event->getTitle()) ?></strong>
+                                <strong><?= htmlspecialchars($event->getType()) ?></strong>
+                                <span><?= htmlspecialchars($event->getEventDate()) ?></span>
+                                <form action="/event-dashboard" method="POST" class="view-button-form">
+                                    <input type="hidden" name="eventId" value="<?= $event->getId() ?>">
+                                    <button type="submit" class="view-button">View</button>
+                                </form>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
                 <?php endforeach; ?>
-            </ul>
+            <?php endif; ?>
         </div>
 
         <!-- Events with Organization -->
-        <div class="event-subsection organization-events" style="display: block;">
+        <div class="event-subsection organization-events" style="display: none;">
             <h2>Events with Organization</h2>
             <ul>
                 <?php foreach ($organizationEvents as $event): ?>
@@ -90,23 +114,6 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
             </ul>
         </div>
 
-        <!-- Other Events -->
-        <div class="event-subsection other-events" style="display: block;">
-            <h2>Other Events</h2>
-            <ul>
-                <?php foreach ($otherEvents as $event): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($event->getTitle()) ?></strong>
-                        <strong><?= htmlspecialchars($event->getType()) ?></strong>
-                        <span><?= htmlspecialchars($event->getEventDate()) ?></span>
-                        <form action="/event-dashboard" method="POST" class="view-button-form">
-                            <input type="hidden" name="eventId" value="<?= $event->getId() ?>">
-                            <button type="submit" class="view-button">View</button>
-                        </form>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
     </div> <!-- End of List of events -->
 
     <!-- Form for creating events -->
@@ -158,54 +165,6 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
 
 <script src="View/js/event_list_ls/event_listing_and_filtering.js"></script>
-<script>
-    function toggleCustomTypeField() {
-        const typeSelect = document.getElementById('type');
-        const customTypeContainer = document.getElementById('customTypeContainer');
-
-        if (typeSelect.value === 'Other') {
-            customTypeContainer.style.display = 'block';
-        } else {
-            customTypeContainer.style.display = 'none';
-            document.getElementById('customType').value = '';
-        }
-    }
-
-    // Handle the create event form submission
-    document.getElementById('create-event-form').addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        const formData = new FormData(this);
-
-        fetch('/create-event-op', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            const feedback = document.getElementById('create-event-feedback');
-            if (data.status === 'success') {
-                feedback.textContent = 'Event created successfully!';
-                feedback.style.color = 'green';
-                // Optionally reload the page or dynamically add the new event to the list
-                location.reload();
-            } else {
-                feedback.textContent = 'Failed to create event: ' + data.message;
-                feedback.style.color = 'red';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            const feedback = document.getElementById('create-event-feedback');
-            feedback.textContent = 'An error occurred while creating the event.' + error;
-            feedback.style.color = 'red';
-
-            // Wait 5 seconds (5000 milliseconds) before reloading the page
-            setTimeout(() => {
-                location.reload();
-            }, 5000);
-        });
-    });
-</script>
+<script src="View/js/event_list_ls/event_list.js"></script>
 </body>
 </html>
