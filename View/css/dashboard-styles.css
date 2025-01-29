@@ -24,3 +24,24 @@
 .add-event-btn:hover {
     background-color: #2980B9;
 }
+
+.delete-profile-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 50px;
+}
+
+.update-btn {
+    background-color: #218838;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
