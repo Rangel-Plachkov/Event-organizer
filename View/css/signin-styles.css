@@ -65,18 +65,3 @@
     font-size: 0.9rem;
     color: #666;
 }
-
-.btn-signup-link {
-    background: none;
-    border: none;
-    color: #007bff;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.3s ease-in-out;
-}
-
-.btn-signup-link:hover {
-    color: #0056b3;
-}
-
