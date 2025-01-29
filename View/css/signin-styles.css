@@ -80,13 +80,3 @@
     color: #0056b3;
 }
 
-@media (max-width: 480px) {
-    .signin-container {
-        margin: 20px;
-        padding: 15px;
-    }
-
-    .signin-container h1 {
-        font-size: 1.5rem;
-    }
-}

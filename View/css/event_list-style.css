@@ -7,7 +7,7 @@ body {
     color: #333;
 }
 
-h1, h2, h3 {
+ h2, h3 {
     color: #2c3e50;
 }
 
@@ -151,24 +151,4 @@ h1, h2, h3 {
 
 #customTypeContainer {
     margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .dashboard-container {
-        padding: 10px;
-    }
-
-    .event-list, .create-event {
-        padding: 15px;
-    }
-
-    .event-subsection li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .view-button {
-        margin-top: 10px;
-        width: 100%;
-    }
 }
