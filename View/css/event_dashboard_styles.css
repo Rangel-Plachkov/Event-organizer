@@ -1,0 +1,260 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.dashboard {
+    margin-left: 260px;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.left-panel {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 2;
+    min-height: 400px;
+}
+
+.left-panel h1,
+.left-panel h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.left-panel p {
+    margin: 5px 0;
+}
+
+.left-panel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.left-panel li {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.right-panel {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-height: 400px;
+}
+
+.right-panel h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+#comments {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background: #fafafa;
+}
+
+.comment {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment p {
+    margin: 2px 0;
+}
+
+.poll-management {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background: #ecf0f1;
+}
+
+.gift-poll {
+    margin-top: 10px;
+}
+
+.gift-poll h2 {
+    color: #2c3e50;
+}
+
+.gift-poll ul {
+    list-style: none;
+    padding: 0;
+}
+
+.gift-poll li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#join-event-form button,
+#create-poll-btn,
+#end-poll-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.vote-button {
+    background-color: #2ecc71;
+    color: white;
+}
+
+#delete-event-btn {
+    background-color: #e74c3c;
+    color: white;
+    margin-top: 10px;
+}
+
+#comment-form {
+    margin-top: 15px;
+}
+
+#new-comment {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-size: 14px;
+}
+
+#comment-form button {
+    background-color: #2ecc71;
+    color: white;
+    width: 100%;
+    margin-top: 5px;
+}
+
+#organization-form-container {
+    background: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#organization-form-container label {
+    font-weight: bold;
+}
+
+#organization-form-container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.nav {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    background: #2C3E50;
+    padding-top: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-href {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.nav-buttons a {
+    width: 90%;
+    margin: 5px 0;
+}
+
+.nav-buttons button {
+    width: 100%;
+    padding: 10px;
+    background-color: #34495E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #1ABC9C;
+}
+
+.dashboard-main {
+    margin-left: 260px;
+    padding: 20px;
+    width: calc(100% - 260px);
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .left-panel, .right-panel {
+        width: 100%;
+    }
+
+    .nav {
+        width: 200px;
+    }
+
+    .dashboard-main {
+        margin-left: 210px;
+        width: calc(100% - 210px);
+    }
+
+    .nav-buttons button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

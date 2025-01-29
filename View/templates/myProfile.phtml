@@ -1,0 +1,106 @@
+<?php
+$username = $_SESSION['username'] ?? '';
+$email = $_SESSION['email'] ?? '';
+$firstName = $_SESSION['firstname'] ?? '';
+$lastName = $_SESSION['lastname'] ?? '';
+$birthdate = $_SESSION['birthdate'] ?? '';
+
+$followers = $_SESSION['followers'] ?? [];
+$followersCount = count($followers);
+
+$following = $_SESSION['following'] ?? [];
+$followingCount = count($following);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
+    <link rel="stylesheet" href="/View/css/profile-styles.css">
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+</head>
+<body>
+
+
+
+<nav class="nav">
+    <div class="logo-section">
+        <a class="logo-href" href="/">
+            <h1>Event Organizer</h1>
+        </a>
+    </div>
+    <div class="nav-buttons">
+        <a href="/event-list"><button>Events</button></a>
+        <a href="/search"><button>Search</button></a>
+        <a href="/myProfile"><button>My Profile</button></a>
+        <a href="/about"><button>About Us</button></a>
+        <a href="/logout"><button>Logout</button></a>
+    </div>
+</nav>
+
+<main class="main">
+    <section class="profile-container">
+        <h2>My Profile</h2>
+
+        <div class="profile-info">
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+            <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+            <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+            <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+        </div>
+
+
+        <div class="edit-profile-section">
+            <a href="/edit">
+                <button class="btn-edit-profile">Edit Profile</button>
+            </a>
+        </div>
+
+        <div class="followers-section">
+            <h2>Followers (#<?php echo $followersCount; ?>)</h2>
+            <?php if (!empty($followers)): ?>
+                <ul class="user-list">
+                    <?php foreach ($followers as $follower): ?>
+                        <li>
+                            <form action="/user-search" method="post" class="user-form">
+                                <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($follower); ?>">
+                                    <?php echo htmlspecialchars($follower); ?>
+                                </button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p class="empty-list">No followers.</p>
+            <?php endif; ?>
+        </div>
+
+        <div class="following-section">
+            <h2>Following (#<?php echo $followingCount; ?>)</h2>
+            <?php if (!empty($following)): ?>
+                <ul class="user-list">
+                    <?php foreach ($following as $followedUser): ?>
+                        <li>
+                            <form action="/user-search" method="post" class="user-form">
+                                <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($followedUser); ?>">
+                                    <?php echo htmlspecialchars($followedUser); ?>
+                                </button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p class="empty-list">Not following anyone.</p>
+            <?php endif; ?>
+        </div>
+
+    </section>
+</main>
+
+</body>
+</html>
+

@@ -1,9 +1,89 @@
+
+<?php
+$username = $_SESSION['searchedUserUsername'] ?? '';
+$email = $_SESSION['searchedUserEmail'] ?? '';
+$firstName = $_SESSION['searchedUserFirstname'] ?? '';
+$lastName = $_SESSION['searchedUserLastname'] ?? '';
+$birthdate = $_SESSION['searchedUserBirthdate'] ?? '';
+$FOLLOW_STATE = $_SESSION['searchedUserIsFollowed'] ?? false;
+
+$followers = $_SESSION['searchedUserFollowers'] ?? [];
+$followersCount = count($followers);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Preview</title>
+
+    <title>View Profile</title>
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
+    <link rel="stylesheet" href="/View/css/profile-styles.css">
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+</head>
+<body>
+<nav class="nav">
+    <div class="logo-section">
+        <a class="logo-href" href="/">
+            <h1>Event Organizer</h1>
+        </a>
+    </div>
+    <div class="nav-buttons">
+        <a href="/event-list"><button>Events</button></a>
+        <a href="/search"><button>Search</button></a>
+        <a href="/myProfile"><button>My Profile</button></a>
+        <a href="/about"><button>About Us</button></a>
+        <a href="/logout"><button>Logout</button></a>
+    </div>
+</nav>
+
+<main class="main">
+    <section class="profile-container">
+        <h2>View Profile</h2>
+        <div class="profile-info">
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+            <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
+            <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
+            <p><strong>Birthdate:</strong> <?php echo htmlspecialchars($birthdate); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+        </div>
+
+        <div class="profile-actions">
+            <?php if ($FOLLOW_STATE): ?>
+                <form action="/unfollow" method="POST">
+                    <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                    <button type="submit" class="btn-unfollow">Unfollow</button>
+                </form>
+            <?php else: ?>
+                <form action="/follow" method="POST">
+                    <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                    <button type="submit" class="btn-follow">Follow</button>
+                </form>
+            <?php endif; ?>
+        </div>
+
+        <div class="followers-section">
+            <h2>Followers (#<?php echo $followersCount; ?>)</h2>
+            <?php if (!empty($followers)): ?>
+                <div class="user-list">
+                    <?php foreach ($followers as $follower): ?>
+                        <form action="/user-search" method="post" class="user-form">
+                            <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($follower); ?>">
+                                <?php echo htmlspecialchars($follower); ?>
+                            </button>
+                        </form>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p class="empty-list">No followers.</p>
+            <?php endif; ?>
+        </div>
+    </section>
+</main>
+
+<!--     <title>Profile Preview</title>
     <link rel="stylesheet" href="/View/css/viewProfile-styles.css   ">
 </head>
 <body>
@@ -13,6 +93,7 @@
         <p class="profile-birthdate">Born on:  ?></p>
     </div>
     <button class="follow-button">Follow</button>
-</div>
+</div> -->
+
 </body>
 </html>
