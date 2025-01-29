@@ -102,17 +102,3 @@ body, html {
 .signup-container p button:hover {
     background-color: #16A085;
 }
-
-/*@media (max-width: 768px) {*/
-/*    .signup-container {*/
-/*        width: 90%;*/
-/*    }*/
-
-/*    .navbar {*/
-/*        padding: 5px 0;*/
-/*    }*/
-
-/*    .logo-href h1 {*/
-/*        font-size: 20px;*/
-/*    }*/
-/*}*/
