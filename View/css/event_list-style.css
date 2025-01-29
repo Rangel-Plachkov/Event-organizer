@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Event List Section */
+.event-list {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-list h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.event-filter {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-filter label {
+    font-weight: bold;
+}
+
+.event-filter select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.event-subsection {
+    margin-top: 20px;
+}
+
+.event-subsection h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.event-subsection ul {
+    list-style: none;
+    padding: 0;
+}
+
+.event-subsection li {
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-subsection li strong {
+    font-weight: bold;
+}
+
+.event-subsection li span {
+    color: #7f8c8d;
+}
+
+.view-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.view-button:hover {
+    background-color: #2980b9;
+}
+
+/* Create Event Form */
+.create-event {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-event h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.create-event form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-event label {
+    font-weight: bold;
+}
+
+.create-event input[type="text"],
+.create-event input[type="date"],
+.create-event select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#create-event-form button {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#create-event-form button:hover {
+    background-color: #27ae60;
+}
+
+/* Feedback Message */
+#create-event-feedback {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+/* Custom Type Container */
+#customTypeContainer {
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .event-list, .create-event {
+        padding: 15px;
+    }
+
+    .event-subsection li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .view-button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
