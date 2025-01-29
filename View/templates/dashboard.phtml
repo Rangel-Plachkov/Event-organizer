@@ -19,24 +19,23 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Manage Events</button></a>
+        <a href="/event-list"><button>Events</button></a>
         <a href="/search"><button>Search</button></a>
-        <a href="/edit"><button>Edit Profile</button></a>
+        <a href="/myProfile"><button>My Profile</button></a>
         <a href="/about"><button>About Us</button></a>
         <a href="/logout"><button>Logout</button></a>
-        <a href="/delete-acc"><button>Delete Profile</button></a>
     </div>
 </nav>
 
 <main class="main">
-    <section id="events">
-        <h3>Welcome <?php echo htmlspecialchars($fullName); ?></h3>
-        <h2>Manage Events</h2>
-        <button class="add-event-btn" onclick="addEvent()">Add Event</button>
-        <div class="events-list">
-            <p>No events yet. Start by adding a new event!</p>
-        </div>
-    </section>
+<!--    <section id="events">-->
+<!--        <h3>Welcome --><?php //echo htmlspecialchars($fullName); ?><!--</h3>-->
+<!--        <h2>Manage Events</h2>-->
+<!--        <button class="add-event-btn" onclick="addEvent()">Add Event</button>-->
+<!--        <div class="events-list">-->
+<!--            <p>No events yet. Start by adding a new event!</p>-->
+<!--        </div>-->
+<!--    </section>-->
 </main>
 </body>
 </html>

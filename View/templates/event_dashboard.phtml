@@ -15,7 +15,6 @@ $username = $_SESSION['username'] ?? '';
 </head>
 <body>
 
-<!-- Navigation Sidebar -->
 <nav class="nav">
     <div class="logo-section">
         <a class="logo-href" href="/">
@@ -32,10 +31,9 @@ $username = $_SESSION['username'] ?? '';
     </div>
 </nav>
 
-<!-- Main Content -->
-<main class="dashboard-main">
+
+<main class="main">
     <div class="dashboard">
-        <!-- Left Panel: Event Details -->
         <div class="left-panel">
             <h1>Event Details</h1>
             <p><strong>Title:</strong> <?= htmlspecialchars($event->getTitle()) ?></p>
