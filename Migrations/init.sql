@@ -123,7 +123,7 @@ CREATE TABLE votes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (gift_id) REFERENCES gifts(id) ON DELETE CASCADE,
     UNIQUE (gift_id, user_id) -- A user can vote only once for a gift
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_ci;;
 
 DROP TABLE IF EXISTS polls;
 CREATE TABLE polls (
@@ -139,23 +139,6 @@ CREATE TABLE polls (
 
 
 
--- USEFULL ?? 
--- Table structure for table `fundraising`
-
--- DROP TABLE IF EXISTS `fundraising`;
--- CREATE TABLE `fundraising` (
---   `id` INT NOT NULL AUTO_INCREMENT,
---   `target_id` INT NOT NULL COMMENT 'ID на свързания обект за който се събират пари',
---   `organizer_id` INT NOT NULL COMMENT 'ID на организатора на събирането',
---   `target_amount` DECIMAL(10,2) NOT NULL COMMENT 'Целева сума за събиране',
---   `current_amount` DECIMAL(10,2) DEFAULT 0 COMMENT 'Текущо събрана сума',
---   `deadline` DATE NOT NULL COMMENT 'Краен срок за събиране',
---   `payment_details` VARCHAR(255) COMMENT 'Информация за плащане',
---   PRIMARY KEY (`id`),
---   FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Table structure for table `follows`
 
 DROP TABLE IF EXISTS `follows`;
 CREATE TABLE `follows` (
@@ -175,4 +158,18 @@ CREATE TABLE `follows` (
 --   PRIMARY KEY (`user_id`, `follower_id`),
 --   FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
 --   FOREIGN KEY (`follower_id`) REFERENCES `Users` (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- DROP TABLE IF EXISTS `fundraising`;
+-- CREATE TABLE `fundraising` (
+--   `id` INT NOT NULL AUTO_INCREMENT,
+--   `target_id` INT NOT NULL COMMENT 'ID на свързания обект за който се събират пари',
+--   `organizer_id` INT NOT NULL COMMENT 'ID на организатора на събирането',
+--   `target_amount` DECIMAL(10,2) NOT NULL COMMENT 'Целева сума за събиране',
+--   `current_amount` DECIMAL(10,2) DEFAULT 0 COMMENT 'Текущо събрана сума',
+--   `deadline` DATE NOT NULL COMMENT 'Краен срок за събиране',
+--   `payment_details` VARCHAR(255) COMMENT 'Информация за плащане',
+--   PRIMARY KEY (`id`),
+--   FOREIGN KEY (`organizer_id`) REFERENCES `Users` (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

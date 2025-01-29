@@ -1,0 +1,82 @@
+.profile-actions {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-follow, .btn-unfollow {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-follow {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-follow:hover {
+    background-color: #218838;
+}
+
+.btn-unfollow {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-unfollow:hover {
+    background-color: #c82333;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-form button {
+    display: block;
+    width: 100px;
+    text-align: center;
+    background-color: #009eb3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-form button:hover {
+    background-color: #004494;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.user-form button:active {
+    background-color: #003366;
+    transform: scale(0.98);
+}
+
+.btn-edit-profile {
+    background-color: #3498DB;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.btn-edit-profile:hover {
+    background-color: #2980B9;
+}

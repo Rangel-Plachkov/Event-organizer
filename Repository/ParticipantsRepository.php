@@ -19,7 +19,7 @@ class ParticipantsRepository extends BaseRepository
 
         $this->executeQuery($sql, $params);
     }
-    public function getParticipants(int $eventId): array
+    public function getParticipantsIds(int $eventId): array
     {
         $sql = "SELECT user_id FROM participants WHERE event_id = :event_id";
     
@@ -34,5 +34,33 @@ class ParticipantsRepository extends BaseRepository
     
         return $participants;
     }
+    public function getEventsByUser(int $userId): array
+    {
+        $sql = "SELECT event_id FROM participants WHERE user_id = :user_id";
+
+        $params = [':user_id' => $userId];
+
+        $rows = $this->fetchAll($sql, $params);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = $row['event_id'];
+        }
+
+        return $events;
+    }
     
+    public function isParticipant(int $userId, int $eventId): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM participants WHERE event_id = :event_id AND user_id = :user_id";
+        
+        $params = [
+            ':event_id' => $eventId,
+            ':user_id' => $userId,
+        ];
+        
+        $result = $this->fetchOne($sql, $params);
+
+        return $result['count'] > 0;
+    }
 }

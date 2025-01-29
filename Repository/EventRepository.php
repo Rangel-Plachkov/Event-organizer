@@ -84,4 +84,111 @@ class EventRepository extends BaseRepository
         return $events;
     }
 
+    public function getAllNotHiddenEvents(string $username): array
+    {
+        $sql = "
+            SELECT e.*
+            FROM events e
+            LEFT JOIN event_organization eo ON e.id = eo.event_id
+            WHERE eo.excluded_user_name IS NULL OR eo.excluded_user_name != :username
+            ORDER BY e.event_date ASC
+        ";
+
+        $params = [
+            ':username' => $username
+        ];
+
+        $rows = $this->fetchAll($sql, $params);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = new Event(
+                $row['id'],
+                $row['title'],
+                $row['event_date'],
+                $row['type'],
+                $row['visibility'],
+                $row['has_organization']
+            );
+        }
+
+        return $events;
+    }
+
+    public function getEventsWhereFollowerParticipateAndNotHidden(string $username, int $followerId): array
+    {
+        $sql = "
+            SELECT e.*
+            FROM events e
+            INNER JOIN participants p ON e.id = p.event_id
+            LEFT JOIN event_organization eo ON e.id = eo.event_id
+            WHERE p.user_id = :follower_id
+            AND (eo.excluded_user_name IS NULL OR eo.excluded_user_name != :username)
+            ORDER BY e.event_date ASC
+        ";
+
+        $params = [
+            ':follower_id' => $followerId,
+            ':username' => $username
+        ];
+
+        $rows = $this->fetchAll($sql, $params);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = new Event(
+                $row['id'],
+                $row['title'],
+                $row['event_date'],
+                $row['type'],
+                $row['visibility'],
+                $row['has_organization']
+            );
+        }
+
+        return $events;
+    }
+    public function getHiddenEventsForUser(string $username): array
+    {
+        $sql = "SELECT e.* 
+                FROM events e
+                JOIN event_organization eo ON e.id = eo.event_id
+                WHERE eo.excluded_user_name = :username";
+    
+        $params = [
+            ':username' => $username,
+        ];
+    
+        return $this->fetchAll($sql, $params);
+    } 
+
+    public function getEventsWithOrganizationAndNotHidden(string $username): array
+    {
+        $sql = "
+            SELECT e.*
+            FROM events e
+            INNER JOIN event_organization eo ON e.id = eo.event_id
+            WHERE (eo.excluded_user_name IS NULL OR eo.excluded_user_name != :username)
+            AND e.has_organization = TRUE
+            ORDER BY e.event_date ASC
+        ";
+
+        $params = [':username' => $username];
+        $rows = $this->fetchAll($sql, $params);
+
+        $events = [];
+        foreach ($rows as $row) {
+            $events[] = new Event(
+                $row['id'],
+                $row['title'],
+                $row['event_date'],
+                $row['type'],
+                $row['visibility'],
+                $row['has_organization']
+            );
+        }
+
+        return $events;
+    }
+
 }

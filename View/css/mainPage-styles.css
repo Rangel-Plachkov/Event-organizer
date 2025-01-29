@@ -1,135 +1,127 @@
-/* General Styles */
-body {
+body, html {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    background-color: #f4f4f9;
     color: #333;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-/* Navigation Bar */
 .navbar {
+    width: 100%;
+    background-color: #2C3E50;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background: #007bff;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+    margin-left: 20px;
+}
+
+.logo-href {
+    text-decoration: none;
     color: white;
 }
 
-.navbar .logo h1 {
+.logo-href h1 {
+    font-size: 24px;
     margin: 0;
 }
 
-.navbar .nav-links {
-    display: flex;
-    gap: 15px;
+.nav-buttons {
+    margin-right: 20px;
 }
 
-.navbar .nav-links li {
-    display: inline;
-}
-
-.navbar .login-btn {
-    background: #ffc107;
-    padding: 5px 10px;
+.nav-buttons a button {
+    padding: 10px 15px;
+    background-color: #1ABC9C;
+    border: none;
     border-radius: 5px;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Hero Section */
-.hero {
-    background: url('https://source.unsplash.com/1600x900/?event') no-repeat center center/cover;
-    height: 80vh;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.hero-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+.nav-buttons a button:hover {
+    background-color: #16A085;
 }
 
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
 
-.cta-btn {
-    background: #ffc107;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Login Form */
 .login-form {
-    padding: 50px;
-    background: #f8f9fa;
+    margin-top: 120px;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 320px;
     text-align: center;
 }
 
 .login-form h2 {
     margin-bottom: 20px;
-}
-
-.login-form form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 400px;
-    margin: 0 auto;
+    color: #2C3E50;
 }
 
 .login-form input {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 14px;
 }
 
-.login-form button {
-    padding: 10px;
-    background: #007bff;
+.btn-login, .signup-btn {
+    background-color: #3498DB;
     color: white;
+    padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-.login-form button:hover {
-    background: #0056b3;
+.btn-login:hover {
+    background-color: #2980B9;
 }
 
-.login-form a {
-    color: #007bff;
+.signup-btn {
+    background-color: #e67e22;
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background: #007bff;
-    color: white;
+.signup-btn:hover {
+    background-color: #d35400;
 }
 
 .error {
-    color: red;
-    font-weight: 600;
+    color: #e74c3c;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.main-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #2C3E50;
+    color: white;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-footer p {
+    margin: 0;
+    font-size: 14px;
 }

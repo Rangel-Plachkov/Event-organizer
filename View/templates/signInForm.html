@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In</title>
+  <link rel="stylesheet" href="/View/css/base-styles.css">
+  <link rel="stylesheet" href="/View/css/components.css">
   <link rel="stylesheet" href="/View/css/signin-styles.css">
 </head>
 <body>
 <div class="signin-container">
+  <h1>Welcome Back</h1>
   <form action="/login" method="post">
     <div class="form-group">
       <label for="username">Username</label>
@@ -17,9 +20,17 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" placeholder="Enter your password" required>
     </div>
-    <button type="submit" class="btn">Sign In</button>
-    <p class="signup-link">Don't have an account? <a href="/signup">Sign up</a></p>
+    <button type="submit" class="btn-signin">Sign In</button>
+    <p class="signup-link">
+      Don't have an account? <button class="btn-signup-link" onclick="navigateTo('/signup')">Sign up</button>
+    </p>
   </form>
 </div>
+
+<script>
+  function navigateTo(route) {
+    window.location.href = route;
+  }
+</script>
 </body>
 </html>

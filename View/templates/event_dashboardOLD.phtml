@@ -1,6 +1,6 @@
 <?php
-$userId = isset($_SESSION['userId']) ? $_SESSION['userId'] : '';
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+    $userId = isset($_SESSION['userId']) ? $_SESSION['userId'] : '';
+    $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -9,24 +9,9 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Dashboard</title>
-    <link rel="stylesheet" href="/View/css/event_dashboard_styles.css">
+    <link rel="stylesheet" href="View/css/event-dashboard.css">
 </head>
 <body>
-
-<nav class="nav">
-    <div class="logo-section">
-        <a class="logo-href" href="/">
-            <h1>Event Organizer</h1>
-        </a>
-    </div>
-    <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
-    </div>
-</nav>
 
 <form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
     <input type="hidden" name="eventId" value="">
@@ -102,8 +87,8 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                                 <?php foreach ($gifts as $gift): ?>
                                     <li data-gift-id="<?= $gift['id'] ?>">
                                         <strong><?= htmlspecialchars($gift['gift_name']) ?>:</strong> $<?= htmlspecialchars($gift['gift_price']) ?>
-                                        <button
-                                                class="vote-button"
+                                        <button 
+                                            class="vote-button"
                                             <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'disabled' : '' ?>>
                                             <?= $userVote && $userVote['gift_id'] == $gift['id'] ? 'Voted' : 'Vote' ?>
                                         </button>
@@ -131,69 +116,69 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
             <?php endif; ?>
 
-            <!-- End create gift poll -->
+                <!-- End create gift poll -->
         <?php else: ?>
-        <button id="add-organization-btn">Add Organization</button>
+            <button id="add-organization-btn">Add Organization</button>
 
-        <div id="organization-form-container" style="display: none;">
-            <h2>Add Organization</h2>
-            <form id="add-organization-form">
-                <div>
-                    <input type="hidden" id="eventId" name="eventId" value=<?= $eventId; ?>>
-                    <input type="hidden" id="user-id" name="user-id" value=<?= $userId ?>>
-                    <label for="organizer_payment_details">Payment Details:</label>
-                    <input type="text" id="organizer_payment_details" name="organizer_payment_details" placeholder="Enter payment details">
-                </div>
-                <div>
-                    <label for="place_address">Place Address:</label>
-                    <input type="text" id="place_address" name="place_address" placeholder="Enter the place address"></>
-        </div>
-        <div>
-            <label for="is_anonymous">Make Anonymous:</label>
-            <input type="checkbox" id="is_anonymous" name="is_anonymous">
-        </div>
-        <div id="anonymous-users-container" style="display: none;">
-            <label for="excluded_user">Excluded User:</label>
-            <input type="text" id="excluded_user" name="excluded_user" placeholder="Enter username">
-        </div>
-        <button type="submit">Save Organization</button>
-        </form>
-    </div>
-
-    <div id="organization-feedback"></div>
-
-
-    <?php endif; ?>
-
-    <form id="delete-event-form" method="POST" action="/delete-event">
-        <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
-        <button type="submit" id="delete-event-btn" class="delete-button">Delete Event</button>
-    </form>
-
-</div>
-
-<div class="right-panel">
-    <h2>Event Details</h2>
-    <div id="comments">
-        <?php foreach ($comments as $comment): ?>
-            <div class="comment">
-                <p><strong><?= $comment->getUsername() ?>:</strong></p>
-                <p><?= htmlspecialchars($comment->getContent()) ?></p>
+            <div id="organization-form-container" style="display: none;">
+                <h2>Add Organization</h2>
+                <form id="add-organization-form">
+                    <div>
+                        <input type="hidden" id="eventId" name="eventId" value=<?= $eventId; ?>>
+                        <input type="hidden" id="user-id" name="user-id" value=<?= $userId ?>>
+                        <label for="organizer_payment_details">Payment Details:</label>
+                        <input type="text" id="organizer_payment_details" name="organizer_payment_details" placeholder="Enter payment details">
+                    </div>
+                    <div>
+                        <label for="place_address">Place Address:</label>
+                        <input type="text" id="place_address" name="place_address" placeholder="Enter the place address"></>
+                    </div>
+                    <div>
+                        <label for="is_anonymous">Make Anonymous:</label>
+                        <input type="checkbox" id="is_anonymous" name="is_anonymous">
+                    </div>
+                    <div id="anonymous-users-container" style="display: none;">
+                        <label for="excluded_user">Excluded User:</label>
+                        <input type="text" id="excluded_user" name="excluded_user" placeholder="Enter username">
+                    </div>
+                    <button type="submit">Save Organization</button>
+                </form>
             </div>
-        <?php endforeach; ?>
-    </div>
-    <?php if ($isParticipant): ?>
-        <!-- <form action="/create-comment-op" method="post"> -->
-        <form id="comment-form">
-            <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
-            <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
-            <textarea id="new-comment" name="comment" placeholder="Add a comment..." required></textarea>
-            <button type="submit">Submit</button>
-        </form>
-        <div id="comment-feedback"></div>
-    <?php endif; ?>
 
-</div>
+            <div id="organization-feedback"></div>
+
+            
+        <?php endif; ?>
+
+        <form id="delete-event-form" method="POST" action="/delete-event">
+            <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
+            <button type="submit" id="delete-event-btn" class="delete-button">Delete Event</button>
+        </form>
+
+    </div>
+
+    <div class="right-panel">
+        <h2>Event Details</h2>
+        <div id="comments">
+            <?php foreach ($comments as $comment): ?>
+                <div class="comment">
+                    <p><strong><?= $comment->getUsername() ?>:</strong></p>
+                    <p><?= htmlspecialchars($comment->getContent()) ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php if ($isParticipant): ?>
+            <!-- <form action="/create-comment-op" method="post"> -->
+            <form id="comment-form">
+                <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
+                <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>
+                <textarea id="new-comment" name="comment" placeholder="Add a comment..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="comment-feedback"></div>
+        <?php endif; ?>
+
+    </div>
 </div>
 
 <script src="View/js/event_dashboard_js/event_dashboard.js"></script>

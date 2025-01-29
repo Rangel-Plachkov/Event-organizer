@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Successful</title>
-    <link rel="stylesheet" href="../View/css/signupSuccess-styles.css">
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
+    <link rel="stylesheet" href="/View/css/signupSuccess-styles.css">
 </head>
 <body>
 <div class="success-container">
     <h1>Registration Successful!</h1>
     <p>Welcome to our platform! Your account has been successfully created.</p>
-    <a href="http://localhost:63342/Event-organizer/loginForm.php" class="button">Go to Login</a>
+    <button class="btn-login" onclick="navigateTo('/loginForm.php')">Go to Login</button>
 </div>
+
+<script>
+    function navigateTo(route) {
+        window.location.href = route;
+    }
+</script>
 </body>
 </html>
