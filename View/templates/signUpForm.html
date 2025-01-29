@@ -9,16 +9,6 @@
     <link rel="stylesheet" href="/View/css/signup-styles.css">
 </head>
 <body>
-<header class="navbar">
-    <div class="logo-section">
-        <a class="logo-href" href="/">
-            <h1>Event Organizer</h1>
-        </a>
-    </div>
-    <div class="nav-buttons">
-        <a href="/about"><button>About Us</button></a>
-    </div>
-</header>
 <div class="signup-container">
     <h1>Create Your Account</h1>
     <form action="/create-acc" method="post">
@@ -31,12 +21,7 @@
         <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
         <button type="submit" class="btn-signup">Sign Up</button>
     </form>
-    <p>Already have an account? <button class="btn-login" onclick="navigateTo('/')">Log In</button>.</p>
+    <p>Already have an account? <a href="/"><button>Log In</button></a>.</p>
 </div>
-<script>
-    function navigateTo(route) {
-        window.location.href = route;
-    }
-</script>
 </body>
 </html>

@@ -10,14 +10,6 @@
 </head>
 <body>
 <header class="navbar">
-    <div class="logo-section">
-        <a class="logo-href" href="/">
-            <h1>Event Organizer</h1>
-        </a>
-    </div>
-    <div class="nav-buttons">
-        <a href="/about"><button>About Us</button></a>
-    </div>
 </header>
 
 <section id="login" class="login-form">
@@ -32,17 +24,12 @@
         echo "<p class='error'>" . htmlspecialchars($_SESSION['errorMsg']) . "</p>";
     }
     ?>
-    <p>Don't have an account? <button class="signup-btn" onclick="navigateTo('/sign-up')">Sign up here</button>.</p>
+    <p>Don't have an account? <a href="/sign-up"><button>Sign Up here</button></a>.</p>
+
 </section>
 
 <footer class="main-footer">
     <p>&copy; 2024 Event Organizer. All rights reserved.</p>
 </footer>
-
-<script>
-    function navigateTo(route) {
-        window.location.href = route;
-    }
-</script>
 </body>
 </html>
