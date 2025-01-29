@@ -30,5 +30,5 @@ a, button {
 .main {
     margin-left: 260px;
     padding: 20px;
-    width: calc(50% - 260px);
+    width: calc(60% - 260px);
 }
