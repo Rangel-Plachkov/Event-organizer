@@ -222,9 +222,13 @@ class EventService
         return $eventsByFollower;
     }
 
-    public function getEventsWithOrganizationAndNotHidden(string $username): array
-    {
+    public function getEventsWithOrganizationAndNotHidden(string $username): array{
         return $this->eventRepository->getEventsWithOrganizationAndNotHidden($username);
+    }
+
+    public function getEventsByUsername($username): array{
+        $userId = $this->userRepository->findUserByUsername($username)['id'];
+        return $this->participantsRepository->getEventsByUser($userId);
     }
 
 }
