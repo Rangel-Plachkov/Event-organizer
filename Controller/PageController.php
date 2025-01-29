@@ -118,4 +118,8 @@ class PageController extends AbstractController
     public function about(){
         require_once 'View/templates/about.html';
     }
+    public function login(){
+        require_once 'View/templates/loginPage.phtml';
+    }
+
 }

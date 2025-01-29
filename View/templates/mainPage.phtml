@@ -1,35 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Organizer</title>
-    <link rel="stylesheet" href="/View/css/base-styles.css">
-    <link rel="stylesheet" href="/View/css/components.css">
+    <meta charset="UTF-8" />
+    <title>Event Organizer - Начало</title>
     <link rel="stylesheet" href="/View/css/mainPage-styles.css">
 </head>
 <body>
-<header class="navbar">
+
+<header>
+    <nav>
+        <div class="logo">Event Organizer</div>
+        <div class="nav-links">
+            <a href="#">Профил</a>
+            <a href="/sign-in">Login</a>
+            <a href="/sign-up">Sign up</a>
+        </div>
+    </nav>
 </header>
 
-<section id="login" class="login-form">
-    <h2>Login</h2>
-    <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" class="btn-login">Login</button>
-    </form>
-    <?php
-    if (isset($_SESSION['error']) && isset($_SESSION['errorMsg']) && $_SESSION['error']) {
-        echo "<p class='error'>" . htmlspecialchars($_SESSION['errorMsg']) . "</p>";
-    }
-    ?>
-    <p>Don't have an account? <a href="/sign-up"><button>Sign Up here</button></a>.</p>
+<div class="hero">
+    <h1>Добре дошли в Event Organizer</h1>
+</div>
 
-</section>
+<main>
+    <section class="intro">
+        <h2>Организирайте събития лесно и бързо</h2>
+        <p>
+            Нашата уеб базирана система улеснява организирането на празници и специални събития
+            като рождени дни, именни дни, тиймбилдинги и други. Създавайте анонимни или отворени събития,
+            канете приятели и последователи, гласувайте за подаръци и координирайте всеки детайл.
+        </p>
+        <p>
+            Регистрирайте се и създайте свой профил, добавете ключова информация за вашите предстоящи поводи,
+            следвайте други потребители и вижте техните събития. Системата ни позволява:
+        </p>
+        <ul>
+            <li>Създаване на лични и анонимни събития</li>
+            <li>Управление на списъци с последователи и участници</li>
+            <li>Гласуване и избор на подаръци</li>
+            <li>Коментари и обсъждания</li>
+        </ul>
+    </section>
+</main>
 
-<footer class="main-footer">
-    <p>&copy; 2024 Event Organizer. All rights reserved.</p>
+<footer>
+    <p>&copy; 2025 Event Organizer. Всички права запазени.</p>
 </footer>
+
 </body>
 </html>

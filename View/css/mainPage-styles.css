@@ -1,127 +1,161 @@
-body, html {
+* {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-sizing: border-box;
 }
 
-.navbar {
-    width: 100%;
-    background-color: #2C3E50;
-    padding: 10px 0;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Навигационна лента (header) */
+header {
+    background: linear-gradient(to right, #009688, #00665c);
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+nav {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
 
-.logo-section {
-    margin-left: 20px;
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
 }
 
-.logo-href {
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: #fff;
     text-decoration: none;
-    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 500;
 }
 
-.logo-href h1 {
-    font-size: 24px;
-    margin: 0;
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
-.nav-buttons {
-    margin-right: 20px;
+/* Hero секция */
+.hero {
+    background:
+            linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+            url('https://via.placeholder.com/1200x500/009688/FFFFFF?text=Event+Organizer');
+    background-position: center;
+    background-size: cover;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
 }
 
-.nav-buttons a button {
-    padding: 10px 15px;
-    background-color: #1ABC9C;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    max-width: 900px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    animation: fadeInDown 1s ease forwards;
+    opacity: 0;
 }
 
-.nav-buttons a button:hover {
-    background-color: #16A085;
+/* Анимация за заглавието в Hero секцията */
+@keyframes fadeInDown {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
+/* Основно съдържание */
+main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2rem auto;
+}
 
-.login-form {
-    margin-top: 120px;
-    padding: 30px;
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.intro {
+    background-color: #fff;
+    padding: 2rem;
     border-radius: 8px;
-    width: 320px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.intro h2 {
+    color: #009688;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.intro p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.intro ul {
+    list-style-type: disc;
+    margin: 1rem 0 1rem 2rem;
+}
+
+/* Допълнителни стилове за бутони/линкове */
+.btn-primary {
+    display: inline-block;
+    background-color: #009688;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #007366;
+    transform: translateY(-3px);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(to right, #00665c, #009688);
+    color: #fff;
     text-align: center;
-}
-
-.login-form h2 {
-    margin-bottom: 20px;
-    color: #2C3E50;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.btn-login, .signup-btn {
-    background-color: #3498DB;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.btn-login:hover {
-    background-color: #2980B9;
-}
-
-.signup-btn {
-    background-color: #e67e22;
-}
-
-.signup-btn:hover {
-    background-color: #d35400;
-}
-
-.error {
-    color: #e74c3c;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.main-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    background-color: #2C3E50;
-    color: white;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.main-footer p {
-    margin: 0;
-    font-size: 14px;
+    padding: 1rem 0;
+    margin-top: 3rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
 }
