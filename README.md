@@ -1,4 +1,4 @@
-# Event-organizer
+# Event-organizer (Final version)
 
 Technical requirements:
 
