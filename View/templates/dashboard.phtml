@@ -31,11 +31,12 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
     <section id="events">
         <h3>Welcome <?php echo htmlspecialchars($fullName); ?></h3>
         <h2>Manage Events</h2>
-        <button class="add-event-btn" onclick="addEvent()">Add Event</button>
+        <a  href = "/event-list"> <button class="add-event-btn">Add Event</button></a>
         <div class="events-list">
             <p>No events yet. Start by adding a new event!</p>
         </div>
     </section>
+
 </main>
 </body>
 </html>
