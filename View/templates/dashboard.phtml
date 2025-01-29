@@ -12,7 +12,7 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
 </head>
 <body>
-<nav class="dashboard-nav">
+<nav class="nav">
     <div class="logo-section">
         <a class="logo-href" href="/">
             <h1>Event Organizer</h1>
@@ -26,9 +26,9 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
         <a href="/logout"><button>Logout</button></a>
         <a href="/delete-acc"><button>Delete Profile</button></a>
     </div>
-
 </nav>
-<main class="dashboard-main">
+
+<main class="main">
     <section id="events">
         <h3>Welcome <?php echo htmlspecialchars($fullName); ?></h3>
         <h2>Manage Events</h2>
@@ -40,6 +40,7 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
 </main>
 </body>
 </html>
+
 
 
 

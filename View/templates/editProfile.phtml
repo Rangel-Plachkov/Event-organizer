@@ -1,9 +1,9 @@
 <?php
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
-$email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
-$firstName = isset($_SESSION['firstname']) ? $_SESSION['firstname'] : '';
-$lastName = isset($_SESSION['lastname']) ? $_SESSION['lastname'] : '';
-$birthdate = isset($_SESSION['birthdate']) ? $_SESSION['birthdate'] : '';
+$username = $_SESSION['username'] ?? '';
+$email = $_SESSION['email'] ?? '';
+$firstName = $_SESSION['firstname'] ?? '';
+$lastName = $_SESSION['lastname'] ?? '';
+$birthdate = $_SESSION['birthdate'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,9 @@ $birthdate = isset($_SESSION['birthdate']) ? $_SESSION['birthdate'] : '';
     <link rel="stylesheet" href="/View/css/dashboard-styles.css">
 </head>
 <body>
-<nav class="dashboard-nav">
+
+<!-- Sidebar Navigation -->
+<nav class="nav">
     <div class="logo-section">
         <a class="logo-href" href="/">
             <h1>Event Organizer</h1>
@@ -31,48 +33,54 @@ $birthdate = isset($_SESSION['birthdate']) ? $_SESSION['birthdate'] : '';
         <a href="/delete-acc"><button>Delete Profile</button></a>
     </div>
 </nav>
-<main class="dashboard-main">
-    <section id="events">
-        <div class="edit-profile-container">
-            <h2>Edit Your Profile</h2>
-            <form action="/edit-acc" method="post">
-                <label for="firstname">First Name:</label>
-                <input type="text" name="firstname" id="firstname" value="<?php echo htmlspecialchars($firstName); ?>" required>
 
-                <label for="lastname">Last Name:</label>
-                <input type="text" name="lastname" id="lastname" value="<?php echo htmlspecialchars($lastName); ?>" required>
+<!-- Main Content -->
+<main class="main">
+    <section class="edit-profile-container">
+        <h2>Edit Your Profile</h2>
 
-                <label for="birthdate">Birthdate:</label>
-                <input type="date" name="birthdate" id="birthdate" value="<?php echo htmlspecialchars($birthdate); ?>" required>
+        <!-- Profile Edit Form -->
+        <form action="/edit-acc" method="post">
+            <label for="firstname">First Name:</label>
+            <input type="text" name="firstname" id="firstname" value="<?php echo htmlspecialchars($firstName); ?>" required>
 
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
+            <label for="lastname">Last Name:</label>
+            <input type="text" name="lastname" id="lastname" value="<?php echo htmlspecialchars($lastName); ?>" required>
 
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" name="birthdate" id="birthdate" value="<?php echo htmlspecialchars($birthdate); ?>" required>
 
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Enter your password">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($email); ?>" required>
 
-                <label for="newpassword">New Password:</label>
-                <input type="password" name="newpassword" id="newpassword" placeholder="Enter new password">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($username); ?>" required>
 
-                <label for="confirmpassword">Confirm New Password:</label>
-                <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm new password">
+            <label for="password">Current Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" autocomplete="off">
 
-                <button type="submit" class="update-btn">Update Profile</button>
-            </form>
-            <?php
-            if (isset($_SESSION['update_success'])) {
-                echo '<div class="success-message">' . $_SESSION['update_success'] . '</div>';
-                unset($_SESSION['update_success']);
-            }
-            if (isset($_SESSION['update_error'])) {
-                echo '<div class="error-message">' . $_SESSION['update_error'] . '</div>';
-            }
-            ?>
-        </div>
+            <label for="newpassword">New Password:</label>
+            <input type="password" name="newpassword" id="newpassword" placeholder="Enter new password" autocomplete="off">
+
+            <label for="confirmpassword">Confirm New Password:</label>
+            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm new password" autocomplete="off">
+
+            <button type="submit" class="update-btn">Update Profile</button>
+        </form>
+
+        <!-- Success & Error Messages -->
+        <?php if (isset($_SESSION['update_success'])): ?>
+            <div class="success-message"><?php echo htmlspecialchars($_SESSION['update_success']); ?></div>
+            <?php unset($_SESSION['update_success']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['update_error'])): ?>
+            <div class="error-message"><?php echo htmlspecialchars($_SESSION['update_error']); ?></div>
+            <?php unset($_SESSION['update_error']); ?>
+        <?php endif; ?>
+
     </section>
 </main>
+
 </body>
 </html>

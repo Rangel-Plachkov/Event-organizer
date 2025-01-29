@@ -3,42 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
+    <title>About Us</title>
     <link rel="stylesheet" href="/View/css/base-styles.css">
     <link rel="stylesheet" href="/View/css/components.css">
     <link rel="stylesheet" href="/View/css/about-styles.css">
+    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
 </head>
 <body>
-<header class="navbar">
+
+<!-- Sidebar Navigation -->
+<nav class="nav">
     <div class="logo-section">
         <a class="logo-href" href="/">
             <h1>Event Organizer</h1>
         </a>
     </div>
-</header>
+    <div class="nav-buttons">
+        <a href="/events"><button>Manage Events</button></a>
+        <a href="/search"><button>Search</button></a>
+        <a href="/edit"><button>Edit Profile</button></a>
+        <a href="/about"><button>About Us</button></a>
+        <a href="/logout"><button>Logout</button></a>
+        <a href="/delete-acc"><button>Delete Profile</button></a>
+    </div>
+</nav>
 
-<main class="about-container">
-    <section class="about-header">
+<!-- Main Content -->
+<main class="main">
+    <section class="about-container">
+        <h2>About Us</h2>
+
+        <!-- Profile Image -->
         <div class="profile-image">
-            <img src="/util/aboutUs.jpg" alt="About Up picture">
+            <img src="/util/aboutUs.jpg" alt="About Us picture">
         </div>
+
+        <!-- About Section -->
+        <section class="about-details">
+            <h2>Who Are We?</h2>
+            <p>We are passionate event organizers dedicated to making planning easier and more enjoyable. Our platform helps you manage, find, and organize events effortlessly.</p>
+
+            <h2>Our Mission</h2>
+            <p>We strive to simplify event management by providing user-friendly tools, seamless interactions, and a vibrant community of organizers and attendees.</p>
+        </section>
     </section>
-
-<!--    <section class="about-details">-->
-<!--        <h2>Who Are we</h2>-->
-<!--        <p>  </p>-->
-<!--    </section>-->
-
 </main>
 
+<!-- Footer -->
 <footer class="main-footer">
     <p>&copy; 2024 Event Organizer. All rights reserved.</p>
 </footer>
 
-<script>
-    function navigateTo(route) {
-        window.location.href = route;
-    }
-</script>
 </body>
 </html>
