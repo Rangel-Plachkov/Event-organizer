@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Organizer</title>
-    <link rel="stylesheet" href="/View/css/base-styles.css">
-    <link rel="stylesheet" href="/View/css/components.css">
+    <meta charset="UTF-8" />
+    <title>Event Organizer - Home</title>
     <link rel="stylesheet" href="/View/css/mainPage-styles.css">
 </head>
 <body>
-<header class="navbar">
+
+<header>
+    <nav>
+        <div class="logo">Event Organizer</div>
+        <div class="nav-links">
+            <a href="/sign-in">Login</a>
+            <a href="/sign-up">Sign Up</a>
+        </div>
+    </nav>
 </header>
 
-<section id="login" class="login-form">
-    <h2>Login</h2>
-    <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" class="btn-login">Login</button>
-    </form>
-    <?php
-    if (isset($_SESSION['error']) && isset($_SESSION['errorMsg']) && $_SESSION['error']) {
-        echo "<p class='error'>" . htmlspecialchars($_SESSION['errorMsg']) . "</p>";
-    }
-    ?>
-    <p>Don't have an account? <a href="/sign-up"><button>Sign Up here</button></a>.</p>
+<div class="hero">
+    <h1>Welcome to Event Organizer</h1>
+</div>
 
-</section>
+<main>
+    <section class="intro">
+        <h2>Organize Events Quickly and Easily</h2>
+        <p>
+            Our web-based system makes it easy to organize celebrations and special events
+            such as birthdays, name days, team buildings, and more. Create anonymous or open events,
+            invite friends and followers, vote for gifts, and coordinate every detail.
+        </p>
+        <p>
+            Register and create your own profile, add key information about your upcoming occasions,
+            follow other users, and see their events. Our system allows you to:
+        </p>
+        <ul>
+            <li>Create personal and anonymous events</li>
+            <li>Manage lists of followers and participants</li>
+            <li>Vote for and choose gifts</li>
+            <li>Comment and discuss ideas</li>
+        </ul>
+    </section>
+</main>
 
-<footer class="main-footer">
-    <p>&copy; 2024 Event Organizer. All rights reserved.</p>
+<footer>
+    <p>&copy; 2025 Event Organizer. All rights reserved.</p>
 </footer>
+
 </body>
 </html>

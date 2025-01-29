@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Organizer</title>
+    <link rel="stylesheet" href="/View/css/base-styles.css">
+    <link rel="stylesheet" href="/View/css/components.css">
+    <link rel="stylesheet" href="/View/css/loginPage-styles.css">
+</head>
+<body>
+<header class="navbar">
+</header>
+
+<section id="login" class="login-form">
+    <h2>Login</h2>
+    <form action="/login" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+    <?php
+    if (isset($_SESSION['error']) && isset($_SESSION['errorMsg']) && $_SESSION['error']) {
+        echo "<p class='error'>" . htmlspecialchars($_SESSION['errorMsg']) . "</p>";
+    }
+    ?>
+    <p>Don't have an account? <a href="/sign-up"><button>Sign Up here</button></a>.</p>
+
+</section>
+
+<footer class="main-footer">
+    <p>&copy; 2025 Event Organizer. All rights reserved.</p>
+</footer>
+</body>
+</html>
