@@ -90,3 +90,19 @@ CREATE TABLE `follows` (
                            FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`),
                            FOREIGN KEY (`followed_id`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+DROP TABLE IF EXISTS `Users`;
+CREATE TABLE `Users` (
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `firstname` varchar(255) NOT NULL,
+                         `lastname` varchar(255) NOT NULL,
+                         `birthdate` date NOT NULL,
+                         `email` varchar(255) NOT NULL,
+                         `username` varchar(255) NOT NULL,
+                         `password` varchar(255) NOT NULL,
+                         PRIMARY KEY (`id`),
+                         UNIQUE KEY `email` (`email`),
+                         UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
