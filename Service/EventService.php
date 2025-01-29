@@ -230,5 +230,13 @@ class EventService
         $userId = $this->userRepository->findUserByUsername($username)['id'];
         return $this->participantsRepository->getEventsByUser($userId);
     }
+    public function loadMyEvents(): void{
+        $eventsID= $this->participantsRepository->getEventsByUser($_SESSION['userId']);
+        $events=[];
+        foreach($eventsID as $eventID){
+            $events[]=$this->eventRepository->getEventById($eventID);
+        }
+        $_SESSION['myEvents']=$events;
+    }
 
 }
