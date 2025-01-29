@@ -59,7 +59,6 @@ $username = $_SESSION['username'] ?? '';
                         <?php endforeach; ?>
                     </ul>
 
-                    <!-- Poll Management -->
                     <div class="poll-management">
                         <?php if (!$hasPoll && !$pollEnded): ?>
                             <button id="create-poll-btn" aria-label="Create Gift Poll">Create Gift Poll</button>
@@ -112,7 +111,6 @@ $username = $_SESSION['username'] ?? '';
             </form>
         </div>
 
-        <!-- Right Panel: Comments -->
         <div class="right-panel">
             <h2>Comments</h2>
             <div id="comments">
