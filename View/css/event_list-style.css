@@ -13,10 +13,14 @@ body {
 
 .dashboard-container {
     display: flex;
-    flex-direction: column;
     gap: 20px;
-    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    align-items: flex-start;
+    margin-left: 260px;
 }
+
+
 
 .event-list {
     background: #ffffff;
