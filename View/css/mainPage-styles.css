@@ -11,7 +11,6 @@ body {
     line-height: 1.6;
 }
 
-/* Навигационна лента (header) */
 header {
     background: linear-gradient(to right, #009688, #00665c);
     padding: 1rem 0;
@@ -81,7 +80,7 @@ nav {
     opacity: 0;
 }
 
-/* Анимация за заглавието в Hero секцията */
+
 @keyframes fadeInDown {
     0% {
         transform: translateY(-50px);
@@ -93,7 +92,7 @@ nav {
     }
 }
 
-/* Основно съдържание */
+
 main {
     width: 90%;
     max-width: 1100px;
@@ -133,7 +132,7 @@ main {
     margin: 1rem 0 1rem 2rem;
 }
 
-/* Допълнителни стилове за бутони/линкове */
+
 .btn-primary {
     display: inline-block;
     background-color: #009688;
@@ -150,7 +149,7 @@ main {
     transform: translateY(-3px);
 }
 
-/* Footer */
+
 footer {
     background: linear-gradient(to right, #00665c, #009688);
     color: #fff;
