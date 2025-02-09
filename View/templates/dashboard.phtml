@@ -15,16 +15,16 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
 <body>
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href="/Event">
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -40,7 +40,7 @@ $fullName = isset($_SESSION['fullName']) ? $_SESSION['fullName'] : '';
                             <span><?= htmlspecialchars($event->getEventDate()) ?></span>
                             <span class="event-type"><?= htmlspecialchars($event->getType()) ?></span>
                             <span class="event-visibility"><?= htmlspecialchars($event->getVisibility()) ?></span>
-                            <form action="/event-dashboard" method="POST">
+                            <form action="event-dashboard" method="POST">
                                 <input type="hidden" name="eventId" value="<?= $event->getId() ?>">
                                 <button type="submit">View</button>
                             </form>

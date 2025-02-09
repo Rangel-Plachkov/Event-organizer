@@ -15,20 +15,20 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href="/Event">
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
-<form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
+<form id="reload-form" action="event-dashboard" method="POST" style="display: none;">
     <input type="hidden" name="eventId" value="">
 </form>
 
@@ -50,7 +50,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                     <input type="hidden" name="userId" value="<?= htmlspecialchars($userId) ?>">
                     <button type="submit">Join Event Organization</button>
                 </form>
-                <!-- <button href="/join-event-btn">Join event organization</button> -->
+                <!-- <button href="join-event-btn">Join event organization</button> -->
             <?php else: ?>
 
                 <?php if (!is_null($organizerName) && $organizerName !== ''): ?>
@@ -165,7 +165,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
     <?php endif; ?>
 
-    <form id="delete-event-form" method="POST" action="/delete-event">
+    <form id="delete-event-form" method="POST" action="delete-event">
         <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
         <button type="submit" id="delete-event-btn" class="delete-button">Delete Event</button>
     </form>
@@ -183,7 +183,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
         <?php endforeach; ?>
     </div>
     <?php if ($isParticipant): ?>
-        <!-- <form action="/create-comment-op" method="post"> -->
+        <!-- <form action="create-comment-op" method="post"> -->
         <form id="comment-form">
             <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
             <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>

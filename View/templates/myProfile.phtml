@@ -28,16 +28,16 @@ $followingCount = count($following);
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href="/Event">
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -55,7 +55,7 @@ $followingCount = count($following);
 
 
         <div class="edit-profile-section">
-            <a href="/edit">
+            <a href="edit">
                 <button class="btn-edit-profile">Edit Profile</button>
             </a>
         </div>
@@ -66,7 +66,7 @@ $followingCount = count($following);
                 <ul class="user-list">
                     <?php foreach ($followers as $follower): ?>
                         <li>
-                            <form action="/user-search" method="post" class="user-form">
+                            <form action="user-search" method="post" class="user-form">
                                 <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($follower); ?>">
                                     <?php echo htmlspecialchars($follower); ?>
                                 </button>
@@ -85,7 +85,7 @@ $followingCount = count($following);
                 <ul class="user-list">
                     <?php foreach ($following as $followedUser): ?>
                         <li>
-                            <form action="/user-search" method="post" class="user-form">
+                            <form action="user-search" method="post" class="user-form">
                                 <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($followedUser); ?>">
                                     <?php echo htmlspecialchars($followedUser); ?>
                                 </button>

@@ -10,23 +10,23 @@
 <body>
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href="/Event">
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
 <main class="main">
     <section class="search-container">
         <h2>Search Users</h2>
-        <form action="/user-search" method="post" class="search-form">
+        <form action="user-search" method="post" class="search-form">
             <input type="text" name="searchedUser" id="searchedUser" placeholder="Enter username..." required>
             <button type="submit" class="search-btn">Search</button>
         </form>

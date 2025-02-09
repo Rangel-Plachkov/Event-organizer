@@ -19,16 +19,16 @@ $birthdate = $_SESSION['birthdate'] ?? '';
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href="/Event">
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -36,7 +36,7 @@ $birthdate = $_SESSION['birthdate'] ?? '';
     <section class="edit-profile-container">
         <h2>Edit Your Profile</h2>
 
-        <form action="/edit-acc" method="post">
+        <form action="edit-acc" method="post">
             <label for="firstname">First Name:</label>
             <input type="text" name="firstname" id="firstname" value="<?php echo htmlspecialchars($firstName); ?>" required>
 
@@ -76,7 +76,7 @@ $birthdate = $_SESSION['birthdate'] ?? '';
 
     </section>
     <div class="delete-profile">
-        <a href="/delete-acc">
+        <a href="delete-acc">
             <button class="delete-profile-btn">Delete Profile</button>
         </a>
     </div>
