@@ -2,8 +2,7 @@ phpMyAdmin/
 util/Constants.php
 .php-cs-fixer.cache
 
-.idea/vcs.xml
-.idea/php.xml
-.idea/modules.xml
-.idea/Event-organizer.iml
+.idea/*
+.DS_Store/
+
 

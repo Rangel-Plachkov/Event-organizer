@@ -3,7 +3,9 @@ namespace Router;
 
 class Request
 {
-    const DOMAIN = "http://localhost";
+    const DOMAIN = "http://localhost/Event";
+    const PROJECT_URI = "/Event";
+
 
     private static $instance;
 
@@ -18,8 +20,9 @@ class Request
     {
         $url = self::DOMAIN . $_SERVER['REQUEST_URI'];
         $this->setUrl($url);
-        $this->setUri((empty($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] == "/") ?
-                            $_SERVER['REQUEST_URI'] : substr($_SERVER['REQUEST_URI'], 1));
+        $serverUri=str_replace(self::PROJECT_URI,"",$_SERVER['REQUEST_URI']);
+        $uri= (empty($serverUri) || $serverUri == "/") ? $serverUri : substr($serverUri, 1);
+        $this->setUri($uri);
         $this->setGetParams($_GET);
         $this->setPostParams($_POST);
         $this->setRequestMethod($_SERVER["REQUEST_METHOD"]);
@@ -31,7 +34,6 @@ class Request
         if (empty(self::$instance)){
             self::$instance = new self();
         }
-
         return self::$instance;
     }
 
