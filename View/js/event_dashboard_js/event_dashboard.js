@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(joinForm);
             const eventId = formData.get('eventId');
 
-            fetch("/join-event-btn", {
+            fetch("join-event-btn", {
                 method: "POST",
                 body: formData,
             })
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // AJAX querry for adding comments
-            fetch('/create-comment-op', {
+            fetch('create-comment-op', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
 
             // get the querry through fetch
-            fetch("/add-organization-op", {
+            fetch("add-organization-op", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(deleteEventForm);
             const eventId = formData.get('eventId');
 
-            fetch('/delete-event', {
+            fetch('delete-event', {
                 method: 'POST',
                 body: JSON.stringify({ eventId }),
                 headers: { 'Content-Type': 'application/json' }
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert('Event deleted successfully!');
                         
                     // Redirect to the previous page
-                    window.location.href = '/event-list';
+                    window.location.href = 'event-list';
                 } else {
                     alert(`Failed to delete event: ${data.message}`);
                 }

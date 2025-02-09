@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const formData = new FormData(addGiftForm);
 
-        fetch("/add-gift", {
+        fetch("add-gift", {
             method: "POST",
             body: formData,
         })
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const giftId = e.target.closest("li").dataset.giftId;
             console.log("Send gift id: " + giftId);
 
-            fetch("/vote-gift", {
+            fetch("vote-gift", {
                 method: "POST",
                 body: JSON.stringify({ giftId }),
                 headers: { "Content-Type": "application/json" },
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const duration = 10;
             const eventId = document.getElementById('eventId').value;
 
-            fetch("/create-poll", {
+            fetch("create-poll", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ eventId: eventId, duration: duration }),
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const eventId = document.getElementById('eventId').value;
 
-            fetch("/end-poll", {
+            fetch("end-poll", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ eventId: eventId }),

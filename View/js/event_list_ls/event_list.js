@@ -16,7 +16,7 @@ document.getElementById('create-event-form').addEventListener('submit', function
 
     const formData = new FormData(this);
 
-    fetch('/create-event-op', {
+    fetch('create-event-op', {
         method: 'POST',
         body: formData,
     })
