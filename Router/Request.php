@@ -1,11 +1,10 @@
 <?php
 namespace Router;
 
+use util\Constants;
+
 class Request
 {
-    const DOMAIN = "http://localhost/Event";
-    const PROJECT_URI = "/Event";
-
 
     private static $instance;
 
@@ -18,9 +17,9 @@ class Request
 
     private function __construct()
     {
-        $url = self::DOMAIN . $_SERVER['REQUEST_URI'];
+        $url = Constants::DOMAIN . $_SERVER['REQUEST_URI'];
         $this->setUrl($url);
-        $serverUri=str_replace(self::PROJECT_URI,"",$_SERVER['REQUEST_URI']);
+        $serverUri=str_replace(Constants::PROJECT_URI,"",$_SERVER['REQUEST_URI']);
         $uri= (empty($serverUri) || $serverUri == "/") ? $serverUri : substr($serverUri, 1);
         $this->setUri($uri);
         $this->setGetParams($_GET);
