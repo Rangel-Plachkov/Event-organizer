@@ -12,6 +12,13 @@ class Url
         if (!array_key_exists($name, $routes)){
             throw new \Exception("Not existing url...");
         }
+
+        if ($name == "indexPage" ) {
+            $url = $routes[$name]['url'];
+            $cleanUrl = preg_replace('/\/+$/', '/', $url);
+            return $cleanUrl;
+        }
+
         return $routes[$name]['url'];
     }
 
