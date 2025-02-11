@@ -26,11 +26,11 @@ class PageController extends AbstractController
 
     public function signUp()
     {
-        require_once 'View/templates/signUpForm.html';
+        require_once 'View/templates/signUpForm.phtml';
     }
     public function signIn()
     {
-        require_once 'View/templates/signInForm.html';
+        require_once 'View/templates/signInForm.phtml';
     }
     public function edit()
     {
@@ -60,7 +60,7 @@ class PageController extends AbstractController
     }
 
     public function search(){
-        require_once 'View/templates/search.html';
+        require_once 'View/templates/search.phtml';
     }
     public function viewProfile(){
         $session = SessionHandler::getInstance();
@@ -116,7 +116,7 @@ class PageController extends AbstractController
         require_once 'View/templates/event_dashboard.phtml';
     }
     public function about(){
-        require_once 'View/templates/about.html';
+        require_once 'View/templates/about.phtml';
     }
 
 

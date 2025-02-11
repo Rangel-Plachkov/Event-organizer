@@ -1,6 +1,10 @@
 <?php
 $userId = isset($_SESSION['userId']) ? $_SESSION['userId'] : '';
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +19,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/Event">
+        <a class="logo-href" href=<?php echo Constants::PROJECT_URI; ?>>
             <h1>Event Organizer</h1>
         </a>
     </div>

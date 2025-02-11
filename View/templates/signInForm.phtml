@@ -1,3 +1,10 @@
+<?php
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +34,7 @@
   </form>
 <!--  <a href=""><button>Return Home</button></a>-->
 
-  <a href="/Event">
+  <a href=<?php echo Constants::PROJECT_URI; ?>>
     <button style="background-color: lightblue; border: none; padding: 8px 16px; cursor: pointer; margin-top: 20px">
       Return Home
     </button>

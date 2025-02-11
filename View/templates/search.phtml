@@ -1,3 +1,10 @@
+<?php
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +17,7 @@
 <body>
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/Event">
+        <a class="logo-href" href=<?php echo Constants::PROJECT_URI; ?>>
             <h1>Event Organizer</h1>
         </a>
     </div>
