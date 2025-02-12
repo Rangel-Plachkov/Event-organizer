@@ -82,10 +82,6 @@ CREATE TABLE votes (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;;
 
 
-
-
-
-
 DROP TABLE IF EXISTS `follows`;
 CREATE TABLE `follows` (
                            `user_id` INT NOT NULL COMMENT 'ID на потребителя',
