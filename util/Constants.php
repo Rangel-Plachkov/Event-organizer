@@ -3,7 +3,7 @@
 namespace util;
 
 class Constants{
-    const DOMAIN = "http://localhost/Event";    
+    const DOMAIN = "http://localhost/Event";
     const PROJECT_URI = "/Event";
     const DB_NAME     = "Event-organizer";
     const DB_HOST     = "localhost";
