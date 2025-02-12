@@ -1,17 +1,24 @@
+<?php
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In</title>
-  <link rel="stylesheet" href="/View/css/base-styles.css">
-  <link rel="stylesheet" href="/View/css/components.css">
-  <link rel="stylesheet" href="/View/css/signin-styles.css">
+  <link rel="stylesheet" href="./View/css/base-styles.css">
+  <link rel="stylesheet" href="./View/css/components.css">
+  <link rel="stylesheet" href="./View/css/signin-styles.css">
 </head>
 <body>
 <div class="signin-container">
   <h1>Welcome Back</h1>
-  <form action="/login" method="post">
+  <form action="login" method="post">
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" placeholder="Enter your username" required>
@@ -25,9 +32,9 @@
       Don't have an account? <button class="btn-signup-link" onclick="navigateTo('/sign-up')">Sign up</button>
     </p>
   </form>
-<!--  <a href="/"><button>Return Home</button></a>-->
+<!--  <a href=""><button>Return Home</button></a>-->
 
-  <a href="/">
+  <a href=<?php echo Constants::PROJECT_URI; ?>>
     <button style="background-color: lightblue; border: none; padding: 8px 16px; cursor: pointer; margin-top: 20px">
       Return Home
     </button>

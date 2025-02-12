@@ -1,28 +1,36 @@
+<?php
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="/View/css/base-styles.css">
-    <link rel="stylesheet" href="/View/css/components.css">
-    <link rel="stylesheet" href="/View/css/about-styles.css">
-    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+    <link rel="stylesheet" href="./View/css/base-styles.css">
+    <link rel="stylesheet" href="./View/css/components.css">
+    <link rel="stylesheet" href="./View/css/about-styles.css">
+    <link rel="stylesheet" href="./View/css/dashboard-styles.css">
 </head>
 <body>
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href=<?php echo Constants::PROJECT_URI; ?>>
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -31,7 +39,7 @@
         <h2>About Us</h2>
 
         <div class="profile-image">
-            <img src="/View/pics/aboutUs.jpg" alt="About Us picture">
+            <img src="./View/pics/aboutUs.jpg" alt="About Us picture">
         </div>
 
         <section class="about-details">

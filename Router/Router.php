@@ -33,7 +33,7 @@ class Router
 
     public function match()
     {
-        if (!array_key_exists($this->request->getUri(),$this->routesRegistrator->getRoutes())){
+        if (!array_key_exists($this->request->getUri() , $this->routesRegistrator->getRoutes())) {
             throw new RoutingException("The route doesn't exists...");
         }
         $this->setTarget($this->routesRegistrator->getRoutes()[$this->request->getUri()]["target"]);

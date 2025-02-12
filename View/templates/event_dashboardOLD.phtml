@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<form id="reload-form" action="/event-dashboard" method="POST" style="display: none;">
+<form id="reload-form" action="event-dashboard" method="POST" style="display: none;">
     <input type="hidden" name="eventId" value="">
 </form>
 
@@ -35,7 +35,7 @@
                     <input type="hidden" name="userId" value="<?= htmlspecialchars($userId) ?>">
                     <button type="submit">Join Event Organization</button>
                 </form>
-                <!-- <button href="/join-event-btn">Join event organization</button> -->
+                <!-- <button href="join-event-btn">Join event organization</button> -->
             <?php else: ?>
 
                 <?php if (!is_null($organizerName) && $organizerName !== ''): ?>
@@ -150,7 +150,7 @@
             
         <?php endif; ?>
 
-        <form id="delete-event-form" method="POST" action="/delete-event">
+        <form id="delete-event-form" method="POST" action="delete-event">
             <input type="hidden" name="eventId" value="<?= htmlspecialchars($eventId) ?>">
             <button type="submit" id="delete-event-btn" class="delete-button">Delete Event</button>
         </form>
@@ -168,7 +168,7 @@
             <?php endforeach; ?>
         </div>
         <?php if ($isParticipant): ?>
-            <!-- <form action="/create-comment-op" method="post"> -->
+            <!-- <form action="create-comment-op" method="post"> -->
             <form id="comment-form">
                 <div type="hidden" id="username-comment-container" data-value="<?= $username ?>"></div>
                 <input type="hidden" id="eventId" name="eventId" value=<?= $eventId ?>>

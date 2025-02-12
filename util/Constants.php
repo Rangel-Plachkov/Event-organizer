@@ -2,8 +2,9 @@
 
 namespace util;
 
-class Constants
-{
+class Constants{
+    const DOMAIN = "http://localhost/Event";
+    const PROJECT_URI = "/Event";
     const DB_NAME     = "Event-organizer";
     const DB_HOST     = "localhost";
     const DB_PORT     = "3306";

@@ -1,6 +1,8 @@
 <?php
 namespace Router;
 
+use util\Constants;
+
 class Registrator
 {
     private static $instance;
@@ -34,7 +36,7 @@ class Registrator
        ];
 
        $this->nameUrlMatch[$name] = [
-         "url" => Request::DOMAIN . "/" . $uri
+         "url" => Constants::DOMAIN . "/" . $uri
        ];
     }
 

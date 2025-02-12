@@ -4,6 +4,10 @@ $email = $_SESSION['email'] ?? '';
 $firstName = $_SESSION['firstname'] ?? '';
 $lastName = $_SESSION['lastname'] ?? '';
 $birthdate = $_SESSION['birthdate'] ?? '';
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,24 +15,24 @@ $birthdate = $_SESSION['birthdate'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-    <link rel="stylesheet" href="/View/css/base-styles.css">
-    <link rel="stylesheet" href="/View/css/components.css">
-    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+    <link rel="stylesheet" href="./View/css/base-styles.css">
+    <link rel="stylesheet" href="./View/css/components.css">
+    <link rel="stylesheet" href="./View/css/dashboard-styles.css">
 </head>
 <body>
 
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href=<?php echo Constants::PROJECT_URI; ?>>
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -36,7 +40,7 @@ $birthdate = $_SESSION['birthdate'] ?? '';
     <section class="edit-profile-container">
         <h2>Edit Your Profile</h2>
 
-        <form action="/edit-acc" method="post">
+        <form action="edit-acc" method="post">
             <label for="firstname">First Name:</label>
             <input type="text" name="firstname" id="firstname" value="<?php echo htmlspecialchars($firstName); ?>" required>
 
@@ -76,7 +80,7 @@ $birthdate = $_SESSION['birthdate'] ?? '';
 
     </section>
     <div class="delete-profile">
-        <a href="/delete-acc">
+        <a href="delete-acc">
             <button class="delete-profile-btn">Delete Profile</button>
         </a>
     </div>

@@ -9,6 +9,10 @@ $FOLLOW_STATE = $_SESSION['searchedUserIsFollowed'] ?? false;
 
 $followers = $_SESSION['searchedUserFollowers'] ?? [];
 $followersCount = count($followers);
+
+require_once __DIR__ . '/../../util/Constants.php';
+use util\Constants;
+
 ?>
 
 <!DOCTYPE html>
@@ -18,24 +22,24 @@ $followersCount = count($followers);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>View Profile</title>
-    <link rel="stylesheet" href="/View/css/base-styles.css">
-    <link rel="stylesheet" href="/View/css/components.css">
-    <link rel="stylesheet" href="/View/css/profile-styles.css">
-    <link rel="stylesheet" href="/View/css/dashboard-styles.css">
+    <link rel="stylesheet" href="./View/css/base-styles.css">
+    <link rel="stylesheet" href="./View/css/components.css">
+    <link rel="stylesheet" href="./View/css/profile-styles.css">
+    <link rel="stylesheet" href="./View/css/dashboard-styles.css">
 </head>
 <body>
 <nav class="nav">
     <div class="logo-section">
-        <a class="logo-href" href="/">
+        <a class="logo-href" href=<?php echo Constants::PROJECT_URI; ?>>
             <h1>Event Organizer</h1>
         </a>
     </div>
     <div class="nav-buttons">
-        <a href="/event-list"><button>Events</button></a>
-        <a href="/search"><button>Search</button></a>
-        <a href="/myProfile"><button>My Profile</button></a>
-        <a href="/about"><button>About Us</button></a>
-        <a href="/logout"><button>Logout</button></a>
+        <a href="event-list"><button>Events</button></a>
+        <a href="search"><button>Search</button></a>
+        <a href="myProfile"><button>My Profile</button></a>
+        <a href="about"><button>About Us</button></a>
+        <a href="logout"><button>Logout</button></a>
     </div>
 </nav>
 
@@ -52,12 +56,12 @@ $followersCount = count($followers);
 
         <div class="profile-actions">
             <?php if ($FOLLOW_STATE): ?>
-                <form action="/unfollow" method="POST">
+                <form action="unfollow" method="POST">
                     <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
                     <button type="submit" class="btn-unfollow">Unfollow</button>
                 </form>
             <?php else: ?>
-                <form action="/follow" method="POST">
+                <form action="follow" method="POST">
                     <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
                     <button type="submit" class="btn-follow">Follow</button>
                 </form>
@@ -69,7 +73,7 @@ $followersCount = count($followers);
             <?php if (!empty($followers)): ?>
                 <div class="user-list">
                     <?php foreach ($followers as $follower): ?>
-                        <form action="/user-search" method="post" class="user-form">
+                        <form action="user-search" method="post" class="user-form">
                             <button type="submit" name="searchedUser" value="<?php echo htmlspecialchars($follower); ?>">
                                 <?php echo htmlspecialchars($follower); ?>
                             </button>
@@ -84,7 +88,7 @@ $followersCount = count($followers);
 </main>
 
 <!--     <title>Profile Preview</title>
-    <link rel="stylesheet" href="/View/css/viewProfile-styles.css   ">
+    <link rel="stylesheet" href="./View/css./ViewProfile-styles.css   ">
 </head>
 <body>
 <div class="profile-preview-container">
